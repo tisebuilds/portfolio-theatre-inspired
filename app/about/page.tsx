@@ -114,7 +114,7 @@ export default function AboutPage() {
                   ...s.style,
                   "--sticker-r": `${s.rotate}deg`,
                   animationDelay: s.delay,
-                } as React.CSSProperties}
+                } as unknown as React.CSSProperties}
                 aria-hidden="true"
               >
                 <span className="text-[7px] font-medium uppercase tracking-wider select-none">

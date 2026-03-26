@@ -1,0 +1,23 @@
+{
+  "awards": [
+    { "name": "Merrill Presidential Scholars", "issuer": "Cornell Bowers CIS", "year": "2024", "image": "/awards/merrill.png" },
+    { "name": "Undergraduate Commitment to Diversity", "issuer": "Cornell Engineering", "year": "2024", "image": "/awards/dpe.png" },
+    { "name": "Most Impactful Student", "issuer": "WICC · Cornell Bowers CIS", "year": "2023", "image": "/awards/wicc.png" },
+    { "name": "Diversity, Equity, Inclusion, and Belonging", "issuer": "Cornell Bowers CIS", "year": "2023", "image": "/awards/deib.png" }
+  ],
+  "pins": [
+    { "label": "K-pop" },
+    { "label": "Disney" },
+    { "label": "Comics" },
+    { "label": "Film", "href": "https://letterboxd.com/teeshay24/" }
+  ],
+  "credits": "Thank you to my mentors and peers who shaped my practice—especially those who gave feedback on early work and pushed me to ship.",
+  "mentors": [
+    { "name": "Mentor One", "role": "Design" },
+    { "name": "Mentor Two", "role": "Product" },
+    { "name": "Mentor Three", "role": "Engineering" },
+    { "name": "Mentor Four", "role": "Research" },
+    { "name": "Mentor Five", "role": "Leadership" },
+    { "name": "Mentor Six", "role": "Advisor" }
+  ]
+}

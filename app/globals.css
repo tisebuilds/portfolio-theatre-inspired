@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply leading-relaxed;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply leading-tight;
+  }
+  p {
+    @apply leading-relaxed;
+  }
+}
+
+@layer utilities {
+  .word-glow {
+    transition: text-shadow 0.2s ease, color 0.15s ease;
+  }
+  .word-glow:hover {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6),
+      0 0 24px rgba(255, 255, 255, 0.4),
+      0 0 48px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.crt-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+.crt-static {
+  animation: crt-flicker 0.15s steps(3) forwards;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Theater credits auto-scroll */
+@keyframes credits-roll {
+  0% {
+    transform: translateY(60%);
+  }
+  100% {
+    transform: translateY(-120%);
+  }
+}
+
+.credits-scroll {
+  animation: credits-roll 25s linear infinite;
+}
+
+.credits-container:hover .credits-scroll {
+  animation-play-state: paused;
+}
+
+@keyframes sticker-bob {
+  0%, 100% {
+    transform: rotate(var(--sticker-r, 0deg)) translateY(0);
+  }
+  50% {
+    transform: rotate(var(--sticker-r, 0deg)) translateY(-6px);
+  }
+}
+
+.sticker {
+  animation: sticker-bob 3s ease-in-out infinite both;
+}
+
+.sticker:hover {
+  animation-play-state: paused;
+}

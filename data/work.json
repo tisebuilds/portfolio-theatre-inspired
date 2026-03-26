@@ -1,0 +1,171 @@
+[
+  {
+    "slug": "ramp-treasury",
+    "title": "Ramp Treasury",
+    "logo": "/logos/black/Ramp.png",
+    "logoHover": "/logos/white/Ramp.png",
+    "poster": "/posters/ramp-treasury.png",
+    "dateRange": "NOW PLAYING",
+    "description": "Product design for treasury and financial operations.",
+    "whatShipped": [
+      {"slug": "reserve-rba", "label": "Reserve RBA"},
+      {"slug": "treasury-dashboard-v1", "label": "Treasury dashboard v1"},
+      {"slug": "cash-flow-visibility", "label": "Cash flow visibility"},
+      {"slug": "bank-connection-flows", "label": "Bank connection flows"}
+    ],
+    "lessons": ["Ship in small slices", "Partner closely with eng from day one"],
+    "cast": [
+      {"name": "Alex Chen", "role": "Eng"},
+      {"name": "Sam Rivera", "role": "PM"},
+      {"name": "Priya Kapoor", "role": "Manager"},
+      {"name": "Marcus Webb", "role": "Bestie"},
+      {"name": "Lena Zhao", "role": "Teammate"},
+      {"name": "Nico Alvarez", "role": "Teammate"},
+      {"name": "Fatima El-Amin", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "ramp-spend",
+    "title": "Ramp Spend Management",
+    "logo": "/logos/black/Ramp.png",
+    "logoHover": "/logos/white/Ramp.png",
+    "poster": "/posters/ramp-spend.png",
+    "dateRange": "2023 – 2025",
+    "description": "Design for spend management and card controls.",
+    "whatShipped": [
+      {"slug": "spend-limits-ui", "label": "Spend limits UI"},
+      {"slug": "approval-workflows", "label": "Approval workflows"},
+      {"slug": "reporting-exports", "label": "Reporting exports"}
+    ],
+    "lessons": ["Defaults matter for compliance", "Power users need shortcuts"],
+    "cast": [
+      {"name": "Jordan Lee", "role": "Design"},
+      {"name": "Casey Kim", "role": "Eng"},
+      {"name": "Diana Osei", "role": "Manager"},
+      {"name": "Raj Patel", "role": "Bestie"},
+      {"name": "Sophie Tran", "role": "Teammate"},
+      {"name": "Eli Brooks", "role": "Teammate"},
+      {"name": "Kenji Nakamura", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "figma",
+    "title": "Figma",
+    "logo": "/logos/black/Figma.png",
+    "logoHover": "/logos/white/Figma.png",
+    "poster": "/posters/figma.png",
+    "dateRange": "Summer 2023",
+    "description": "Design systems and component work.",
+    "whatShipped": [
+      {"slug": "component-variants", "label": "Component variants"},
+      {"slug": "design-tokens", "label": "Design tokens"},
+      {"slug": "plugin-api-docs", "label": "Plugin API docs"}
+    ],
+    "lessons": ["Systems scale when they're simple", "Document decisions as you go"],
+    "cast": [
+      {"name": "Jamie Wu", "role": "Design"},
+      {"name": "Drew Foster", "role": "Eng"},
+      {"name": "Mara Singh", "role": "Manager"},
+      {"name": "Tobias Grant", "role": "Bestie"},
+      {"name": "Yuki Endo", "role": "Teammate"},
+      {"name": "Amara Cole", "role": "Teammate"},
+      {"name": "Britt Larsen", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "meta",
+    "title": "Meta",
+    "logo": "/logos/black/Meta.png",
+    "logoHover": "/logos/white/Meta.png",
+    "poster": "/posters/meta.png",
+    "dateRange": "Summer 2022",
+    "description": "Product design on ads and growth surfaces.",
+    "whatShipped": [
+      {"slug": "ad-format-picker", "label": "Ad format picker"},
+      {"slug": "audience-targeting-ui", "label": "Audience targeting UI"},
+      {"slug": "performance-tables", "label": "Performance tables"}
+    ],
+    "lessons": ["Data-heavy UIs need clear hierarchy", "Accessibility from the start"],
+    "cast": [
+      {"name": "Taylor Green", "role": "PM"},
+      {"name": "Jordan Blake", "role": "Eng"},
+      {"name": "Vanessa Luo", "role": "Manager"},
+      {"name": "Chris Ohara", "role": "Bestie"},
+      {"name": "Devi Sharma", "role": "Teammate"},
+      {"name": "Omar Farah", "role": "Teammate"},
+      {"name": "Nina Johansson", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "disney",
+    "title": "Disney",
+    "logo": "/logos/black/Disney.png",
+    "logoHover": "/logos/white/Disney.png",
+    "poster": "/posters/disney.png",
+    "dateRange": "Summer 2021",
+    "description": "Streaming and content discovery design.",
+    "whatShipped": [
+      {"slug": "browse-carousel", "label": "Browse carousel"},
+      {"slug": "search-filters", "label": "Search filters"},
+      {"slug": "continue-watching", "label": "Continue watching"}
+    ],
+    "lessons": ["Delight lives in details", "Balance discovery with familiarity"],
+    "cast": [
+      {"name": "Riley Adams", "role": "Design"},
+      {"name": "Morgan Hayes", "role": "Research"},
+      {"name": "Victor Mendez", "role": "Manager"},
+      {"name": "Sana Mirza", "role": "Bestie"},
+      {"name": "Luke Brennan", "role": "Teammate"},
+      {"name": "Iris Tanaka", "role": "Teammate"},
+      {"name": "Jules Fontaine", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "colorstack",
+    "title": "ColorStack",
+    "logo": "/logos/black/ColorStack.png",
+    "logoHover": "/logos/white/ColorStack.png",
+    "poster": "/posters/colorstack.png",
+    "dateRange": "2020",
+    "description": "Community and career platform design.",
+    "whatShipped": [
+      {"slug": "member-directory", "label": "Member directory"},
+      {"slug": "event-signup", "label": "Event signup"},
+      {"slug": "resource-library", "label": "Resource library"}
+    ],
+    "lessons": ["Community first, product second", "Listen before designing"],
+    "cast": [
+      {"name": "Jordan Smith", "role": "Community"},
+      {"name": "Casey Jones", "role": "Eng"},
+      {"name": "Helen Park", "role": "Manager"},
+      {"name": "Andre Williams", "role": "Bestie"},
+      {"name": "Maya Chen", "role": "Teammate"},
+      {"name": "Kofi Asante", "role": "Teammate"},
+      {"name": "Rosa Gutierrez", "role": "Inspiration"}
+    ]
+  },
+  {
+    "slug": "appdev",
+    "title": "AppDev",
+    "logo": "/logos/black/appdev-logo.png",
+    "logoHover": "/logos/white/appdev-logo.png",
+    "poster": "/posters/appdev.png",
+    "dateRange": "2020–2022",
+    "description": "Campus app design and development.",
+    "whatShipped": [
+      {"slug": "app-navigation", "label": "App navigation"},
+      {"slug": "notification-settings", "label": "Notification settings"},
+      {"slug": "profile-flows", "label": "Profile flows"}
+    ],
+    "lessons": ["Campus users are power users", "Feedback loops build trust"],
+    "cast": [
+      {"name": "Drew Martinez", "role": "Eng"},
+      {"name": "Riley Chen", "role": "Design"},
+      {"name": "Sandra Kimura", "role": "Manager"},
+      {"name": "Nate Douglas", "role": "Bestie"},
+      {"name": "Ava Moreno", "role": "Teammate"},
+      {"name": "Ben Okafor", "role": "Teammate"},
+      {"name": "Clara Reeves", "role": "Inspiration"}
+    ]
+  }
+]

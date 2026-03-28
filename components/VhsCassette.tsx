@@ -90,7 +90,7 @@ const TAPE_THEMES = [
     title: "text-neutral-100",
     sub: "text-neutral-400",
     accent: "bg-neutral-800",
-    stickerBg: "bg-fuchsia-500",
+    stickerBg: "bg-accent",
     stickerText: "text-white",
     brand: "NOTE",
     brandSub: "FROM THE DIRECTOR",

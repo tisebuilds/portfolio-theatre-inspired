@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         black: "#111111",
+        accent: "#E94C9A",
       },
       fontFamily: {
         sans: [

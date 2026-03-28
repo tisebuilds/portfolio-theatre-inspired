@@ -1,4 +1,5 @@
 import { ProjectsHomeVideo } from "@/components/ProjectsHomeVideo";
+import { ProjectsHeading } from "@/components/ProjectsHeading";
 import projectsData from "@/data/projects.json";
 import type { Project } from "@/app/types";
 
@@ -14,13 +15,7 @@ export default function ProjectsPage() {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 container max-w-6xl mx-auto px-6 py-16">
         <div className="flex flex-col gap-12">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-wider text-neutral-200 text-center w-full">
-            {["Tise", "uses", "storytelling", "&", "prototypes", "to", "solve", "problems"].map((word, i) => (
-              <span key={i} className="word-glow cursor-default">
-                {word}{" "}
-              </span>
-            ))}
-          </h1>
+          <ProjectsHeading />
 
           <ProjectsHomeVideo projects={projects} />
         </div>

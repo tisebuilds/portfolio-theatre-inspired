@@ -75,6 +75,8 @@ export type Project = {
   tagline?: string;
   image?: string;
   poster?: string;
+  /** YouTube or embeddable video URL shown on the CRT TV screen */
+  video?: string;
   /** External link shown on the TV controls (App Store, case study, etc.) */
   externalUrl?: string;
   /** Button label — defaults to "Visit" when omitted */

@@ -2,11 +2,6 @@
 
 import { useRef, useCallback, useState } from "react";
 
-const LETTERBOXD_URL = "https://letterboxd.com/teeshay24/";
-
-const line1 = ["Tise", "moves", "ideas", "from", "draft", "to", "production,"];
-const line2 = ["using", "lessons", "from", "great"];
-
 type Sparkle = {
   id: number;
   x: number;
@@ -16,13 +11,15 @@ type Sparkle = {
   driftY: number;
 };
 
-export function Marquee() {
+const words = ["Tise", "uses", "storytelling", "&", "prototypes", "to", "solve", "problems"];
+
+export function ProjectsHeading() {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   const nextId = useRef(0);
   const lastSpawn = useRef(0);
 
   const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
+    (e: React.MouseEvent<HTMLHeadingElement>) => {
       const now = Date.now();
       if (now - lastSpawn.current < 70) return;
       lastSpawn.current = now;
@@ -45,31 +42,15 @@ export function Marquee() {
   );
 
   return (
-    <div
-      className="w-full py-5 px-6 rounded-none text-center relative"
+    <h1
+      className="text-2xl md:text-3xl font-bold tracking-wider text-neutral-200 text-center w-full relative"
       onMouseMove={handleMouseMove}
     >
-      <span className="text-2xl md:text-3xl font-bold tracking-normal text-neutral-200">
-        {line1.map((word, i) => (
-          <span key={i} className="cursor-default">
-            {word}{" "}
-          </span>
-        ))}
-        <br />
-        {line2.map((word, i) => (
-          <span key={i} className="cursor-default">
-            {word}{" "}
-          </span>
-        ))}
-        <a
-          href={LETTERBOXD_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline underline-offset-2 hover:text-white transition-colors"
-        >
-          films
-        </a>
-      </span>
+      {words.map((word, i) => (
+        <span key={i} className="cursor-default">
+          {word}{" "}
+        </span>
+      ))}
       {sparkles.map((s) => (
         <svg
           key={s.id}
@@ -90,6 +71,6 @@ export function Marquee() {
           <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
         </svg>
       ))}
-    </div>
+    </h1>
   );
 }

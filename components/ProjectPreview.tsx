@@ -32,9 +32,24 @@ export function ProjectPreview({
     prevSlug.current = slug;
   }, [project?.slug]);
 
+  const youtubeEmbedUrl = (() => {
+    if (!project?.video) return null;
+    const m = project.video.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?/]+)/,
+    );
+    return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+  })();
+
   const screenContent = project ? (
     <>
-      {project.poster || project.image ? (
+      {youtubeEmbedUrl ? (
+        <iframe
+          src={youtubeEmbedUrl}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="h-full w-full"
+        />
+      ) : project.poster || project.image ? (
         <img
           src={project.poster ?? project.image ?? ""}
           alt=""
@@ -70,6 +85,32 @@ export function ProjectPreview({
       {showStatic && (
         <div className="crt-static pointer-events-none absolute inset-0 z-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI24pIiBvcGFjaXR5PSIwLjQiLz48L3N2Zz4=')] opacity-70" />
       )}
+      {project?.externalUrl && (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2.5 pt-8 sm:px-4 sm:pb-3 sm:pt-10">
+          <div className="flex justify-end">
+            <a
+              href={project.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto flex shrink-0 items-center gap-1 sm:gap-1.5 rounded bg-white/10 px-2 py-1 sm:px-2.5 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-neutral-200 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
+            >
+              <span>{project.externalLinkLabel || "Visit"}</span>
+              <svg
+                className="h-2.5 w-2.5"
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 1h6v6" />
+                <path d="M9 1L1 9" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -79,8 +120,6 @@ export function ProjectPreview({
       channelNumber={channelNumber}
       onChannelUp={onChannelUp}
       onChannelDown={onChannelDown}
-      externalUrl={project?.externalUrl}
-      externalLinkLabel={project?.externalLinkLabel}
     >
       {inner}
     </CrtTelevision>

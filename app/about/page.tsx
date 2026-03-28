@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { AboutHeading } from "@/components/AboutHeading";
 import aboutData from "@/data/about.json";
 import type { AboutData } from "@/app/types";
 
@@ -16,9 +17,7 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col">
       <main className="flex-1 container max-w-6xl mx-auto px-6 py-16">
         <div className="flex flex-col gap-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-neutral-200 text-center">
-            Hi! I&apos;m Tise
-          </h1>
+          <AboutHeading />
 
           <section aria-labelledby="awards-heading">
             <h2

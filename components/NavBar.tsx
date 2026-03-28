@@ -8,9 +8,9 @@ import type { WorkExperience } from "@/app/types";
 
 const experiences = workData as WorkExperience[];
 
-const LINKEDIN_URL = "https://linkedin.com/in/yourprofile";
+const LINKEDIN_URL = "https://linkedin.com/in/tise-faith-alatise";
 const RESUME_URL = "/resume.pdf";
-const EMAIL = "hello@example.com";
+const EMAIL = "tisebuilds@gmail.com";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -33,21 +33,13 @@ function ResumeIcon({ className }: { className?: string }) {
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       aria-hidden
     >
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-      <line x1="16" y1="13" x2="8" y2="13" />
-      <line x1="16" y1="17" x2="8" y2="17" />
-      <polyline points="10 9 9 9 8 9" />
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 13h8v1.5H8V13zm0 3.5h8V18H8v-1.5z" />
     </svg>
   );
 }
@@ -57,28 +49,23 @@ function EmailIcon({ className }: { className?: string }) {
     <svg
       className={className}
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       aria-hidden
     >
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.217l-10 6.364L2 6.217V6zm0 2.383 9.515 6.056a1 1 0 0 0 .97 0L22 8.383V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.383z" />
     </svg>
   );
 }
 
 const navLink =
-  "text-[15px] text-neutral-500 hover:text-white transition-colors duration-200";
+  "text-[13px] sm:text-[15px] text-neutral-500 hover:text-white transition-colors duration-200 truncate";
 const navLinkActive =
-  "text-[15px] text-white transition-colors duration-200";
+  "text-[13px] sm:text-[15px] text-white transition-colors duration-200 truncate";
 const iconBtn =
-  "text-neutral-500 hover:text-white transition-colors duration-200 p-1.5 rounded-full hover:bg-neutral-800/40";
+  "text-neutral-500 hover:text-white transition-colors duration-200 p-1 sm:p-1.5 rounded-full hover:bg-neutral-800/40";
 
 function useClickOutside(
   ref: React.RefObject<HTMLElement | null>,
@@ -225,6 +212,60 @@ function SubpageDropdown({
   );
 }
 
+const burstParticles = [
+  { x: -14, y: -16, delay: 0 },
+  { x: 16, y: -12, delay: 30 },
+  { x: 18, y: 6, delay: 50 },
+  { x: 10, y: 16, delay: 20 },
+  { x: -12, y: 14, delay: 60 },
+  { x: -18, y: -2, delay: 40 },
+];
+
+function StarBrand() {
+  const [burstKey, setBurstKey] = useState(0);
+
+  return (
+    <Link
+      href="/"
+      className="flex-shrink-0 group relative mx-3 sm:mx-0"
+      aria-label="Home"
+      onClick={() => setBurstKey((k) => k + 1)}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-5 h-5 text-neutral-500 group-hover:text-white transition-all duration-300 group-hover:rotate-90 group-hover:scale-125"
+      >
+        <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
+      </svg>
+      {burstKey > 0 && (
+        <span
+          key={burstKey}
+          className="absolute inset-0 pointer-events-none overflow-visible"
+        >
+          {burstParticles.map((p, i) => (
+            <svg
+              key={i}
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="star-particle absolute left-1/2 top-1/2 w-2 h-2 text-white"
+              style={
+                {
+                  "--burst-x": `${p.x}px`,
+                  "--burst-y": `${p.y}px`,
+                  "--burst-delay": `${p.delay}ms`,
+                } as React.CSSProperties
+              }
+            >
+              <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
+            </svg>
+          ))}
+        </span>
+      )}
+    </Link>
+  );
+}
+
 export function NavBar() {
   const pathname = usePathname();
 
@@ -259,9 +300,9 @@ export function NavBar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#171717]/95 backdrop-blur-xl border-b border-neutral-800/30">
-      <div className="w-full px-8 h-[52px] flex items-center">
+      <div className="w-full px-4 sm:px-8 h-[48px] sm:h-[52px] flex items-center">
         {/* Left Navigation */}
-        <div className="flex-1 flex items-center gap-7">
+        <div className="flex-1 min-w-0 flex items-center gap-3 sm:gap-7">
           {isSubpage ? (
             <>
               <SectionDropdown activeSection={activeSection} />
@@ -298,16 +339,10 @@ export function NavBar() {
         </div>
 
         {/* Center Brand */}
-        <Link href="/" className="flex-shrink-0 group">
-          <div className="w-10 h-10 rounded-full border border-neutral-700 group-hover:border-neutral-500 flex items-center justify-center transition-colors duration-200">
-            <span className="font-serif italic text-[15px] text-neutral-300 group-hover:text-white transition-colors duration-200 select-none">
-              Tise
-            </span>
-          </div>
-        </Link>
+        <StarBrand />
 
         {/* Right Actions */}
-        <div className="flex-1 flex items-center justify-end gap-7">
+        <div className="flex-1 min-w-0 flex items-center justify-end gap-3 sm:gap-7">
           <Link
             href="/about"
             className={activeSection === "about" ? navLinkActive : navLink}
@@ -335,7 +370,7 @@ export function NavBar() {
               <ResumeIcon />
             </Link>
             <Link
-              href={`mailto:${EMAIL}`}
+              href={`mailto:${EMAIL}?subject=${encodeURIComponent("Hi, coming from your portfolio.")}&body=${encodeURIComponent("Let Tise know why you're connecting (opportunity, coffee chat, etc.)")}`}
               className={iconBtn}
               aria-label="Email"
             >

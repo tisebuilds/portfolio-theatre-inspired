@@ -95,3 +95,42 @@
 .sticker:hover {
   animation-play-state: paused;
 }
+
+@keyframes star-burst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y))) scale(0);
+  }
+}
+
+.star-particle {
+  animation: star-burst 0.45s ease-out forwards;
+  animation-delay: var(--burst-delay, 0ms);
+}
+
+@keyframes marquee-sparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1) rotate(20deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) rotate(80deg)
+      translate(var(--sparkle-dx, 0px), var(--sparkle-dy, -10px));
+  }
+}
+
+.marquee-sparkle {
+  animation: marquee-sparkle 0.6s ease-out forwards;
+}

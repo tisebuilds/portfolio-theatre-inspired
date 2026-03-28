@@ -13,11 +13,23 @@
   ],
   "credits": "Thank you to my mentors and peers who shaped my practice—especially those who gave feedback on early work and pushed me to ship.",
   "mentors": [
-    { "name": "Mentor One", "role": "Design" },
-    { "name": "Mentor Two", "role": "Product" },
-    { "name": "Mentor Three", "role": "Engineering" },
-    { "name": "Mentor Four", "role": "Research" },
-    { "name": "Mentor Five", "role": "Leadership" },
-    { "name": "Mentor Six", "role": "Advisor" }
+    { "name": "Femi", "role": "Leadership", "image": "/mentors/femi.png" },
+    { "name": "Tolu", "role": "Engineering", "image": "/mentors/tolu.png" },
+    { "name": "Zain", "role": "Advisor", "image": "/mentors/zain.png" },
+    { "name": "Catherine", "image": "/mentors/catherine.png" },
+    { "name": "Jason", "image": "/mentors/jason.png" },
+    { "name": "Cindy", "role": "Design", "image": "/mentors/cindy.png" },
+    { "name": "Miah", "role": "Research", "image": "/mentors/miah.png" },
+    { "name": "Ry", "role": "Product", "image": "/mentors/ry.png" },
+    { "name": "Esuvat", "role": "Advisor", "image": "/mentors/esuvat.png" },
+    { "name": "Logan", "image": "/mentors/logan.png" },
+    { "name": "Eileen", "image": "/mentors/eileen.png" },
+    { "name": "Chris", "image": "/mentors/chris.png" },
+    { "name": "Samantha", "image": "/mentors/samantha.png" },
+    { "name": "Yanlam", "image": "/mentors/yanlam.png" },
+    { "name": "Sam", "image": "/mentors/sam.png" },
+    { "name": "Olivia", "image": "/mentors/olivia.png" },
+    { "name": "Dr. Roberts", "image": "/mentors/dr-roberts.png" },
+    { "name": "Natalie", "image": "/mentors/natalie.png" }
   ]
 }

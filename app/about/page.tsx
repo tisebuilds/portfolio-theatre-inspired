@@ -173,7 +173,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="hover:text-neutral-400 transition-colors"
               >
-                I don&apos;t have a process
+                Execution &gt;&gt;&gt; process
               </a>
             </h2>
             <div className="flex flex-col items-center gap-6">
@@ -204,40 +204,94 @@ export default function AboutPage() {
             <p className="text-sm font-medium text-neutral-300 mb-6 text-center">
               Mentorship is a unique form of friendship, so thank you for helping me grow
             </p>
-            <ul className="list-none p-0 m-0 flex flex-wrap justify-center gap-5">
-              {about.mentors.map((mentor, i) => (
-                <li
-                  key={i}
-                  className="inline-flex flex-col items-center p-3 pb-4 gap-3 w-[160px] rounded-md border border-neutral-700 bg-neutral-900 shadow-[0_2px_8px_0_rgba(0,0,0,0.25)]"
-                >
-                  <div className="w-full aspect-square rounded-sm overflow-hidden flex items-center justify-center bg-neutral-800">
-                    {mentor.image ? (
-                      <Image
-                        src={mentor.image}
-                        alt=""
-                        width={128}
-                        height={128}
-                        className="object-cover w-full h-full"
-                      />
-                    ) : (
-                      <span className="text-neutral-600 text-lg font-semibold">
-                        {mentor.name.split(" ").map((n) => n[0]).join("")}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex flex-col items-center text-center font-mono">
-                    <p className="text-neutral-200 text-[10px] leading-snug">
-                      {mentor.name}
-                    </p>
-                    {mentor.role && (
-                      <p className="text-neutral-500 text-[10px] leading-snug">
-                        {mentor.role}
-                      </p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            {(() => {
+              const mentorByName = new Map(about.mentors.map((mentor) => [mentor.name, mentor]));
+
+              // Edit these arrays to control desktop arrangement order per row.
+              const mentorRows = [
+                ["Femi", "Tolu", "Zain", "Catherine", "Jason", "Cindy", "Miah", "Ry", "Esuvat"],
+                ["Logan", "Eileen", "Chris", "Samantha", "Yanlam", "Sam", "Olivia", "Dr. Roberts", "Natalie"],
+              ];
+
+              const rows = mentorRows
+                .map((row) =>
+                  row
+                    .map((name) => mentorByName.get(name))
+                    .filter((mentor): mentor is NonNullable<typeof mentor> => Boolean(mentor)),
+                )
+                .filter((row) => row.length > 0);
+
+              const buildLayouts = (count: number, row: 1 | 2) => {
+                if (count === 0) return [];
+
+                const minLeft = 2;
+                const maxLeft = 86;
+                const step = count === 1 ? 0 : (maxLeft - minLeft) / (count - 1);
+                const rotatePattern =
+                  row === 1
+                    ? [-6, 5, -3, 2, 4, -2, 5, -4, 3, -5]
+                    : [4, -5, 3, -3, 5, -4, 2, -2, 4, -3];
+                const topPattern =
+                  row === 1
+                    ? ["18%", "4%", "16%", "2%", "18%", "5%", "14%", "3%", "17%", "6%"]
+                    : ["16%", "5%", "19%", "3%", "15%", "6%", "18%", "4%", "16%", "5%"];
+
+                return Array.from({ length: count }, (_, i) => ({
+                  rotate: rotatePattern[i % rotatePattern.length],
+                  left: `${minLeft + i * step}%`,
+                  top: topPattern[i % topPattern.length],
+                  z: i === Math.floor(count / 2) ? 6 : 4,
+                }));
+              };
+
+              const renderRow = (mentors: typeof about.mentors, row: 1 | 2, rowIndex: number) => {
+                const layouts = buildLayouts(mentors.length, row);
+                return (
+                  <ul
+                    key={`mentor-row-${rowIndex}`}
+                    className="list-none p-0 m-0 flex flex-wrap justify-center gap-4 lg:relative lg:w-full lg:h-[240px]"
+                  >
+                    {mentors.map((mentor, i) => {
+                      const layout = layouts[i];
+                    return (
+                      <li
+                        key={mentor.name}
+                        className="mentor-polaroid w-[136px] sm:w-[146px] lg:absolute lg:w-[150px] xl:w-[160px]"
+                        style={layout ? {
+                          "--polaroid-r": `${layout.rotate}deg`,
+                          "--polaroid-left": layout.left,
+                          "--polaroid-top": layout.top,
+                          "--polaroid-z": String(layout.z),
+                        } as React.CSSProperties : undefined}
+                      >
+                        {mentor.image ? (
+                          <Image
+                            src={mentor.image}
+                            alt={`${mentor.name}${mentor.role ? `, ${mentor.role}` : ""}`}
+                            width={340}
+                            height={400}
+                            className="w-full h-auto"
+                          />
+                        ) : (
+                          <div className="w-full aspect-[4/5] bg-neutral-800 flex items-center justify-center rounded">
+                            <span className="text-neutral-600 text-lg font-semibold">
+                              {mentor.name.split(" ").map((n) => n[0]).join("")}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+                  </ul>
+                );
+              };
+
+              return (
+                <div className="flex flex-col gap-2 lg:gap-0 w-full items-center">
+                  {rows.map((row, i) => renderRow(row, i === 0 ? 1 : 2, i))}
+                </div>
+              );
+            })()}
           </section>
         </div>
       </main>

@@ -56,6 +56,7 @@
     "poster": "/posters/figma.png",
     "dateRange": "Summer 2023",
     "description": "Design systems and component work.",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/figma-internship/full-view.html?p=1",
     "whatShipped": [
       {"slug": "component-variants", "label": "Component variants"},
       {"slug": "design-tokens", "label": "Design tokens"},
@@ -80,6 +81,7 @@
     "poster": "/posters/meta.png",
     "dateRange": "Summer 2022",
     "description": "Product design on ads and growth surfaces.",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/meta-internship/full-view.html?p=1",
     "whatShipped": [
       {"slug": "ad-format-picker", "label": "Ad format picker"},
       {"slug": "audience-targeting-ui", "label": "Audience targeting UI"},
@@ -104,6 +106,7 @@
     "poster": "/posters/disney.png",
     "dateRange": "Summer 2021",
     "description": "Streaming and content discovery design.",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/disney-internship/full-view.html?p=1",
     "whatShipped": [
       {"slug": "browse-carousel", "label": "Browse carousel"},
       {"slug": "search-filters", "label": "Search filters"},
@@ -152,6 +155,7 @@
     "poster": "/posters/appdev.png",
     "dateRange": "2020–2022",
     "description": "Campus app design and development.",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html?p=1",
     "whatShipped": [
       {"slug": "app-navigation", "label": "App navigation"},
       {"slug": "notification-settings", "label": "Notification settings"},

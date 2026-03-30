@@ -11,7 +11,7 @@ export function ExperienceList({ experiences }: ExperienceListProps) {
       {experiences.map((exp) => (
         <li key={exp.slug} className="rounded-none">
           <Link
-            href={`/work/${exp.slug}`}
+            href={`/work/${exp.slug}/case-study-coming-soon`}
             className="flex flex-row justify-between items-baseline gap-6 py-5 px-6 text-left border-0 rounded-none transition-colors hover:bg-neutral-900/80 focus:outline-none focus:bg-neutral-900/80 focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-inset"
           >
             <span className="text-neutral-200 font-medium">{exp.title}</span>

@@ -39,6 +39,7 @@ export function ProjectPreview({
     );
     return m ? `https://www.youtube.com/embed/${m[1]}` : null;
   })();
+  const directVideoUrl = project?.video && !youtubeEmbedUrl ? project.video : null;
 
   const screenContent = project ? (
     <>
@@ -48,6 +49,16 @@ export function ProjectPreview({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           className="h-full w-full"
+        />
+      ) : directVideoUrl ? (
+        <video
+          src={directVideoUrl}
+          className="h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
         />
       ) : project.poster || project.image ? (
         <img

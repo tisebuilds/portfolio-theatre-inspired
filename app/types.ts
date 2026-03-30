@@ -8,6 +8,10 @@ export type WorkExperience = {
   title: string;
   dateRange: string;
   description?: string;
+  /** Optional external case-study journal URL for this experience. */
+  journalUrl?: string;
+  /** Optional custom label for the journal link button. */
+  journalLabel?: string;
   tagline?: string;
   /** Optional logo image URL; if missing, menu shows initial(s) */
   logo?: string;
@@ -44,6 +48,12 @@ export type ShippedCaseStudy = {
   workSlug: string;
   slug: string;
   title: string;
+  /** Case study visibility: "coming-soon" renders placeholder variant. */
+  status?: "published" | "coming-soon";
+  /** Optional launch marker for coming soon variant, e.g. "Q2 2026". */
+  expectedLaunch?: string;
+  /** Optional custom copy for coming soon variant. */
+  comingSoonNote?: string;
   /** Quarter this shipped (e.g. "2026Q1") – shown as a tag in the project header */
   shippedQuarter?: string;
   /** Figma embed URL, image URL, or other embeddable URL (used when tabs is empty) */

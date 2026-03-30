@@ -5,6 +5,7 @@ import { PrototypeEmbed } from "@/components/PrototypeEmbed";
 import { TabbedPrototypeSection } from "@/components/TabbedPrototypeSection";
 import { SkillsList } from "@/components/SkillsList";
 import { DesignDecisionsDrawer } from "@/components/DesignDecisionsDrawer";
+import { ComingSoonCaseStudyPage } from "@/components/ComingSoonCaseStudyPage";
 import type { ShippedCaseStudy } from "@/app/types";
 import type { WorkExperience } from "@/app/types";
 
@@ -16,10 +17,29 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return caseStudies.map((c) => ({
+  const publishedPairs = caseStudies.map((c) => ({
     workSlug: c.workSlug,
     caseSlug: c.slug,
   }));
+
+  const upcomingPairs = experiences.flatMap((exp) =>
+    (exp.whatShipped ?? [])
+      .filter((item): item is { slug: string; label: string } => {
+        return typeof item === "object" && typeof item.slug === "string";
+      })
+      .filter(
+        (item) =>
+          !caseStudies.some(
+            (study) => study.workSlug === exp.slug && study.slug === item.slug,
+          ),
+      )
+      .map((item) => ({
+        workSlug: exp.slug,
+        caseSlug: item.slug,
+      })),
+  );
+
+  return [...publishedPairs, ...upcomingPairs];
 }
 
 export default async function ShippedCaseStudyPage({ params }: Props) {
@@ -28,7 +48,17 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
     (c) => c.workSlug === workSlug && c.slug === caseSlug
   );
   const experience = experiences.find((e) => e.slug === workSlug);
-  if (!study || !experience) notFound();
+  if (!experience) notFound();
+
+  const isComingSoon = !study || study.status === "coming-soon";
+  if (isComingSoon) {
+    return (
+      <ComingSoonCaseStudyPage
+        journalUrl={experience.journalUrl}
+        journalLabel={experience.journalLabel}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -232,13 +232,20 @@
 }
 
 .cs-name {
-  font-size: clamp(48px, 8vw, 88px);
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 0.93;
-  letter-spacing: -0.03em;
+  line-height: 2rem;
+  letter-spacing: normal;
   margin-bottom: 22px;
   animation: cs-rise-in 0.6s 0.28s ease forwards;
   opacity: 0;
+}
+
+@media (min-width: 768px) {
+  .cs-name {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
 }
 
 .cs-status-line {

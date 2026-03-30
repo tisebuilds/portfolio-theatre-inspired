@@ -19,11 +19,18 @@ export default function DinnerPartySeatingChartPage() {
       <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-16">
         <div className="flex flex-col gap-12">
           <section className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-neutral-100">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-wider text-neutral-100">
               Dinner Party Seating Chart
             </h1>
             <p className="mt-4 text-sm md:text-base text-neutral-400 leading-relaxed">
-              All demos and photos from the 2026 project.
+              I used Claude Co-Work to build personal software that
+              initially looked like a seating chart tool but was really solving a
+              spend management problem. I started with three questions—where
+              people sit, what they eat, and whether I could stay under
+              budget—but quickly realized the core constraint was: “how much can
+              I spend without my Ramp card declining?” Claude helped me reframe
+              the problem, integrate dietary and headcount inputs, and
+              iteratively build a budget-aware solution.
             </p>
           </section>
 

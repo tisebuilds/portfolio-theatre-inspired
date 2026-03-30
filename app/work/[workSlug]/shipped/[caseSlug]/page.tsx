@@ -54,6 +54,10 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
   if (isComingSoon) {
     return (
       <ComingSoonCaseStudyPage
+        title={experience.title}
+        dateRange={experience.dateRange}
+        description={experience.description}
+        poster={experience.poster}
         journalUrl={experience.journalUrl}
         journalLabel={experience.journalLabel}
       />

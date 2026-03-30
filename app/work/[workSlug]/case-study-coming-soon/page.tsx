@@ -20,6 +20,10 @@ export default async function WorkCaseStudyComingSoonPage({ params }: Props) {
 
   return (
     <ComingSoonCaseStudyPage
+      title={experience.title}
+      dateRange={experience.dateRange}
+      description={experience.description}
+      poster={experience.poster}
       journalUrl={experience.journalUrl}
       journalLabel={experience.journalLabel}
     />

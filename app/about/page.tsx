@@ -28,21 +28,70 @@ export default function AboutPage() {
             </h2>
             <div className="relative py-6">
               {[
-                { name: "WICC", rotate: -8, delay: "0s", className: "top-0 left-[4%] sm:left-[8%]" },
-                { name: "URMC", rotate: 5, delay: "0.7s", className: "top-[12%] right-[2%] sm:right-[6%]" },
-                { name: "Intro to DPD", rotate: -3, delay: "1.4s", className: "bottom-[30%] left-[1%] sm:left-[5%]" },
-                { name: "CUXD", rotate: 6, delay: "0.35s", className: "bottom-[8%] right-[4%] sm:right-[10%]" },
-                { name: "ColorStack", rotate: -4, delay: "1.05s", className: "bottom-0 left-[15%] sm:left-[20%]" },
+                {
+                  name: "WICC",
+                  rotate: -8,
+                  delay: "0s",
+                  className: "top-0 left-[4%] sm:left-[8%]",
+                  image: "/stickers/wicc.png",
+                  imageClassName: "w-[78px] h-[48px] object-contain",
+                },
+                {
+                  name: "URMC",
+                  rotate: 5,
+                  delay: "0.7s",
+                  className: "top-[12%] right-[2%] sm:right-[6%]",
+                  image: "/stickers/urmc.png",
+                  imageClassName: "w-[82px] h-[46px] object-contain",
+                },
+                {
+                  name: "Intro to DPD",
+                  rotate: -3,
+                  delay: "1.4s",
+                  className: "bottom-[30%] left-[1%] sm:left-[5%]",
+                  image: "/stickers/intro-to-dpd.png",
+                  imageClassName: "w-[110px] h-[36px] object-contain",
+                },
+                {
+                  name: "CUXD",
+                  rotate: 6,
+                  delay: "0.35s",
+                  className: "bottom-[8%] right-[4%] sm:right-[10%]",
+                  image: "/stickers/cuxd.png",
+                  imageClassName: "w-[61px] h-[36px] object-contain",
+                },
+                {
+                  name: "ColorStack",
+                  rotate: -4,
+                  delay: "1.05s",
+                  className: "bottom-0 left-[15%] sm:left-[20%]",
+                  image: "/stickers/colorstack.png",
+                  imageClassName: "w-[107px] h-[37px] object-contain",
+                },
               ].map((org) => (
                 <span
                   key={org.name}
-                  className={`sticker absolute z-10 px-3 py-1.5 bg-white text-neutral-900 text-[11px] font-bold uppercase tracking-wider rounded-sm shadow-[0_2px_8px_rgba(0,0,0,0.25)] cursor-default select-none ${org.className}`}
+                  className={`sticker absolute z-10 rounded-sm cursor-default select-none ${org.className} ${
+                    org.image
+                      ? "p-0 bg-transparent shadow-none"
+                      : "px-3 py-1.5 bg-white text-neutral-900 text-[11px] font-bold uppercase tracking-wider shadow-[0_2px_8px_rgba(0,0,0,0.25)]"
+                  }`}
                   style={{
                     "--sticker-r": `${org.rotate}deg`,
                     animationDelay: org.delay,
                   } as React.CSSProperties}
                 >
-                  {org.name}
+                  {org.image ? (
+                    <Image
+                      src={org.image}
+                      alt={org.name}
+                      width={62}
+                      height={35}
+                      className={org.imageClassName ?? "w-full h-full object-contain"}
+                    />
+                  ) : (
+                    org.name
+                  )}
                 </span>
               ))}
               <ul className="list-none p-0 m-0 flex flex-wrap justify-center gap-4 sm:gap-6">
@@ -97,18 +146,94 @@ export default function AboutPage() {
             </svg>
 
             {[
-              { label: "K-pop", style: { top: "12%", left: "3%", width: 72, height: 72 }, rotate: -10, delay: "0s", shape: "rounded-2xl", colors: "border-pink-400/20 bg-pink-400/10 text-pink-300/30" },
-              { label: "Disney", style: { top: "35%", left: "15%", width: 64, height: 64 }, rotate: 5, delay: "0.35s", shape: "rounded-full", colors: "border-sky-400/20 bg-sky-400/10 text-sky-300/30" },
-              { label: "K-pop", style: { bottom: "20%", left: "12%", width: 52, height: 52 }, rotate: 8, delay: "0.7s", shape: "rounded-full", colors: "border-pink-400/10 bg-pink-400/5 text-pink-300/20" },
-              { label: "Disney", style: { bottom: "5%", left: "18%", width: 48, height: 48 }, rotate: -6, delay: "1.05s", shape: "rounded-xl", colors: "border-sky-400/10 bg-sky-400/5 text-sky-300/20" },
-              { label: "Film", style: { top: "15%", right: "4%", width: 76, height: 76 }, rotate: 4, delay: "0.2s", shape: "rounded-full", colors: "border-amber-400/20 bg-amber-400/10 text-amber-300/30" },
-              { label: "Comics", style: { top: "8%", right: "15%", width: 56, height: 56 }, rotate: -8, delay: "0.5s", shape: "rounded-2xl", colors: "border-emerald-400/20 bg-emerald-400/10 text-emerald-300/30" },
-              { label: "Comics", style: { bottom: "15%", right: "12%", width: 68, height: 68 }, rotate: 12, delay: "1.2s", shape: "rounded-full", colors: "border-emerald-400/10 bg-emerald-400/5 text-emerald-300/20" },
-              { label: "Film", style: { bottom: "5%", right: "4%", width: 60, height: 60 }, rotate: -10, delay: "0.85s", shape: "rounded-2xl", colors: "border-amber-400/10 bg-amber-400/5 text-amber-300/20" },
+              {
+                label: "K-pop",
+                style: { top: "12%", left: "3%", width: 72, height: 72 },
+                rotate: -10,
+                delay: "0s",
+                shape: "rounded-2xl",
+                colors: "border-pink-400/20 bg-pink-400/10 text-pink-300/30",
+                image: "/stickers/wonder-girls.png",
+                imageClassName: "w-[108%] h-[108%] object-contain drop-shadow-[0_0_10px_rgba(244,114,182,0.25)]",
+              },
+              {
+                label: "Disney",
+                style: { top: "35%", left: "15%", width: 64, height: 64 },
+                rotate: 5,
+                delay: "0.35s",
+                shape: "rounded-full",
+                colors: "border-sky-400/20 bg-sky-400/10 text-sky-300/30",
+                image: "/stickers/disney.png",
+                imageClassName: "w-[108%] h-[108%] object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.25)]",
+              },
+              {
+                label: "K-pop",
+                style: { bottom: "20%", left: "12%", width: 52, height: 52 },
+                rotate: 8,
+                delay: "0.7s",
+                shape: "rounded-full",
+                colors: "border-pink-400/10 bg-pink-400/5 text-pink-300/20",
+                image: "/stickers/new-vegas.png",
+                imageClassName: "w-[108%] h-[108%] object-contain drop-shadow-[0_0_10px_rgba(244,114,182,0.2)]",
+              },
+              {
+                label: "Disney",
+                style: { bottom: "5%", left: "18%", width: 48, height: 48 },
+                rotate: -6,
+                delay: "1.05s",
+                shape: "rounded-xl",
+                colors: "border-sky-400/10 bg-sky-400/5 text-sky-300/20",
+                image: "/stickers/monsters-hat.png",
+                imageClassName: "w-[108%] h-[108%] object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.22)]",
+              },
+              {
+                label: "Film",
+                style: { top: "15%", right: "4%", width: 76, height: 76 },
+                rotate: 4,
+                delay: "0.2s",
+                shape: "rounded-full",
+                colors: "border-amber-300/60 text-amber-200/85",
+                image: "/stickers/keep-moving-forward.png",
+                imageClassName: "w-[112%] h-[112%] object-contain drop-shadow-[0_0_12px_rgba(251,191,36,0.22)]",
+              },
+              {
+                label: "Comics",
+                style: { top: "8%", right: "15%", width: 56, height: 56 },
+                rotate: -8,
+                delay: "0.5s",
+                shape: "rounded-2xl",
+                colors: "border-emerald-400/20 bg-emerald-400/10 text-emerald-300/30",
+                image: "/stickers/comics-character.png",
+                imageClassName: "w-[114%] h-[114%] object-contain drop-shadow-[0_0_10px_rgba(167,243,208,0.25)]",
+              },
+              {
+                label: "Comics",
+                style: { bottom: "15%", right: "12%", width: 68, height: 68 },
+                rotate: 12,
+                delay: "1.2s",
+                shape: "rounded-full",
+                colors: "border-emerald-400/10 bg-emerald-400/5 text-emerald-300/20",
+                image: "/stickers/webtoon.png",
+                imageClassName: "w-[108%] h-[108%] object-contain drop-shadow-[0_0_10px_rgba(16,185,129,0.25)]",
+              },
+              {
+                label: "Film",
+                style: { bottom: "5%", right: "4%", width: 60, height: 60 },
+                rotate: -10,
+                delay: "0.85s",
+                shape: "rounded-2xl",
+                colors: "border-amber-400/10 bg-amber-400/5 text-amber-300/20",
+                image: "/stickers/flo-logo.png",
+                imageClassName: "w-[108%] h-[108%] object-contain",
+              },
             ].map((s, i) => (
               <div
                 key={i}
-                className={`sticker absolute ${s.shape} border-2 border-dashed ${s.colors} hidden lg:flex items-center justify-center`}
+                className={`sticker absolute ${s.shape} ${
+                  s.image
+                    ? "border-0 bg-transparent text-transparent"
+                    : `border-2 border-dashed ${s.colors}`
+                } hidden lg:flex items-center justify-center`}
                 style={{
                   ...s.style,
                   "--sticker-r": `${s.rotate}deg`,
@@ -116,9 +241,20 @@ export default function AboutPage() {
                 } as unknown as React.CSSProperties}
                 aria-hidden="true"
               >
-                <span className="text-[7px] font-medium uppercase tracking-wider select-none">
-                  {s.label}
-                </span>
+                {s.image ? (
+                  <Image
+                    src={s.image}
+                    alt=""
+                    aria-hidden="true"
+                    fill
+                    className={s.imageClassName ?? "object-contain"}
+                    sizes="72px"
+                  />
+                ) : (
+                  <span className="text-[7px] font-medium uppercase tracking-wider select-none">
+                    {s.label}
+                  </span>
+                )}
               </div>
             ))}
 
@@ -206,11 +342,18 @@ export default function AboutPage() {
             </p>
             {(() => {
               const mentorByName = new Map(about.mentors.map((mentor) => [mentor.name, mentor]));
+              const mentorImageFromName = (name: string) => {
+                const slug = name
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/^-+|-+$/g, "");
+                return `/mentors/${slug}.png`;
+              };
 
               // Edit these arrays to control desktop arrangement order per row.
               const mentorRows = [
-                ["Femi", "Tolu", "Zain", "Catherine", "Jason", "Cindy", "Miah", "Ry", "Esuvat"],
-                ["Logan", "Eileen", "Chris", "Samantha", "Yanlam", "Sam", "Olivia", "Dr. Roberts", "Natalie"],
+                ["Femi", "Miah", "Cindy", "Ry", "Esuvat", "Dr. Roberts", "Natalie", "Eileen", "Yanlam"],
+                ["Zain", "Catherine", "Chris", "Samantha", "Jason", "Logan", "Sam", "Tolu", "Olivia"],
               ];
 
               const rows = mentorRows
@@ -253,6 +396,7 @@ export default function AboutPage() {
                   >
                     {mentors.map((mentor, i) => {
                       const layout = layouts[i];
+                      const mentorImage = mentorImageFromName(mentor.name);
                     return (
                       <li
                         key={mentor.name}
@@ -266,7 +410,7 @@ export default function AboutPage() {
                       >
                         {mentor.image ? (
                           <Image
-                            src={mentor.image}
+                            src={mentorImage}
                             alt={`${mentor.name}${mentor.role ? `, ${mentor.role}` : ""}`}
                             width={340}
                             height={400}

@@ -31,8 +31,8 @@ The homepage displays these **11 work experiences** (each will have a minimalist
 
 | Slug            | Title                 | Date range     |
 | --------------- | --------------------- | -------------- |
-| `ramp-treasury` | Ramp Treasury         | 2025 – present |
-| `ramp-spend`    | Ramp Spend Management | 2023 – 2025    |
+| `ramp-treasury` | Ramp Treasury         | 2025–Present |
+| `ramp-spend`    | Ramp Spend Management | 2023–2025    |
 | `kurtosis`      | Kurtosis              | Fall 2023      |
 | `figma`         | Figma                 | Summer 2023    |
 | `meta`          | Meta                  | Summer 2022    |
@@ -44,7 +44,7 @@ The homepage displays these **11 work experiences** (each will have a minimalist
 | `urmc`          | URMC                  | 2021–2023      |
 
 - **List order**: Use the order above (most recent first) for both Theatre grid and List view unless you prefer a different sort.
-- **Display text**: In list view, show title (e.g. "Ramp Treasury") and date range (e.g. "2025 – present"); case study pages can reuse the same fields and add `description` / `tagline` later.
+- **Display text**: In list view, show title (e.g. "Ramp Treasury") and date range (e.g. "2025–Present"); case study pages can reuse the same fields and add `description` / `tagline` later.
 
 ## Content: Projects page (7 college case studies)
 
@@ -149,4 +149,4 @@ Each case study page (`/work/[slug]` and `/projects/[slug]`) uses the same layou
 
 ---
 
-**Summary**: **Homepage** = Work experiences (11 entries: two Ramp posters—Ramp Treasury 2025–present, Ramp Spend Management 2023–2025—plus Kurtosis, Figma, Meta, Disney, ColorStack, WICC, CuXD, AppDev, URMC) with Theatre/List toggle; links to `/work/[slug]`. **Projects** (`/projects`) = 7 college case studies; each at `/projects/[slug]`. **About** (`/about`) = 4 awards + small credit section thanking mentors. Data: `data/work.json`, `data/projects.json`, optional `data/about.json`. Nav: Work, Projects, About. Sharp, minimal style throughout – no rounded corners, rectangular toggle and buttons, heavy grid.
+**Summary**: **Homepage** = Work experiences (11 entries: two Ramp posters—Ramp Treasury 2025–Present, Ramp Spend Management 2023–2025—plus Kurtosis, Figma, Meta, Disney, ColorStack, WICC, CuXD, AppDev, URMC) with Theatre/List toggle; links to `/work/[slug]`. **Projects** (`/projects`) = 7 college case studies; each at `/projects/[slug]`. **About** (`/about`) = 4 awards + small credit section thanking mentors. Data: `data/work.json`, `data/projects.json`, optional `data/about.json`. Nav: Work, Projects, About. Sharp, minimal style throughout – no rounded corners, rectangular toggle and buttons, heavy grid.

@@ -5,7 +5,7 @@
     "logo": "/logos/black/Ramp.png",
     "logoHover": "/logos/white/Ramp.png",
     "poster": "/posters/ramp-treasury.png",
-    "dateRange": "NOW PLAYING",
+    "dateRange": "Now Playing",
     "description": "Product design for treasury and financial operations.",
     "whatShipped": [
       {"slug": "reserve-rba", "label": "Reserve RBA"},
@@ -30,7 +30,7 @@
     "logo": "/logos/black/Ramp.png",
     "logoHover": "/logos/white/Ramp.png",
     "poster": "/posters/ramp-spend.png",
-    "dateRange": "2023 – 2025",
+    "dateRange": "2023–2025",
     "description": "Design for spend management and card controls.",
     "whatShipped": [
       {"slug": "spend-limits-ui", "label": "Spend limits UI"},

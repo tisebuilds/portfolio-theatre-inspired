@@ -22,15 +22,21 @@ export default function DinnerPartySeatingChartPage() {
             <h1 className="text-3xl md:text-4xl font-bold tracking-wider text-neutral-100">
               Dinner Party Seating Chart
             </h1>
-            <p className="mt-4 text-sm md:text-base text-neutral-400 leading-relaxed">
-              I used Claude Co-Work to build personal software that
-              initially looked like a seating chart tool but was really solving a
-              spend management problem. I started with three questions—where
-              people sit, what they eat, and whether I could stay under
-              budget—but quickly realized the core constraint was: “how much can
-              I spend without my Ramp card declining?” Claude helped me reframe
-              the problem, integrate dietary and headcount inputs, and
-              iteratively build a budget-aware solution.
+            <p className="mt-4 text-xl md:text-2xl font-semibold tracking-wide text-neutral-100 leading-snug">
+              I don't wait for solutions; I build them.
+            </p>
+            <p className="mt-6 text-sm md:text-base text-neutral-400 leading-relaxed">
+              I built a dinner seating tool for a 23-person alumni event, but the
+              real challenge was staying within a $200 ColorStack budget without
+              risking a declined Ramp charge. I started by thinking through a few
+              basics: where people should sit, what they would eat, and how those
+              choices affected total cost. From there, I built a UI that tracks
+              per-table spend in real time while accounting for dietary needs and
+              headcount. Working with Claude helped me rethink the problem and turn
+              what looked like a simple seating chart into a budget-aware event
+              planning tool. This project shows how I like to work: breaking complex
+              problems into simple questions, streamlining manual tasks with AI,
+              and my bias toward action.
             </p>
           </section>
 

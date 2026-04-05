@@ -1,5 +1,13 @@
 [
   {
+    "slug": "letterboxd-website-wall",
+    "title": "Letterboxd website wall (2026)",
+    "dateRange": "2026",
+    "video": "/projects/letterboxd-website-wall-demo.mp4",
+    "externalUrl": "https://tisewatched.vercel.app/",
+    "externalLinkLabel": "App"
+  },
+  {
     "slug": "dinner-party-seating-chart",
     "title": "Dinner Party Seating Chart (Made with Claude Co-Work)",
     "tagline": "A playful way to plan who sits where.",

@@ -45,7 +45,7 @@ export function ProjectTapeList({
               </span>
               <span
                 className={`text-[11px] font-mono tabular-nums ${
-                  isActive ? "text-accent" : "text-neutral-400"
+                  isActive ? "text-white/90" : "text-neutral-400"
                 }`}
               >
                 {project.dateRange ?? "—"}

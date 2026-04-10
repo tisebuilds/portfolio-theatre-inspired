@@ -55,7 +55,7 @@ export function ProjectPreview({
           src={directVideoUrl}
           className="h-full w-full object-cover object-top"
           autoPlay
-          muted
+          muted={!project.videoSound}
           loop
           playsInline
           controls

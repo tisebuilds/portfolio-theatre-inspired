@@ -8,6 +8,15 @@
     "externalLinkLabel": "App"
   },
   {
+    "slug": "ipod-concert-diary",
+    "title": "iPod Concert Diary",
+    "dateRange": "2026",
+    "video": "/projects/ipod-concert-diary-demo.mp4",
+    "videoSound": true,
+    "externalUrl": "https://tiseconcertdiary.vercel.app/",
+    "externalLinkLabel": "Play"
+  },
+  {
     "slug": "dinner-party-seating-chart",
     "title": "Dinner Party Seating Chart (Made with Claude Co-Work)",
     "tagline": "A playful way to plan who sits where.",

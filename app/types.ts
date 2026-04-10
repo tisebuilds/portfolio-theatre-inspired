@@ -87,6 +87,8 @@ export type Project = {
   poster?: string;
   /** YouTube or embeddable video URL shown on the CRT TV screen */
   video?: string;
+  /** When true, local MP4 is not muted so audio can play (browser may still gate autoplay). */
+  videoSound?: boolean;
   /** External link shown on the TV controls (App Store, case study, etc.) */
   externalUrl?: string;
   /** Button label — defaults to "Visit" when omitted */

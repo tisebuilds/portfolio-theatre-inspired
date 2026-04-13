@@ -1,6 +1,5 @@
 import { FigmaToolIcon } from "@/components/ramp/FigmaToolIcon";
 import { GoogleDocsToolIcon } from "@/components/ramp/GoogleDocsToolIcon";
-import styles from "@/components/ramp/ramp-cinema.module.css";
 import type { RampEpisode } from "./ramp-types";
 
 const tools = (
@@ -145,6 +144,11 @@ export const rampSpendEpisodes: RampEpisode[] = [
         linkedInUrl: "https://www.linkedin.com/in/kishansripada/",
       },
       {
+        role: "ENGINEER",
+        name: "Kayla",
+        linkedInUrl: "https://www.linkedin.com/in/kayla-s-lin/",
+      },
+      {
         role: "PRODUCT OPERATIONS",
         name: "Sherry",
         linkedInUrl: "https://www.linkedin.com/in/sherryywang/",
@@ -179,25 +183,11 @@ export const rampSpendEpisodes: RampEpisode[] = [
       alt: "Unified Wallet Drawer hero",
     },
     outcomeRich: (
-      <>
-        <p>
-          Pitched, designed, and led rollout to SuperGA for a project that
-          consolidated three separate drawers—Physical Card, Funds, and Switch
-          Funds—into one unified <strong>Wallet</strong> drawer with four
-          states.
-        </p>
-        <ul className={styles.chBullets}>
-          <li>
-            Zero customer disruption or negative feedback during rollout on a
-            daily-use surface: <strong>zero tickets from CX</strong>, validated
-            via LogRocket sessions.
-          </li>
-          <li>
-            Cut design and tech debt, improved the mental model for cards and
-            funds, and reduced clicks to complete common actions.
-          </li>
-        </ul>
-      </>
+      <p>
+        Pitched, designed, and led rollout to SuperGA for a project that
+        consolidated three separate drawers—Physical Card, Funds, and Switch
+        Funds—into one unified <strong>Wallet</strong> drawer with four states.
+      </p>
     ),
     metrics: [
       { value: "0", label: "CX TICKETS (ROLLOUT)" },
@@ -205,7 +195,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
       { value: "4", label: "WALLET STATES" },
     ],
     stuffBullets: [
-      "Information-architected the drawer around questions admins ask in reviews, not internal data models.",
+      "Cut design and tech debt, improved the mental model for cards and funds, and reduced clicks to complete common actions.",
       "Designed responsive behavior so the same structure works beside tables and detail pages.",
       "Worked with engineering on motion and focus management so the drawer felt lightweight, not modal-heavy.",
     ],

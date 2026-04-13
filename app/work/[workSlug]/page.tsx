@@ -1,30 +1,48 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import workData from "@/data/work.json";
-import caseStudyData from "@/data/shipped-case-studies.json";
-import { TheaterExperiencePage } from "@/components/theater/TheaterExperiencePage";
-import type { WorkExperience, ShippedCaseStudy } from "@/app/types";
+import { ComingSoonCaseStudyPage } from "@/components/ComingSoonCaseStudyPage";
+import { CornellAppDevCaseStudyClient } from "@/components/CornellAppDevCaseStudyClient";
+import type { WorkExperience } from "@/app/types";
 
 const experiences = workData as WorkExperience[];
-const caseStudies = caseStudyData as ShippedCaseStudy[];
 
 type Props = {
   params: Promise<{ workSlug: string }>;
 };
 
 export async function generateStaticParams() {
-  return experiences.map((e) => ({ workSlug: e.slug }));
+  return experiences.map((experience) => ({ workSlug: experience.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { workSlug } = await params;
+  if (workSlug === "appdev") {
+    return { title: "Cornell AppDev — Case study" };
+  }
+  const experience = experiences.find((item) => item.slug === workSlug);
+  return {
+    title: experience ? `${experience.title} — Case study` : "Case study",
+  };
 }
 
 export default async function WorkCaseStudyPage({ params }: Props) {
   const { workSlug } = await params;
-  const experience = experiences.find((e) => e.slug === workSlug);
+  const experience = experiences.find((item) => item.slug === workSlug);
   if (!experience) notFound();
 
+  if (workSlug === "appdev") {
+    return <CornellAppDevCaseStudyClient />;
+  }
+
   return (
-    <TheaterExperiencePage
-      initialSlug={workSlug}
-      experiences={experiences}
-      caseStudies={caseStudies}
+    <ComingSoonCaseStudyPage
+      title={experience.title}
+      dateRange={experience.dateRange}
+      description={experience.description}
+      poster={experience.poster}
+      journalUrl={experience.journalUrl}
+      journalLabel={experience.journalLabel}
     />
   );
 }

@@ -127,7 +127,7 @@ export function SectionBreadcrumbs({
                 {experiences.map((e) => (
                   <li key={e.slug} role="none">
                     <Link
-                      href={`/work/${e.slug}/case-study-coming-soon`}
+                      href={`/work/${e.slug}`}
                       role="menuitem"
                       className={`block px-4 py-2 text-sm uppercase tracking-wider ${baseClass} ${currentSlug === e.slug ? "font-semibold text-neutral-200" : ""}`}
                       onClick={() => setOpen(false)}

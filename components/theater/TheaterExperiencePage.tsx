@@ -790,7 +790,7 @@ export function TheaterExperiencePage({
         setSlug(newSlug);
         setScene(0);
         setVisible(true);
-        window.history.replaceState(null, "", `/work/${newSlug}`);
+        window.history.replaceState(null, "", `/work/${newSlug}/theater`);
       }, 150);
       setTimeout(() => setFlash(false), 350);
     },

@@ -63,7 +63,7 @@ export function WhatShippedList({ items, workSlug }: WhatShippedListProps) {
           return isLink && slug ? (
             <Link
               key={i}
-              href={`/work/${workSlug}/case-study-coming-soon`}
+              href={`/work/${workSlug}`}
               className="block group no-underline"
             >
               {inner}

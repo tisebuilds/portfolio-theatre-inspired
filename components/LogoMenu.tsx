@@ -20,7 +20,7 @@ export function LogoMenu({ experiences, highlightedIndex, onHoverIndex, onHoverL
           return (
             <li key={exp.slug}>
               <Link
-                href={`/work/${exp.slug}/case-study-coming-soon`}
+                href={`/work/${exp.slug}`}
                 onMouseEnter={() => onHoverIndex(i)}
                 onMouseLeave={onHoverLeave}
                 className={`group grid grid-cols-[1fr_auto] gap-x-8 items-center px-4 py-2.5 rounded-lg transition-colors hover:bg-neutral-800/60 ${isHighlighted ? "bg-neutral-800/60" : ""}`}

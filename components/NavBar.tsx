@@ -311,7 +311,7 @@ export function NavBar() {
     sectionItems = experiences.map((e) => ({
       slug: e.slug,
       title: e.title,
-      href: `/work/${e.slug}/case-study-coming-soon`,
+      href: `/work/${e.slug}`,
     }));
   }
 

@@ -148,76 +148,74 @@ export const rampSpendEpisodes: RampEpisode[] = [
     ],
   },
   {
-    title: "Akuma Updates",
-    pillSub: "Turning spend signals into decisions people can make in a glance.",
+    title: "Quality of life updates for Akuma",
+    pillSub: "2025 Ramp Hacks project",
     status: "past",
-    yearLabel: "2023–25",
+    yearLabel: "1 week",
+    titleTimingBadge: "2025",
     employment: "Full-time",
-    metaYear: "2023 — 2025",
+    metaYear: "1 week",
     tools,
     externalHref: "https://ramp.com",
     externalLabel: "ramp.com",
-    logline:
-      "A story of respecting how little time approvers actually have.",
+    logline: "",
     onePagerHref: "/ramp/spend/akuma-updates-one-pager.pdf",
     hero: {
       aspect: "web",
       src: "/ramp/spend/akuma-updates-hero.png",
-      alt: "Akuma Updates hero",
+      alt:
+        "Akuma tooling: email preview, template analytics, communication templates list, and visual search for similar templates",
     },
-    outcome: {
-      problem:
-        "Spend updates competed for attention in inboxes and side channels, so time-sensitive approvals were easy to defer until they became problems.",
-      outcome:
-        "Focused the in-product update experience on urgency, clarity, and next actions so approvers could resolve items in-line, especially on mobile web.",
-    },
-    metrics: [
-      { value: "—", label: "APPROVAL LATENCY" },
-      { value: "—", label: "MOBILE WEB SHARE" },
-      { value: "—", label: "ESCALATIONS" },
-    ],
+    outcomeRich: (
+      <p>
+        Won runner-up in Ramp Hacks for adding AI features to the email design
+        system &ldquo;Akuma&rdquo; internal tooling.
+      </p>
+    ),
     stuffBullets: [
-      "Redesigned update cards around the decision, hiding metadata until it changes the choice.",
-      "Shipped mobile-friendly review flows for managers working between meetings.",
-      "Collaborated on notification strategy so pings stayed proportional to severity.",
+      "Shipped Email previews so builders could flip through emails via the table without having to open a new page.",
+      "Shipped Analytics so builders can see how emails perform without having to click and log in to Datadog.",
+      "Shipped Visual Search so builders can identify Akuma IDs for email screenshots from Slack threads.",
+      "Shipped inline editing so builders could make and preview text edits before opening a pull request on GitHub.",
     ],
     screenGrid: {
-      layout: "mg3",
+      layout: "mg2",
       cells: [
         {
-          aspect: "wide3",
-          src: "/ramp/spend/akuma-updates-screen-a.png",
+          aspect: "r16-9",
+          media: "video",
+          src: "/ramp/spend/akuma-updates-video-primary.mp4",
+          alt: "Akuma tooling — primary web view",
           placeholderLabel: "WEB — Primary view",
         },
         {
-          aspect: "r4-3",
-          src: "/ramp/spend/akuma-updates-screen-b.png",
+          aspect: "r16-9",
+          media: "video",
+          src: "/ramp/spend/akuma-updates-video-web-detail.mp4",
+          alt: "Akuma tooling — web detail",
           placeholderLabel: "Web detail",
         },
-        { aspect: "r9-16", placeholderLabel: "Mobile web" },
-        { aspect: "r4-3", placeholderLabel: "Screen detail" },
+        {
+          aspect: "r16-9",
+          media: "video",
+          src: "/ramp/spend/akuma-updates-video-mobile.mp4",
+          alt: "Akuma tooling — mobile web",
+          placeholderLabel: "Mobile web",
+        },
+        {
+          aspect: "r16-9",
+          media: "video",
+          src: "/ramp/spend/akuma-updates-video-screen-detail.mp4",
+          alt: "Akuma tooling — screen detail",
+          placeholderLabel: "Screen detail",
+        },
       ],
     },
-    learnings: [
-      "Approvals are emotional labor; reduce cognitive tax before you add features.",
-      "If it is not obvious what happens after “Approve,” people will not tap it.",
-      "The best spend tools meet users in the middle of their real day.",
-    ],
     credits: [
       {
         role: "ENGINEERING",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
-      },
-      {
-        role: "DATA",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
-      },
-      {
-        role: "PRODUCT",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        name: "Gab Miranda",
+        linkedInUrl: "https://www.linkedin.com/in/gabriel-miranda/",
       },
     ],
   },

@@ -17,6 +17,15 @@ const CHAPTER_SEGMENTS = [
   { num: "03", name: "THINGS I LEARNED" },
 ] as const;
 
+const CHAPTER_SEGMENTS_NO_LEARNINGS = [
+  { num: "01", name: "OUTCOME" },
+  { num: "02", name: "STUFF I WORKED ON" },
+  { num: "03", name: "CREDITS" },
+] as const;
+
+/** One-pager PDFs are not ready yet; flip to true when they ship. */
+const SHOW_ONE_PAGER_DOWNLOAD = false;
+
 function clampEp(n: number, max: number) {
   return Math.min(Math.max(n, 0), max);
 }
@@ -127,7 +136,8 @@ function HeroImage({
 
 function ScreenCell({ cell }: { cell: RampScreenCell }) {
   const [failed, setFailed] = useState(false);
-  const showImg = Boolean(cell.src) && !failed;
+  const isVideo = cell.media === "video";
+  const showMedia = Boolean(cell.src) && !failed;
   const aspectClass =
     cell.aspect === "r16-9"
       ? styles["r16-9"]
@@ -141,13 +151,25 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
 
   return (
     <div className={`${styles.mc} ${aspectClass}`}>
-      {showImg ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={cell.src}
-          alt={cell.alt ?? ""}
-          onError={() => setFailed(true)}
-        />
+      {showMedia ? (
+        isVideo ? (
+          // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen captures, no separate captions file
+          <video
+            src={cell.src}
+            controls
+            playsInline
+            preload="metadata"
+            aria-label={cell.alt ?? cell.placeholderLabel ?? "Screen recording"}
+            onError={() => setFailed(true)}
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={cell.src}
+            alt={cell.alt ?? ""}
+            onError={() => setFailed(true)}
+          />
+        )
       ) : (
         cell.placeholderLabel ?? "Screen"
       )}
@@ -180,10 +202,12 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
           <div className={`${styles.panel} ${styles.panelActive}`}>
             <div className={styles.hero}>
               <div className={styles.titleRow}>
-                <HeroTitleCluster
-                  title={episode.title}
-                  yearLabel={episode.yearLabel}
-                />
+                    <HeroTitleCluster
+                      title={episode.title}
+                      yearLabel={
+                        episode.titleTimingBadge ?? episode.yearLabel
+                      }
+                    />
                 {episode.journalUrl ? (
                   <a
                     className={styles.journalBtn}
@@ -197,7 +221,7 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                     {episode.journalLabel ?? "Production Notes"}
                   </a>
                 ) : null}
-                {episode.onePagerHref ? (
+                {SHOW_ONE_PAGER_DOWNLOAD && episode.onePagerHref ? (
                   <a
                     className={styles.dlBtn}
                     href={episode.onePagerHref}
@@ -671,6 +695,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   ]);
 
   const ep = episodes[activeEp];
+  const chapterSegments = hasLearnings(ep)
+    ? CHAPTER_SEGMENTS
+    : CHAPTER_SEGMENTS_NO_LEARNINGS;
 
   const showSegTip = (e: React.MouseEvent, label: string) => {
     const barEl = chBarRef.current;
@@ -730,7 +757,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   <div className={styles.titleRow}>
                     <HeroTitleCluster
                       title={episode.title}
-                      yearLabel={episode.yearLabel}
+                      yearLabel={
+                        episode.titleTimingBadge ?? episode.yearLabel
+                      }
                     />
                     {episode.journalUrl ? (
                       <a
@@ -745,7 +774,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                         {episode.journalLabel ?? "Production Notes"}
                       </a>
                     ) : null}
-                    {episode.onePagerHref ? (
+                    {SHOW_ONE_PAGER_DOWNLOAD && episode.onePagerHref ? (
                       <a
                         className={styles.dlBtn}
                         href={episode.onePagerHref}
@@ -871,31 +900,40 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   )}
                 </div>
 
-                <span className={styles.chAnchor} id={`p${p}-ch2`} />
-                <div className={styles.chapter}>
-                  <div className={styles.chHeader}>
-                    <span className={styles.chNum}>03</span>
-                    <span className={styles.chName}>THINGS I LEARNED</span>
-                    <div className={styles.chLine} />
-                  </div>
-                  {episode.learningsRich ? (
-                    <div className={styles.stuffRich}>
-                      {episode.learningsRich}
+                {hasLearnings(episode) ? (
+                  <>
+                    <span className={styles.chAnchor} id={`p${p}-ch2`} />
+                    <div className={styles.chapter}>
+                      <div className={styles.chHeader}>
+                        <span className={styles.chNum}>03</span>
+                        <span className={styles.chName}>THINGS I LEARNED</span>
+                        <div className={styles.chLine} />
+                      </div>
+                      {episode.learningsRich ? (
+                        <div className={styles.stuffRich}>
+                          {episode.learningsRich}
+                        </div>
+                      ) : (
+                        <ul
+                          className={`${styles.chBullets} ${styles.chBulletsLessons}`}
+                        >
+                          {(episode.learnings ?? []).map((b, i) => (
+                            <li key={i}>{b}</li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-                  ) : (
-                    <ul
-                      className={`${styles.chBullets} ${styles.chBulletsLessons}`}
-                    >
-                      {(episode.learnings ?? []).map((b, i) => (
-                        <li key={i}>{b}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+                  </>
+                ) : null}
 
                 <div className={styles.credits}>
+                  {!hasLearnings(episode) ? (
+                    <span className={styles.chAnchor} id={`p${p}-ch2`} />
+                  ) : null}
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>04</span>
+                    <span className={styles.chNum}>
+                      {hasLearnings(episode) ? "04" : "03"}
+                    </span>
                     <span className={styles.chName}>CREDITS</span>
                     <div className={styles.chLine} />
                   </div>
@@ -946,7 +984,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
 
       <div className={styles.playerPill} id="playerPill">
         <div ref={chBarRef} className={styles.chBar} id="chBar">
-          {CHAPTER_SEGMENTS.map((seg, i) => (
+          {chapterSegments.map((seg, i) => (
             <button
               key={seg.num}
               type="button"
@@ -1055,7 +1093,14 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
 
           <div className={styles.epSwitcher}>
             <div className={styles.epThumb}>
-              <span className={styles.epThumbPh}>RAMP</span>
+              <img
+                className={styles.epThumbLogo}
+                src="/logos/black/Ramp.png"
+                alt="Ramp"
+                width={35}
+                height={35}
+                decoding="async"
+              />
             </div>
             <div className={styles.epInfo}>
               {ep.status === "now" ? (

@@ -58,11 +58,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: "Ramp Spend Management — Tise",
       description:
-        "Ramp Spend Management work by Tise — Cardholder Account Creation, Unified Wallet Drawer, Akuma Updates.",
+        "Ramp Spend Management work by Tise — Cardholder Account Creation, Unified Wallet Drawer, Quality of life updates for Akuma.",
       openGraph: {
         title: "Ramp Spend Management — Tise",
         description:
-          "Ramp Spend Management work by Tise — Cardholder Account Creation, Unified Wallet Drawer, Akuma Updates.",
+          "Ramp Spend Management work by Tise — Cardholder Account Creation, Unified Wallet Drawer, Quality of life updates for Akuma.",
         images: [{ url: "/ramp/spend/cardholder-creation-hero.png" }],
       },
     };

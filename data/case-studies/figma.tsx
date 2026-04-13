@@ -138,7 +138,7 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
     </div>
   ),
   learnings: [
-    { title: "👹 The Devil is in the Details", content: null },
+    { title: "😈 The Devil is in the Details", content: null },
     { title: "🤡 Communicating Design Blocks", content: null },
     { title: "✨ Riffing is Magical", content: null },
     { title: "💬 Balancing and incorporating feedback", content: null },

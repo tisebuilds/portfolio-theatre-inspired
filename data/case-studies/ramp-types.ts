@@ -24,6 +24,8 @@ export type RampScreenCell = {
   src?: string;
   alt?: string;
   placeholderLabel?: string;
+  /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
+  media?: "image" | "video";
 };
 
 export type RampScreenGrid = {
@@ -38,6 +40,8 @@ export type RampEpisode = {
   status: "now" | "past";
   /** Shown in pill when status is past */
   yearLabel: string;
+  /** Hero title timing badge; defaults to yearLabel when omitted */
+  titleTimingBadge?: string;
   /** When set, replaces the employment / metaYear / tools / external link row */
   metaRowRich?: ReactNode;
   employment?: string;

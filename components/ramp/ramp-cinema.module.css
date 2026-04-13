@@ -144,8 +144,9 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.2;
-  color: var(--text-dim);
-  border: 1px solid var(--border2);
+  color: #ffffff;
+  background: var(--border2);
+  border: none;
   border-radius: 6px;
   padding: 4px 10px 5px;
 }
@@ -741,8 +742,8 @@
 }
 
 .epThumb {
-  width: 44px;
-  height: 44px;
+  width: 35px;
+  height: 35px;
   background: var(--surface3);
   border: 1px solid var(--pill-border);
   border-radius: 8px;
@@ -759,11 +760,10 @@
   object-fit: cover;
 }
 
-.epThumbPh {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
+.epThumb img.epThumbLogo {
+  object-fit: contain;
+  padding: 6px;
+  box-sizing: border-box;
 }
 
 .epInfo {
@@ -920,7 +920,7 @@
 
 .mc {
   background: var(--surface);
-  border: 1px dashed var(--border2);
+  border: 1px solid var(--border2);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -933,7 +933,8 @@
   overflow: hidden;
 }
 
-.mc img {
+.mc img,
+.mc video {
   position: absolute;
   inset: 0;
   width: 100%;

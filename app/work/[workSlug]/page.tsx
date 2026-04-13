@@ -5,6 +5,8 @@ import { ColorStackCaseStudyClient } from "@/components/ColorStackCaseStudyClien
 import { ComingSoonCaseStudyPage } from "@/components/ComingSoonCaseStudyPage";
 import { CornellAppDevCaseStudyClient } from "@/components/CornellAppDevCaseStudyClient";
 import { DisneyCaseStudyClient } from "@/components/DisneyCaseStudyClient";
+import { FigmaCaseStudyClient } from "@/components/FigmaCaseStudyClient";
+import { MetaCaseStudyClient } from "@/components/MetaCaseStudyClient";
 import type { WorkExperience } from "@/app/types";
 
 const experiences = workData as WorkExperience[];
@@ -30,6 +32,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: "Disney Media and Entertainment Distribution Technology — Case study",
     };
   }
+  if (workSlug === "figma") {
+    return { title: "Figma — Case study" };
+  }
+  if (workSlug === "meta") {
+    return { title: "Meta — Case study" };
+  }
   const experience = experiences.find((item) => item.slug === workSlug);
   return {
     title: experience ? `${experience.title} — Case study` : "Case study",
@@ -49,6 +57,12 @@ export default async function WorkCaseStudyPage({ params }: Props) {
   }
   if (workSlug === "disney") {
     return <DisneyCaseStudyClient />;
+  }
+  if (workSlug === "figma") {
+    return <FigmaCaseStudyClient />;
+  }
+  if (workSlug === "meta") {
+    return <MetaCaseStudyClient />;
   }
 
   return (

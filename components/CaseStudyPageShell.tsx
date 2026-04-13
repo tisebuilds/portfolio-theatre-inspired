@@ -1,11 +1,15 @@
 import type { ReactNode } from "react";
-import { JournalIcon } from "@/components/case-study-icons";
 
 type CaseStudyPageShellProps = {
   title: string;
   dateRange: string;
-  journalUrl?: string;
   meta: ReactNode;
+  /** Optional header typography overrides (full class strings replace defaults). */
+  headerClassNames?: {
+    h1?: string;
+    metaRow?: string;
+    dateRange?: string;
+  };
   /** CSS `background` for the radial glow behind the showcase. Omit to disable. */
   glowBackground?: string;
   /**
@@ -19,12 +23,21 @@ type CaseStudyPageShellProps = {
 export function CaseStudyPageShell({
   title,
   dateRange,
-  journalUrl,
   meta,
+  headerClassNames,
   glowBackground,
   showcaseLayout = "default",
   children,
 }: CaseStudyPageShellProps) {
+  const h1Class =
+    headerClassNames?.h1 ??
+    "text-2xl font-bold tracking-normal text-neutral-200 md:text-3xl";
+  const metaRowClass =
+    headerClassNames?.metaRow ??
+    "mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/45";
+  const dateRangeClass =
+    headerClassNames?.dateRange ??
+    "inline-flex h-5 items-center rounded-sm bg-white/[0.06] px-2.5 text-xs font-medium tabular-nums tracking-tight text-white/55";
   const sectionClass =
     showcaseLayout === "flush"
       ? "relative mt-6 flex justify-center pt-0 pb-10 sm:mt-8 sm:pt-0 sm:pb-14"
@@ -38,27 +51,16 @@ export function CaseStudyPageShell({
   return (
     <div className="flex min-h-[calc(100vh-5rem)] flex-col bg-black font-sans text-white">
       <main className="mx-auto w-full max-w-4xl flex-1 px-6 pb-20 pt-7 sm:px-8 sm:pb-24 sm:pt-8">
-        <h1 className="text-2xl font-bold tracking-normal text-neutral-200 md:text-3xl">
+        <h1 className={h1Class}>
           {title}{" "}
           <span className="inline-flex shrink-0 items-center gap-x-3 align-middle whitespace-nowrap">
-            <span className="inline-flex h-5 items-center rounded-sm bg-white/[0.06] px-2.5 text-xs font-medium tabular-nums tracking-tight text-white/55">
+            <span className={dateRangeClass}>
               {dateRange}
             </span>
-            {journalUrl ? (
-              <a
-                href={journalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Journal entry (opens in new tab)"
-                className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-white/[0.06] text-white/55 transition-colors hover:text-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-              >
-                <JournalIcon />
-              </a>
-            ) : null}
           </span>
         </h1>
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/45">
+        <div className={metaRowClass}>
           {meta}
         </div>
 

@@ -294,7 +294,6 @@ export function CornellAppDevCaseStudyClient() {
     <CaseStudyPageShell
       title="Cornell AppDev"
       dateRange="2020 — 2022"
-      journalUrl="https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html"
       glowBackground="radial-gradient(ellipse 70% 58% at 50% 38%, rgba(244, 184, 218, 0.14), transparent 70%)"
       meta={
         <>

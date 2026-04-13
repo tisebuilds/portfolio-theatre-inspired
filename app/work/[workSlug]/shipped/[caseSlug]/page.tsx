@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import shippedCaseStudiesData from "@/data/shipped-case-studies.json";
 import workData from "@/data/work.json";
@@ -42,6 +43,21 @@ export async function generateStaticParams() {
   return [...publishedPairs, ...upcomingPairs];
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { workSlug, caseSlug } = await params;
+  const study = caseStudies.find(
+    (c) => c.workSlug === workSlug && c.slug === caseSlug,
+  );
+  const experience = experiences.find((e) => e.slug === workSlug);
+  if (!experience) {
+    return { title: "Case study" };
+  }
+  if (study && study.status !== "coming-soon") {
+    return { title: `${study.title} — ${experience.title}` };
+  }
+  return { title: `${experience.title} — Case study` };
+}
+
 export default async function ShippedCaseStudyPage({ params }: Props) {
   const { workSlug, caseSlug } = await params;
   const study = caseStudies.find(
@@ -66,7 +82,7 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <main className="flex-1 w-full max-w-6xl mx-auto px-6 py-16 flex flex-col gap-14">
+        <main className="container mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-16">
         {/* Content aligned with prototype chrome (max-w-4xl mx-auto) */}
           <div className="max-w-4xl mx-auto w-full flex flex-col gap-14">
           {/* Project: title + description at top of page */}

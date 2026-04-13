@@ -106,12 +106,7 @@
     "poster": "/posters/disney.png",
     "dateRange": "Summer 2021",
     "description": "Streaming and content discovery design.",
-    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/disney-internship/full-view.html?p=1",
-    "whatShipped": [
-      {"slug": "browse-carousel", "label": "Browse carousel"},
-      {"slug": "search-filters", "label": "Search filters"},
-      {"slug": "continue-watching", "label": "Continue watching"}
-    ],
+    "whatShipped": [],
     "lessons": ["Delight lives in details", "Balance discovery with familiarity"],
     "cast": [
       {"name": "Riley Adams", "role": "Design"},

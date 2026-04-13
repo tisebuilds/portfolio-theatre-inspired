@@ -313,6 +313,14 @@ export function ColorStackCaseStudyClient() {
               className="h-5 w-5 shrink-0 object-contain"
               sizes="20px"
             />
+            <Image
+              src="/images/keynote-app-icon.png"
+              alt="Keynote"
+              width={16}
+              height={16}
+              className="h-4 w-4 shrink-0 object-contain"
+              sizes="16px"
+            />
           </span>
           <MetaDot />
           <a

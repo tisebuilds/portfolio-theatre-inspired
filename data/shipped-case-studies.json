@@ -218,42 +218,6 @@
     "skills": ["Product design", "Data tables", "Figma", "Accessibility"]
   },
   {
-    "workSlug": "disney",
-    "slug": "browse-carousel",
-    "title": "Browse carousel",
-    "shippedQuarter": "2021Q3",
-    "prototypeUrl": "/reserve-account.png",
-    "prototypeType": "image",
-    "projectDescription": "Horizontal carousels for browsing content by genre, trend, or recommendation so users could discover titles without endless scrolling.",
-    "problem": "Discovery felt flat; we wanted rows that invited exploration and felt native to the platform.",
-    "bullets": [],
-    "skills": ["Product design", "Content discovery", "Figma", "Motion considerations"]
-  },
-  {
-    "workSlug": "disney",
-    "slug": "search-filters",
-    "title": "Search filters",
-    "shippedQuarter": "2021Q3",
-    "prototypeUrl": "/reserve-account.png",
-    "prototypeType": "image",
-    "projectDescription": "Search results and filters (genre, year, etc.) so users could narrow down and find exactly what they wanted.",
-    "problem": "Search returned too much; filters had to be visible and easy without cluttering the experience.",
-    "bullets": [],
-    "skills": ["Product design", "Search UX", "Figma", "Information architecture"]
-  },
-  {
-    "workSlug": "disney",
-    "slug": "continue-watching",
-    "title": "Continue watching",
-    "shippedQuarter": "2021Q3",
-    "prototypeUrl": "/reserve-account.png",
-    "prototypeType": "image",
-    "projectDescription": "Continue-watching strip and resume behavior so users could pick up where they left off across devices.",
-    "problem": "Users expected to resume quickly; we had to surface progress and make one-tap resume obvious.",
-    "bullets": [],
-    "skills": ["Product design", "Streaming UX", "Figma", "Cross-platform consistency"]
-  },
-  {
     "workSlug": "colorstack",
     "slug": "member-directory",
     "title": "Member directory",

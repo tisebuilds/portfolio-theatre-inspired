@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "ColorStack — Case study" };
   }
   if (workSlug === "disney") {
-    return { title: "Disney — Case study" };
+    return {
+      title: "Disney Media and Entertainment Distribution Technology — Case study",
+    };
   }
   const experience = experiences.find((item) => item.slug === workSlug);
   return {

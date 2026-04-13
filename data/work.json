@@ -155,7 +155,7 @@
     "poster": "/posters/appdev.png",
     "dateRange": "2020–2022",
     "description": "Campus app design and development.",
-    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html?p=1",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html",
     "whatShipped": [
       {"slug": "app-navigation", "label": "App navigation"},
       {"slug": "notification-settings", "label": "Notification settings"},

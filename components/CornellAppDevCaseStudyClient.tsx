@@ -87,6 +87,27 @@ function ExternalLinkIcon({ className }: { className?: string }) {
   );
 }
 
+function JournalIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width={12}
+      height={12}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <path d="M8 7h8M8 11h6" />
+    </svg>
+  );
+}
+
 const sideButtonMetal: CSSProperties = {
   background: `linear-gradient(
     90deg,
@@ -183,10 +204,7 @@ function PhoneFront() {
         >
           <div
             className="absolute left-1/2 z-10 h-[27px] w-[78px] -translate-x-1/2 rounded-full bg-black"
-            style={{
-              top: 11,
-              boxShadow: "inset 0 -1px 2px rgba(255,255,255,0.06), 0 1px 3px rgba(0,0,0,0.5)",
-            }}
+            style={{ top: 11 }}
             aria-hidden
           />
           <div className="flex items-center justify-between px-[18px] pt-[14px]">
@@ -327,9 +345,18 @@ export function CornellAppDevCaseStudyClient() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-normal text-neutral-200">
             Cornell AppDev
           </h1>
-          <span className="inline-flex shrink-0 items-center rounded-sm bg-white/[0.06] px-2.5 py-0.5 text-xs font-medium tabular-nums tracking-tight text-white/55">
+          <span className="inline-flex h-5 shrink-0 items-center rounded-sm bg-white/[0.06] px-2.5 text-xs font-medium tabular-nums tracking-tight text-white/55">
             2020 — 2022
           </span>
+          <a
+            href="https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Journal entry (opens in new tab)"
+            className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm bg-white/[0.06] text-white/55 transition-colors hover:text-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            <JournalIcon />
+          </a>
         </div>
 
         <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/45">

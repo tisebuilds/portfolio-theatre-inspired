@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { RampEpisode, RampScreenCell } from "@/data/case-studies/ramp-types";
 import styles from "./ramp-cinema.module.css";
 
@@ -138,6 +139,10 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
   const [failedBefore, setFailedBefore] = useState(false);
   const [failedAfter, setFailedAfter] = useState(false);
   const [showAfter, setShowAfter] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const expandRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const lightboxTitleId = useId();
   const isVideo = cell.media === "video";
   const srcBefore = cell.src?.trim() ?? "";
   const srcAfter = cell.srcAfter?.trim() ?? "";
@@ -154,6 +159,24 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
     failedBefore,
     failedAfter,
   ]);
+
+  const closeLightbox = useCallback(() => {
+    setLightboxOpen(false);
+    requestAnimationFrame(() => expandRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [lightboxOpen, closeLightbox]);
+
+  useEffect(() => {
+    if (lightboxOpen) closeRef.current?.focus();
+  }, [lightboxOpen]);
 
   const aspectClass =
     cell.aspect === "r16-9"
@@ -237,9 +260,9 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
           </div>
           {anyPairImgOk ? (
             <div
-              className={styles.mcBaToggle}
-              role="group"
-              aria-label="Compare versions"
+              className={styles.mcBaBar}
+              role="toolbar"
+              aria-label={`${labelBase}: switch before or after, or expand`}
             >
               <button
                 type="button"
@@ -257,8 +280,126 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
               >
                 After
               </button>
+              <span className={styles.mcBaBarDivider} aria-hidden />
+              <button
+                type="button"
+                ref={expandRef}
+                className={styles.mcBaExpand}
+                aria-label={`Expand ${labelBase} comparison`}
+                aria-haspopup="dialog"
+                aria-expanded={lightboxOpen}
+                onClick={() => setLightboxOpen(true)}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"
+                  />
+                </svg>
+              </button>
             </div>
           ) : null}
+          {lightboxOpen
+            ? createPortal(
+                <div className={styles.mcLightboxRoot}>
+                  <button
+                    type="button"
+                    className={styles.mcLightboxBackdrop}
+                    aria-label="Close expanded comparison"
+                    onClick={closeLightbox}
+                  />
+                  <div
+                    className={styles.mcLightboxDialog}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={lightboxTitleId}
+                  >
+                    <div className={styles.mcLightboxHeader}>
+                      <p id={lightboxTitleId} className={styles.mcLightboxTitle}>
+                        {labelBase}
+                      </p>
+                      <button
+                        type="button"
+                        ref={closeRef}
+                        className={styles.mcLightboxClose}
+                        aria-label="Close"
+                        onClick={closeLightbox}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          aria-hidden
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className={styles.mcLightboxStage}>
+                      <div className={styles.mcLightboxStack}>
+                        {showBeforeImg ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={srcBefore}
+                            alt={cell.alt ?? `${labelBase} — before`}
+                            className={showAfter ? styles.mcBaHidden : undefined}
+                            aria-hidden={showAfter}
+                          />
+                        ) : null}
+                        {showAfterImg ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={srcAfter}
+                            alt={
+                              cell.altAfter ?? `${labelBase} — after`
+                            }
+                            className={!showAfter ? styles.mcBaHidden : undefined}
+                            aria-hidden={!showAfter}
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className={styles.mcLightboxFooter}>
+                      <div
+                        className={styles.mcBaBar}
+                        role="group"
+                        aria-label="Compare versions"
+                      >
+                        <button
+                          type="button"
+                          className={`${styles.mcBaToggleBtn} ${!showAfter ? styles.mcBaToggleBtnActive : ""}`}
+                          aria-pressed={!showAfter}
+                          onClick={() => setShowAfter(false)}
+                        >
+                          Before
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.mcBaToggleBtn} ${showAfter ? styles.mcBaToggleBtnActive : ""}`}
+                          aria-pressed={showAfter}
+                          onClick={() => setShowAfter(true)}
+                        >
+                          After
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>,
+                document.body,
+              )
+            : null}
           {pairPlaceholder}
         </>
       ) : showSingleImg ? (

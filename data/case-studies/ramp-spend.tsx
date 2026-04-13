@@ -1,79 +1,163 @@
 import { FigmaToolIcon } from "@/components/ramp/FigmaToolIcon";
+import { GoogleDocsToolIcon } from "@/components/ramp/GoogleDocsToolIcon";
+import styles from "@/components/ramp/ramp-cinema.module.css";
 import type { RampEpisode } from "./ramp-types";
 
-const tools = <FigmaToolIcon />;
+const tools = (
+  <>
+    <FigmaToolIcon />
+    <GoogleDocsToolIcon />
+  </>
+);
 
 export const rampSpendEpisodes: RampEpisode[] = [
   {
-    title: "Cardholder Account Creation",
+    title: "Employee onboarding",
     pillSub: "From invite to first swipe without losing people in setup.",
     status: "now",
-    yearLabel: "2025",
+    yearLabel: "'24 H2",
+    titleTimingBadge: "2024",
     employment: "Full-time",
-    metaYear: "2025 — Now Playing",
+    metaYear: "H2 2024",
     tools,
-    externalHref: "https://ramp.com",
+    externalHref: "https://ramp.com/corporate-cards",
     externalLabel: "ramp.com",
     logline:
-      "A story of reducing activation anxiety for people who just need a card that works.",
+      "A lesson in doing something just for the sake of making people smile",
     onePagerHref: "/ramp/spend/cardholder-creation-one-pager.pdf",
     hero: {
       aspect: "web",
       src: "/ramp/spend/cardholder-creation-hero.png",
-      alt: "Cardholder Account Creation hero",
+      alt:
+        "Jobs-to-be-done hero: employee at a desk with floating Gmail, Okta, and Slack-style UI around Ramp onboarding",
     },
-    outcome: {
-      problem:
-        "New cardholders were dropping off during account creation because the setup path felt long, opaque, or misaligned with how admins expected invites to work.",
-      outcome:
-        "Shipped a clearer creation flow with better progress signaling and recovery paths so more invited users finish setup and start spending with less support load.",
-    },
+    outcomeRich: (
+      <>
+        <p>
+          Led redesign of onboarding for Ramp&apos;s largest growing user role.
+          Invited cardholders had been dropping off when account creation felt
+          long, opaque, or misaligned with how admins expected invites to work.
+        </p>
+      </>
+    ),
     metrics: [
-      { value: "—", label: "COMPLETION RATE" },
-      { value: "—", label: "TIME TO FIRST CARD" },
-      { value: "—", label: "SUPPORT CONTACTS" },
+      { value: "94%", label: "COMPLETION RATE" },
+      {
+        value: "2.4×",
+        label: "MORE NEW USERS TRANSACTED IN FIRST 24 HOURS",
+      },
+      {
+        value: "5 days",
+        valuePill: "↑60%",
+        label: "TIME TO FIRST TRANSACTION",
+      },
+      {
+        value: "0",
+        valuePill: "↓ from 0.032",
+        label: "SUPPORT TICKETS / USER IN FIRST 30 DAYS",
+      },
     ],
     stuffBullets: [
-      "Rebuilt the invite-to-active journey around explicit milestones and human-readable errors.",
-      "Collaborated with engineering on validation order so users see the next unblocker, not a wall of fields.",
-      "Aligned admin and cardholder views so expectations match on both sides of an invite.",
+      "Rewrote the invite email for employees.",
+      "Updated UI, copy, and assets to match the new design system and language changes for employee onboarding.",
     ],
     screenGrid: {
       layout: "mg2",
       cells: [
         {
-          aspect: "wide",
-          src: "/ramp/spend/cardholder-creation-screen-a.png",
-          placeholderLabel: "WIDE — Primary web view",
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-creation-invite-email-before.png",
+          srcAfter: "/ramp/spend/cardholder-creation-invite-email-after.png",
+          alt: "Gmail inbox showing the previous employee invite email from Ramp QA",
+          altAfter:
+            "Gmail inbox showing the redesigned employee invite email: Set up your Ramp account with updated copy and CTA",
+          placeholderLabel: "Screen 1",
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-creation-screen-b.png",
-          placeholderLabel: "Screen A",
+          src: "/ramp/spend/cardholder-onboarding-before-02-create-account.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-02-create-account.png",
+          alt: "Before: employee account creation with Google sign-in, testimonial card, and legal footer",
+          altAfter:
+            "After: streamlined invite copy, Continue with Google, and co-branded card visual",
+          placeholderLabel: "Screen 2",
         },
-        { aspect: "r16-9", placeholderLabel: "Screen B" },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-03-welcome.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-03-spend-overview.png",
+          alt: "Before: welcome step with numbered tips and lifestyle imagery",
+          altAfter:
+            "After: spend overview with stipends, virtual cards, and Ramp card mockup",
+          placeholderLabel: "Screen 3",
+        },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-04-expense-policy.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-04-expense-policy.png",
+          alt: "Before: read and sign company expense policy with document viewer",
+          altAfter:
+            "After: review and sign with legal name field and inline policy preview",
+          placeholderLabel: "Screen 4",
+        },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-05-mailing-address.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-05-mail-card.png",
+          alt: "Before: add mailing address for physical card delivery",
+          altAfter:
+            "After: mail your Ramp card with live address preview on envelope graphic",
+          placeholderLabel: "Screen 5",
+        },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-07-verify-phone.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-07-verify-phone.png",
+          alt: "Before: verify phone with SMS option and phone mockup",
+          altAfter:
+            "After: verify phone number with refined copy and richer SMS thread mockup",
+          placeholderLabel: "Screen 6",
+        },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-08-authenticator.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-08-authenticator.png",
+          alt: "Before: set up authenticator app step with phone mockup",
+          altAfter:
+            "After: authenticator setup with laptop dashboard graphic and Okta-style overlay",
+          placeholderLabel: "Screen 7",
+        },
+        {
+          aspect: "r16-9",
+          src: "/ramp/spend/cardholder-onboarding-before-09-setup-guide.png",
+          srcAfter: "/ramp/spend/cardholder-onboarding-after-09-mobile-wallet.png",
+          alt: "Before: in-app setup guide checklist and search hint toast",
+          altAfter:
+            "After: add card to mobile wallet with QR, store links, and phone mockup",
+          placeholderLabel: "Screen 8",
+        },
       ],
     },
-    learnings: [
-      "Activation is a trust curve: every unexplained pause looks like a bug.",
-      "Copy is infrastructure in onboarding; treat it like engineering reliability.",
-      "Admins and cardholders need paired mental models, not two different stories.",
-    ],
     credits: [
       {
-        role: "ENGINEERING",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "ENGINEER",
+        name: "Kishan",
+        linkedInUrl: "https://www.linkedin.com/in/kishansripada/",
       },
       {
-        role: "DATA",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "PRODUCT OPERATIONS",
+        name: "Sherry",
+        linkedInUrl: "https://www.linkedin.com/in/sherryywang/",
       },
       {
-        role: "PRODUCT",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "DESIGN MANAGER",
+        name: "Catherine",
+        linkedInUrl: "https://www.linkedin.com/in/bathren/",
+      },
+      {
+        role: "LEAD DESIGNER",
+        name: "Logan",
+        linkedInUrl: "https://www.linkedin.com/in/loganwillmott/",
       },
     ],
   },
@@ -83,28 +167,42 @@ export const rampSpendEpisodes: RampEpisode[] = [
     status: "past",
     yearLabel: "2025",
     employment: "Full-time",
-    metaYear: "2025",
+    metaYear: "H2 2025",
     tools,
     externalHref: "https://ramp.com",
     externalLabel: "ramp.com",
-    logline:
-      "A story of compressing complexity into a drawer people actually want to open.",
+    logline: "A lesson in caring ruthlessly about the details",
     onePagerHref: "/ramp/spend/unified-wallet-one-pager.pdf",
     hero: {
       aspect: "web",
       src: "/ramp/spend/unified-wallet-hero.png",
       alt: "Unified Wallet Drawer hero",
     },
-    outcome: {
-      problem:
-        "Spend limits, balances, and program details were fragmented across views, which made quick decisions harder for admins and power users.",
-      outcome:
-        "Introduced a unified wallet drawer that surfaces the most decision-relevant information first, with clear drill-downs for the rest.",
-    },
+    outcomeRich: (
+      <>
+        <p>
+          Pitched, designed, and led rollout to SuperGA for a project that
+          consolidated three separate drawers—Physical Card, Funds, and Switch
+          Funds—into one unified <strong>Wallet</strong> drawer with four
+          states.
+        </p>
+        <ul className={styles.chBullets}>
+          <li>
+            Zero customer disruption or negative feedback during rollout on a
+            daily-use surface: <strong>zero tickets from CX</strong>, validated
+            via LogRocket sessions.
+          </li>
+          <li>
+            Cut design and tech debt, improved the mental model for cards and
+            funds, and reduced clicks to complete common actions.
+          </li>
+        </ul>
+      </>
+    ),
     metrics: [
-      { value: "—", label: "DRAWER OPENS" },
-      { value: "—", label: "TIME TO ANSWER" },
-      { value: "—", label: "NAVIGATION DEPTH" },
+      { value: "0", label: "CX TICKETS (ROLLOUT)" },
+      { value: "3→1", label: "DRAWERS CONSOLIDATED" },
+      { value: "4", label: "WALLET STATES" },
     ],
     stuffBullets: [
       "Information-architected the drawer around questions admins ask in reviews, not internal data models.",

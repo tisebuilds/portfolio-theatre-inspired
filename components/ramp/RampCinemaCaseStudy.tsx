@@ -135,24 +135,56 @@ function HeroImage({
 }
 
 function ScreenCell({ cell }: { cell: RampScreenCell }) {
-  const [failed, setFailed] = useState(false);
+  const [failedBefore, setFailedBefore] = useState(false);
+  const [failedAfter, setFailedAfter] = useState(false);
+  const [showAfter, setShowAfter] = useState(true);
   const isVideo = cell.media === "video";
-  const showMedia = Boolean(cell.src) && !failed;
+  const srcBefore = cell.src?.trim() ?? "";
+  const srcAfter = cell.srcAfter?.trim() ?? "";
+  const hasBeforeAfterPair =
+    !isVideo && Boolean(srcBefore) && Boolean(srcAfter);
+
+  useEffect(() => {
+    if (!hasBeforeAfterPair) return;
+    if (showAfter && failedAfter && !failedBefore) setShowAfter(false);
+    if (!showAfter && failedBefore && !failedAfter) setShowAfter(true);
+  }, [
+    hasBeforeAfterPair,
+    showAfter,
+    failedBefore,
+    failedAfter,
+  ]);
+
   const aspectClass =
     cell.aspect === "r16-9"
       ? styles["r16-9"]
-      : cell.aspect === "r4-3"
-        ? styles["r4-3"]
-        : cell.aspect === "r9-16"
-          ? styles["r9-16"]
-          : cell.aspect === "wide"
-            ? styles.wide
-            : styles.wide3;
+      : cell.aspect === "r1024-817"
+        ? styles["r1024-817"]
+        : cell.aspect === "r4-3"
+          ? styles["r4-3"]
+          : cell.aspect === "r9-16"
+            ? styles["r9-16"]
+            : cell.aspect === "wide"
+              ? styles.wide
+              : styles.wide3;
 
-  return (
-    <div className={`${styles.mc} ${aspectClass}`}>
-      {showMedia ? (
-        isVideo ? (
+  const labelBase = cell.placeholderLabel ?? "Screen";
+  const showBeforeImg = hasBeforeAfterPair && srcBefore && !failedBefore;
+  const showAfterImg = hasBeforeAfterPair && srcAfter && !failedAfter;
+  const anyPairImgOk = showBeforeImg || showAfterImg;
+  const showSingleImg =
+    !hasBeforeAfterPair && Boolean(cell.src) && !failedBefore;
+  const fallbackLabel = cell.placeholderLabel ?? "Screen";
+  const pairPlaceholder =
+    hasBeforeAfterPair && !anyPairImgOk ? (
+      <span className={styles.mcBaPlaceholder}>{labelBase}</span>
+    ) : null;
+
+  if (isVideo) {
+    const showVideo = Boolean(cell.src) && !failedBefore;
+    return (
+      <div className={`${styles.mc} ${aspectClass}`}>
+        {showVideo ? (
           // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen captures, no separate captions file
           <video
             src={cell.src}
@@ -160,18 +192,84 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
             playsInline
             preload="metadata"
             aria-label={cell.alt ?? cell.placeholderLabel ?? "Screen recording"}
-            onError={() => setFailed(true)}
+            onError={() => setFailedBefore(true)}
           />
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={cell.src}
-            alt={cell.alt ?? ""}
-            onError={() => setFailed(true)}
-          />
-        )
+          fallbackLabel
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`${styles.mc} ${aspectClass}`}
+      {...(hasBeforeAfterPair
+        ? {
+            role: "group",
+            "aria-label": `${labelBase}: before and after comparison`,
+          }
+        : {})}
+    >
+      {hasBeforeAfterPair ? (
+        <>
+          <div className={styles.mcBaStack}>
+            {showBeforeImg ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={srcBefore}
+                alt={cell.alt ?? `${labelBase} — before`}
+                className={showAfter ? styles.mcBaHidden : undefined}
+                aria-hidden={showAfter}
+                onError={() => setFailedBefore(true)}
+              />
+            ) : null}
+            {showAfterImg ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={srcAfter}
+                alt={cell.altAfter ?? `${labelBase} — after`}
+                className={!showAfter ? styles.mcBaHidden : undefined}
+                aria-hidden={!showAfter}
+                onError={() => setFailedAfter(true)}
+              />
+            ) : null}
+          </div>
+          {anyPairImgOk ? (
+            <div
+              className={styles.mcBaToggle}
+              role="group"
+              aria-label="Compare versions"
+            >
+              <button
+                type="button"
+                className={`${styles.mcBaToggleBtn} ${!showAfter ? styles.mcBaToggleBtnActive : ""}`}
+                aria-pressed={!showAfter}
+                onClick={() => setShowAfter(false)}
+              >
+                Before
+              </button>
+              <button
+                type="button"
+                className={`${styles.mcBaToggleBtn} ${showAfter ? styles.mcBaToggleBtnActive : ""}`}
+                aria-pressed={showAfter}
+                onClick={() => setShowAfter(true)}
+              >
+                After
+              </button>
+            </div>
+          ) : null}
+          {pairPlaceholder}
+        </>
+      ) : showSingleImg ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={cell.src}
+          alt={cell.alt ?? ""}
+          onError={() => setFailedBefore(true)}
+        />
       ) : (
-        cell.placeholderLabel ?? "Screen"
+        fallbackLabel
       )}
     </div>
   );
@@ -303,10 +401,19 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                     )}
                   </div>
                   {episode.metrics && episode.metrics.length > 0 ? (
-                    <div className={styles.metrics}>
+                    <div
+                      className={`${styles.metrics}${episode.metrics.length >= 4 ? ` ${styles.metrics2x2}` : ""}`}
+                    >
                       {episode.metrics.map((m) => (
                         <div key={m.label} className={styles.metric}>
-                          <div className={styles.metricVal}>{m.value}</div>
+                          <div className={styles.metricValRow}>
+                            <div className={styles.metricVal}>{m.value}</div>
+                            {m.valuePill ? (
+                              <span className={styles.metricValPill}>
+                                {m.valuePill}
+                              </span>
+                            ) : null}
+                          </div>
                           <div className={styles.metricLbl}>{m.label}</div>
                         </div>
                       ))}
@@ -862,10 +969,19 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                     )}
                   </div>
                   {episode.metrics && episode.metrics.length > 0 ? (
-                    <div className={styles.metrics}>
+                    <div
+                      className={`${styles.metrics}${episode.metrics.length >= 4 ? ` ${styles.metrics2x2}` : ""}`}
+                    >
                       {episode.metrics.map((m) => (
                         <div key={m.label} className={styles.metric}>
-                          <div className={styles.metricVal}>{m.value}</div>
+                          <div className={styles.metricValRow}>
+                            <div className={styles.metricVal}>{m.value}</div>
+                            {m.valuePill ? (
+                              <span className={styles.metricValPill}>
+                                {m.valuePill}
+                              </span>
+                            ) : null}
+                          </div>
                           <div className={styles.metricLbl}>{m.label}</div>
                         </div>
                       ))}
@@ -1097,20 +1213,12 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                 className={styles.epThumbLogo}
                 src="/logos/black/Ramp.png"
                 alt="Ramp"
-                width={35}
-                height={35}
+                width={14}
+                height={14}
                 decoding="async"
               />
             </div>
             <div className={styles.epInfo}>
-              {ep.status === "now" ? (
-                <div className={styles.epLive}>
-                  <div className={styles.epLiveDot} aria-hidden />
-                  NOW PLAYING
-                </div>
-              ) : (
-                <div className={styles.epPast}>{ep.yearLabel}</div>
-              )}
               <div className={styles.epNum}>
                 EP {String(activeEp + 1).padStart(2, "0")} /{" "}
                 {String(episodes.length).padStart(2, "0")}

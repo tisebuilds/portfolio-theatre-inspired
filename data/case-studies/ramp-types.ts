@@ -8,11 +8,15 @@ export type RampCredit = {
 
 export type RampMetric = {
   value: string;
+  /** Optional pill beside the value (e.g. change indicator). */
+  valuePill?: string;
   label: string;
 };
 
 export type RampScreenAspect =
   | "r16-9"
+  /** Matches 1024×817 product / onboarding captures in this portfolio */
+  | "r1024-817"
   | "r4-3"
   | "r9-16"
   | "wide"
@@ -23,6 +27,12 @@ export type RampScreenCell = {
   /** Public path e.g. `/ramp/treasury/move-money-screen-a.png` */
   src?: string;
   alt?: string;
+  /**
+   * Second still for the same screen; when set with `src` (and not `media: "video"`),
+   * a Before / After pill toggle is shown at the bottom of the cell.
+   */
+  srcAfter?: string;
+  altAfter?: string;
   placeholderLabel?: string;
   /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
   media?: "image" | "video";

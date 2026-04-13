@@ -403,6 +403,10 @@
   margin-top: 16px;
 }
 
+.chBody p + .chBullets {
+  margin-top: 16px;
+}
+
 .chBody p {
   margin: 0;
 }
@@ -457,9 +461,21 @@
   margin-top: 28px;
 }
 
+.metrics2x2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .metric {
   background: var(--surface);
   padding: 22px 24px;
+}
+
+.metricValRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 5px;
 }
 
 .metricVal {
@@ -467,8 +483,20 @@
   font-weight: 600;
   letter-spacing: -0.04em;
   color: var(--text);
-  margin-bottom: 5px;
   line-height: 1;
+}
+
+.metricValPill {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--text);
+  border-radius: 4px;
+  padding: 3px 8px 4px;
 }
 
 .metricLbl {
@@ -476,6 +504,7 @@
   color: var(--text-dim);
   letter-spacing: 0.06em;
   font-weight: 500;
+  line-height: 1.35;
 }
 
 .creditsIntro {
@@ -735,6 +764,9 @@
 }
 
 .epSwitcher {
+  --ep-num-size: 11px;
+  --ep-num-line-height: 1.25;
+
   display: flex;
   align-items: center;
   gap: 10px;
@@ -742,8 +774,8 @@
 }
 
 .epThumb {
-  width: 35px;
-  height: 35px;
+  width: calc(var(--ep-num-size) * var(--ep-num-line-height));
+  height: calc(var(--ep-num-size) * var(--ep-num-line-height));
   background: var(--surface3);
   border: 1px solid var(--pill-border);
   border-radius: 8px;
@@ -762,8 +794,11 @@
 
 .epThumb img.epThumbLogo {
   object-fit: contain;
-  padding: 6px;
+  width: 50%;
+  height: 50%;
+  padding: 0;
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .epInfo {
@@ -799,7 +834,8 @@
 }
 
 .epNum {
-  font-size: 11px;
+  font-size: var(--ep-num-size);
+  line-height: var(--ep-num-line-height);
   font-weight: 600;
   color: var(--text);
   letter-spacing: 0.04em;
@@ -942,8 +978,86 @@
   object-fit: cover;
 }
 
+.mcBaStack {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.mcBaStack img {
+  transition: opacity 0.2s ease;
+}
+
+.mcBaStack img.mcBaHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mcBaToggle {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.92);
+  border: 1px solid var(--pill-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.mcBaToggleBtn {
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  background: transparent;
+  padding: 7px 16px;
+  border-radius: 999px;
+  line-height: 1;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.mcBaToggleBtn:hover {
+  color: var(--text);
+}
+
+.mcBaToggleBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mcBaToggleBtnActive {
+  background: var(--surface3);
+  color: var(--text);
+}
+
+.mcBaPlaceholder {
+  position: relative;
+  z-index: 0;
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 12px;
+}
+
 .r16-9 {
   aspect-ratio: 16 / 9;
+}
+
+.r1024-817 {
+  aspect-ratio: 1024 / 817;
 }
 
 .r4-3 {

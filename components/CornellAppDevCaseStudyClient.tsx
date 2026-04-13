@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { type CSSProperties } from "react";
+import { CaseStudyPageShell } from "@/components/CaseStudyPageShell";
+import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
 const apps = [
   {
@@ -57,56 +59,6 @@ const PHONE_BASE_W = 260;
 const PHONE_BASE_H = 530;
 
 const phoneBackSrc = "/images/iphone-16-plus-pink-back.png";
-
-function MetaDot() {
-  return (
-    <span className="select-none text-white/25" aria-hidden>
-      ·
-    </span>
-  );
-}
-
-function ExternalLinkIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width={11}
-      height={11}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <path d="M15 3h6v6" />
-      <path d="M10 14 21 3" />
-    </svg>
-  );
-}
-
-function JournalIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width={12}
-      height={12}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-      <path d="M8 7h8M8 11h6" />
-    </svg>
-  );
-}
 
 const sideButtonMetal: CSSProperties = {
   background: `linear-gradient(
@@ -339,27 +291,13 @@ function PhoneMockup() {
 
 export function CornellAppDevCaseStudyClient() {
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] flex-col bg-black font-sans text-white">
-      <main className="mx-auto w-full max-w-4xl flex-1 px-6 pb-16 pt-6 sm:px-8">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-normal text-neutral-200">
-            Cornell AppDev
-          </h1>
-          <span className="inline-flex h-5 shrink-0 items-center rounded-sm bg-white/[0.06] px-2.5 text-xs font-medium tabular-nums tracking-tight text-white/55">
-            2020 — 2022
-          </span>
-          <a
-            href="https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Journal entry (opens in new tab)"
-            className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-sm bg-white/[0.06] text-white/55 transition-colors hover:text-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-          >
-            <JournalIcon />
-          </a>
-        </div>
-
-        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/45">
+    <CaseStudyPageShell
+      title="Cornell AppDev"
+      dateRange="2020 — 2022"
+      journalUrl="https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html"
+      glowBackground="radial-gradient(ellipse 70% 58% at 50% 38%, rgba(244, 184, 218, 0.14), transparent 70%)"
+      meta={
+        <>
           <span>Designer</span>
           <MetaDot />
           <span>iOS, Android & Web</span>
@@ -392,29 +330,10 @@ export function CornellAppDevCaseStudyClient() {
             cornellappdev.com
             <ExternalLinkIcon className="opacity-70" />
           </a>
-        </p>
-
-        <section
-          className="relative mt-8 flex min-h-[min(52vh,480px)] justify-center pt-3 pb-8 sm:mt-10 sm:pt-4 sm:pb-12"
-          aria-label="Product showcase"
-        >
-          <div
-            className="pointer-events-none absolute inset-0 flex justify-center pt-[min(4vh,1.5rem)]"
-            aria-hidden
-          >
-            <div
-              className="h-[min(60vh,500px)] w-[min(92vw,520px)]"
-              style={{
-                background:
-                  "radial-gradient(ellipse 70% 58% at 50% 38%, rgba(244, 184, 218, 0.14), transparent 70%)",
-              }}
-            />
-          </div>
-          <div className="relative z-[1] flex items-center justify-center">
-            <PhoneMockup />
-          </div>
-        </section>
-      </main>
-    </div>
+        </>
+      }
+    >
+      <PhoneMockup />
+    </CaseStudyPageShell>
   );
 }

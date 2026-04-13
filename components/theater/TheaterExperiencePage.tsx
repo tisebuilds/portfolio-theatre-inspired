@@ -28,7 +28,7 @@ const ROLE_MAP: Record<string, string> = {
   figma: "Design Intern",
   meta: "Product Design Intern",
   disney: "UX Design Intern",
-  colorstack: "Product Designer",
+  colorstack: "Contract Graphic Designer",
   appdev: "Product Designer",
 };
 

@@ -129,8 +129,9 @@
     "logo": "/logos/black/ColorStack.png",
     "logoHover": "/logos/white/ColorStack.png",
     "poster": "/posters/colorstack.png",
-    "dateRange": "2020",
+    "dateRange": "2020–2021",
     "description": "Community and career platform design.",
+    "journalUrl": "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=12",
     "whatShipped": [
       {"slug": "member-directory", "label": "Member directory"},
       {"slug": "event-signup", "label": "Event signup"},

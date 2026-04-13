@@ -6,6 +6,9 @@ type CrtTelevisionProps = {
   channelNumber?: number;
   onChannelUp?: () => void;
   onChannelDown?: () => void;
+  /** Label under the control row (default: Projects TV) */
+  footerLabel?: string;
+  className?: string;
 };
 
 export function CrtTelevision({
@@ -14,12 +17,14 @@ export function CrtTelevision({
   channelNumber,
   onChannelUp,
   onChannelDown,
+  footerLabel = "Projects TV",
+  className,
 }: CrtTelevisionProps) {
   const hasChannelControls =
     channelNumber !== undefined && onChannelUp && onChannelDown;
 
   return (
-    <div className="relative mx-auto w-full max-w-3xl">
+    <div className={`relative mx-auto w-full max-w-3xl ${className ?? ""}`}>
       <div className="relative rounded sm:rounded-lg border border-neutral-700 bg-neutral-800 p-1.5 sm:p-3 sm:pb-2.5">
         <div className="relative aspect-video overflow-hidden rounded-sm sm:rounded bg-black">
           {children}
@@ -61,7 +66,7 @@ export function CrtTelevision({
                 </button>
               </div>
               <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
-                Projects TV
+                {footerLabel}
               </span>
             </div>
           ) : (
@@ -72,7 +77,7 @@ export function CrtTelevision({
                 <div className="h-3 w-3 sm:h-4 sm:w-4 rounded bg-neutral-500" />
               </div>
               <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
-                Projects TV
+                {footerLabel}
               </span>
             </div>
           )}

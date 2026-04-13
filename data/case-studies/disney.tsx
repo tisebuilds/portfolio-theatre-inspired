@@ -169,6 +169,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
       "UX design intern bringing people together through Disney streaming",
     priority: true,
   },
+  learningsLayout: "stacked",
   overview: (
     <p>
       I designed a paired OTT and mobile user experience to enhance virtual

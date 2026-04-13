@@ -1,7 +1,7 @@
 import type { StandardWorkCaseStudyProps } from "@/components/StandardWorkCaseStudy";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
-import { caseStudyType } from "@/components/case-study-typography";
+import { FigmaCaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
 const experiences = workData as WorkExperience[];
@@ -12,24 +12,76 @@ if (!figmaExp?.poster) {
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   [
-    { name: "Soundharya Muthukrishnan" },
-    { name: "Caro Choi" },
-    { name: "Ry Reid" },
-    { name: "Abby Jetmundsen" },
+    {
+      name: "Soundharya Muthukrishnan",
+      role: "Design Manager",
+      href: "https://www.linkedin.com/in/soundharya-muthukrishnan/",
+    },
+    {
+      name: "Caro Choi",
+      role: "Design Recruiter",
+      href: "https://www.linkedin.com/in/carolynnchoi/",
+    },
+    {
+      name: "Ry Reid",
+      role: "Design Mentor",
+      href: "https://www.linkedin.com/in/imryanreid/",
+    },
+    {
+      name: "Abby Jetmundsen",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/abbyjetmundsen/",
+    },
   ],
   [
-    { name: "Miah Sanchez" },
-    { name: "Tamisha Lubin" },
-    { name: "Peter Liang" },
-    { name: "Cai Charniga" },
-    { name: "Oscar Dumlao" },
+    {
+      name: "Miah Sanchez",
+      role: "Engineer Mentor",
+      href: "https://www.linkedin.com/in/miahsanchez/",
+    },
+    { name: "Tamisha Lubin", role: "Office Manager" },
+    {
+      name: "Peter Liang",
+      role: "Engineer",
+      href: "https://www.linkedin.com/in/liang-peter/",
+    },
+    {
+      name: "Cai Charniga",
+      role: "Design Ops",
+      href: "https://www.linkedin.com/in/ccharniga/",
+    },
+    {
+      name: "Oscar Dumlao",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/oscardumlao/",
+    },
   ],
   [
-    { name: "Helena Jaramillo" },
-    { name: "Jordan Hsu" },
-    { name: "Kylie To" },
-    { name: "Joel Miller" },
-    { name: "Daniel Woodling" },
+    {
+      name: "Helena Jaramillo",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/helenajaramillo/",
+    },
+    {
+      name: "Jordan Hsu",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/jordanhsu/",
+    },
+    {
+      name: "Kylie To",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/kylie-t/",
+    },
+    {
+      name: "Joel Miller",
+      role: "Designer",
+      href: "https://www.linkedin.com/in/jmillerli/",
+    },
+    {
+      name: "Daniel Woodling",
+      role: "Motion Designer",
+      href: "https://www.linkedin.com/in/daniel-woodling-1b44641b/",
+    },
   ],
 ];
 
@@ -39,9 +91,11 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
   dateRange: figmaExp.dateRange,
   meta: (
     <>
-      <span>Growth design intern</span>
+      <span>Product Design Intern, Growth-Monetization</span>
       <MetaDot />
-      <span>Driving upgrades for Figma products</span>
+      <span>Web</span>
+      <MetaDot />
+      <FigmaCaseStudyToolLogoStrip />
       <MetaDot />
       <a
         href="https://www.figma.com"
@@ -55,27 +109,13 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
     </>
   ),
   hero: {
-    src: figmaExp.poster,
-    alt: "Figma internship — hero visual from work poster.",
-    caption: "Driving upgrades for Figma products",
+    src: "/posters/figma-case-study-hero.png",
+    alt: "Isometric illustration of layered Figma-style editor windows on a mint background.",
+    caption: "Growth Design Intern Driving Upgrades for Figma Products",
     priority: true,
   },
   overview: (
     <div className="flex flex-col gap-6">
-      <p className={caseStudyType.bodySecondary}>
-        <span className="font-semibold text-neutral-200">Role:</span> Product
-        Design Intern, Growth-Monetization.{" "}
-        <span className="font-semibold text-neutral-200">Team:</span> 1 Design
-        Mentor, 8 Product Designers, 1 Software Engineer, 1 Product Manager, 1
-        UX Writer.{" "}
-        <span className="font-semibold text-neutral-200">Timeline:</span> June
-        to Sep 2023 (16 weeks).{" "}
-        <span className="font-semibold text-neutral-200">Tools:</span> Figma,
-        FigJam, Dropbox Paper, Slack, Loom.{" "}
-        <span className="font-semibold text-neutral-200">Skills:</span> Visual
-        Design, Interaction Design, Copy writing, Strategy, Experimentation,
-        Animation, Storytelling.
-      </p>
       <p>
         Before Figma, I only knew how to design or &apos;push pixels.&apos;
         With this internship, I learned how to do the job of a Product Designer.

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { SVGProps } from "react";
 
 /** Logos from Simple Icons (CC0) — compact row for case study meta. */
@@ -81,6 +82,84 @@ export function CaseStudyToolLogoStrip() {
       </span>
       <span className="inline-flex" title="Loom">
         <LoomToolLogo />
+      </span>
+    </span>
+  );
+}
+
+const metaRowImage = "h-5 w-5 shrink-0 object-contain";
+const metaRowMonoSvg = "h-5 w-5 shrink-0 text-white/55";
+
+/** Dropbox (Simple Icons, CC0) — used for Dropbox Paper in tool rows. */
+function DropboxToolLogoMeta() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      className={metaRowMonoSvg}
+      aria-hidden
+    >
+      <path
+        fill="currentColor"
+        d="M6 1.807L0 5.629l6 3.822 6.001-3.822L6 1.807zM18 1.807l-6 3.822 6 3.822 6-3.822-6-3.822zM0 13.274l6 3.822 6.001-3.822L6 9.452l-6 3.822zM18 9.452l-6 3.822 6 3.822 6-3.822-6-3.822zM6 18.371l6.001 3.822 6-3.822-6-3.822L6 18.371z"
+      />
+    </svg>
+  );
+}
+
+function LoomToolLogoMeta() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      className={metaRowMonoSvg}
+      aria-hidden
+    >
+      <path
+        fill="currentColor"
+        d="M24 10.665h-7.018l6.078-3.509-1.335-2.312-6.078 3.509 3.508-6.077L16.843.94l-3.508 6.077V0h-2.67v7.018L7.156.94 4.844 2.275l3.509 6.077-6.078-3.508L.94 7.156l6.078 3.509H0v2.67h7.017L.94 16.844l1.335 2.313 6.077-3.508-3.509 6.077 2.312 1.335 3.509-6.078V24h2.67v-7.017l3.508 6.077 2.312-1.335-3.509-6.078 6.078 3.509 1.335-2.313-6.077-3.508h7.017v-2.67H24zm-12 4.966a3.645 3.645 0 1 1 0-7.29 3.645 3.645 0 0 1 0 7.29z"
+      />
+    </svg>
+  );
+}
+
+/** Matches Disney case study meta: PNG app icons + mono SVGs where needed. */
+export function FigmaCaseStudyToolLogoStrip() {
+  return (
+    <span
+      className="inline-flex items-center gap-1 align-middle"
+      role="img"
+      aria-label="Figma, FigJam, Dropbox Paper, Slack, Loom"
+    >
+      <Image
+        src="/images/figma-app-icon.png"
+        alt=""
+        width={20}
+        height={20}
+        className={metaRowImage}
+        sizes="20px"
+      />
+      <Image
+        src="/images/figjam-app-icon.png"
+        alt=""
+        width={20}
+        height={20}
+        className={metaRowImage}
+        sizes="20px"
+      />
+      <span className="inline-flex" title="Dropbox Paper">
+        <DropboxToolLogoMeta />
+      </span>
+      <Image
+        src="/images/slack-app-icon.png"
+        alt=""
+        width={20}
+        height={20}
+        className={metaRowImage}
+        sizes="20px"
+      />
+      <span className="inline-flex" title="Loom">
+        <LoomToolLogoMeta />
       </span>
     </span>
   );

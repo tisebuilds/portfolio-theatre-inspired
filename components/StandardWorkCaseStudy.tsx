@@ -31,6 +31,8 @@ export type StandardWorkCaseStudyProps = {
     priority?: boolean;
   };
   overview: ReactNode;
+  /** `split` = title and body on one row; `stacked` = title above body (single column). */
+  learningsLayout?: "split" | "stacked";
   learnings: StandardWorkCaseStudyLearning[];
   creditsIntro: string;
   creditsColumns: StandardWorkCaseStudyCredit[][];
@@ -94,6 +96,7 @@ export function StandardWorkCaseStudy({
   meta,
   hero,
   overview,
+  learningsLayout = "split",
   learnings,
   creditsIntro,
   creditsColumns,
@@ -149,12 +152,24 @@ export function StandardWorkCaseStudy({
             {learnings.map((item, index) => (
               <div
                 key={`${idPrefix}-learning-${index}`}
-                className="flex items-baseline gap-x-2 sm:gap-x-3"
+                className={
+                  learningsLayout === "stacked"
+                    ? "flex flex-col gap-2 sm:gap-2.5"
+                    : "flex items-baseline gap-x-2 sm:gap-x-3"
+                }
               >
-                <dt className={`m-0 shrink-0 font-semibold ${caseStudyType.body}`}>
+                <dt
+                  className={`m-0 ${caseStudyType.bodySecondary}${
+                    learningsLayout === "split" ? " shrink-0" : ""
+                  }`}
+                >
                   {item.title}
                 </dt>
-                <dd className={`m-0 min-w-0 flex-1 ${caseStudyType.bodySecondary}`}>
+                <dd
+                  className={`m-0 ${caseStudyType.bodySecondary}${
+                    learningsLayout === "split" ? " min-w-0 flex-1" : ""
+                  }`}
+                >
                   {item.content}
                 </dd>
               </div>

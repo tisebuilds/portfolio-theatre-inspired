@@ -159,14 +159,14 @@ export function StandardWorkCaseStudy({
                 }
               >
                 <dt
-                  className={`m-0 ${caseStudyType.bodySecondary}${
+                  className={`m-0 ${caseStudyType.learningTitle}${
                     learningsLayout === "split" ? " shrink-0" : ""
                   }`}
                 >
                   {item.title}
                 </dt>
                 <dd
-                  className={`m-0 ${caseStudyType.bodySecondary}${
+                  className={`m-0 ${caseStudyType.learningBody}${
                     learningsLayout === "split" ? " min-w-0 flex-1" : ""
                   }`}
                 >

@@ -1,6 +1,10 @@
 export function MetaDot() {
   return (
-    <span className="select-none text-white/25" aria-hidden>
+    <span
+      className="select-none text-white/25"
+      aria-hidden
+      data-case-meta-sep
+    >
       ·
     </span>
   );

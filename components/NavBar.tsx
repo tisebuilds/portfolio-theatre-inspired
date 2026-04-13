@@ -5,13 +5,14 @@ import { usePathname } from "next/navigation";
 import { useRef, useEffect, useState } from "react";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
+import {
+  SITE_EMAIL as EMAIL,
+  SITE_LINKEDIN as LINKEDIN_URL,
+  SITE_RESUME as RESUME_URL,
+  SITE_TWITTER as TWITTER_URL,
+} from "@/lib/site";
 
 const experiences = workData as WorkExperience[];
-
-const LINKEDIN_URL = "https://linkedin.com/in/tise-faith-alatise";
-const TWITTER_URL = "https://x.com/tisebuilds";
-const RESUME_URL = "/resume.pdf";
-const EMAIL = "tisebuilds@gmail.com";
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (

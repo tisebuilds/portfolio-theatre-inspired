@@ -118,12 +118,12 @@ export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
       <CaseStudyToolLogoStrip />
       <MetaDot />
       <a
-        href="https://www.metacareers.com/"
+        href="https://www.facebook.com/business/tools/ads-manager?content_id=fi8QbwKUHA4M85r&ref=sem_smb&utm_term=meta%20ads%20manager&gclid=CjwKCAjwhe3OBhABEiwA6392zJUmY1gdPqGAt9UTFzkVEMscUHDervvuFgVTkJnl4_PnLTa0kRwqXBoCrgEQAvD_BwE&gad_source=1&gad_campaignid=21440510836&gbraid=0AAAAACr-yC89V710_PsOee_AmVxRz-h6-"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-1 text-inherit transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
       >
-        Meta Careers
+        Meta Ads Manager
         <ExternalLinkIcon className="opacity-70" />
       </a>
     </>

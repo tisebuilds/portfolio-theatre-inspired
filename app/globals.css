@@ -329,3 +329,7 @@
     transform: rotate(-360deg);
   }
 }
+
+body.ramp-cinema {
+  padding-top: 0;
+}

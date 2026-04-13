@@ -3,6 +3,16 @@ import { Inter, Caveat } from "next/font/google";
 import { NavBar } from "@/components/NavBar";
 import "./globals.css";
 
+function siteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL);
+  }
+  if (process.env.VERCEL_URL) {
+    return new URL(`https://${process.env.VERCEL_URL}`);
+  }
+  return new URL("http://localhost:3000");
+}
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -16,6 +26,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl(),
   title: "Product design portfolio",
   description: "Product design portfolio — work experiences & projects",
 };

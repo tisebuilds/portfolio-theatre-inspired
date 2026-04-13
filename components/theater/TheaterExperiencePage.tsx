@@ -238,7 +238,7 @@ function LearningsScene({ exp }: { exp: WorkExperience }) {
               {ROMAN[i] ?? i + 1}
             </span>
             <p
-              className="text-[14px] leading-relaxed"
+              className="text-[14px] leading-[1.85]"
               style={{ color: TEXT_SEC }}
             >
               {lesson}
@@ -382,7 +382,7 @@ function InfoBar({
           Learnings from {exp.title}
         </p>
         {lessons.map((lesson, i) => (
-          <p key={i} className="text-[12px] text-neutral-400">
+          <p key={i} className="text-[14px] leading-[1.85] text-neutral-400">
             {ROMAN[i] ?? i + 1}. {lesson}
           </p>
         ))}

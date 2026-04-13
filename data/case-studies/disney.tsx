@@ -105,7 +105,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
       <span>OTT &amp; mobile</span>
       <MetaDot />
       <span
-        className="inline-flex items-center gap-1"
+        className="inline-flex items-center gap-[5px]"
         role="img"
         aria-label="Figma, FigJam, Notion, Slack, Keynote"
       >

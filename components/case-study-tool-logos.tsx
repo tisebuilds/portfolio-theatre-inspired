@@ -68,7 +68,7 @@ export function LoomToolLogo() {
 export function CaseStudyToolLogoStrip() {
   return (
     <span
-      className="inline-flex items-center gap-2"
+      className="inline-flex items-center gap-[5px]"
       aria-label="Tools used: Figma, Google Docs, Workplace, and Loom"
     >
       <span className="inline-flex" title="Figma">
@@ -127,7 +127,7 @@ function LoomToolLogoMeta() {
 export function FigmaCaseStudyToolLogoStrip() {
   return (
     <span
-      className="inline-flex items-center gap-1 align-middle"
+      className="inline-flex items-center gap-[5px] align-middle"
       role="img"
       aria-label="Figma, FigJam, Dropbox Paper, Slack, Loom"
     >

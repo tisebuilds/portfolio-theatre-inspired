@@ -35,22 +35,6 @@
     "video": "https://www.youtube.com/watch?v=X_ZJH-SCsFA"
   },
   {
-    "slug": "coursegrab",
-    "title": "CourseGrab",
-    "externalUrl": "https://apps.apple.com/us/app/coursegrab/id1510823691",
-    "externalLinkLabel": "App Store",
-    "dateRange": "2021",
-    "poster": "/projects/coursegrab.png"
-  },
-  {
-    "slug": "volume",
-    "title": "Volume - Cornell News",
-    "externalUrl": "https://play.google.com/store/apps/details?id=com.cornellappdev.android.volume",
-    "externalLinkLabel": "Play Store",
-    "dateRange": "2022",
-    "poster": "/projects/volume.png"
-  },
-  {
     "slug": "htr",
     "title": "Handwriting Text Recognition (HTR)",
     "externalUrl": "https://docs.google.com/document/d/1bymvK891woAEUb7ftTYT2m_uFJ85pARJfDI1s9oAWlQ/edit?tab=t.0",

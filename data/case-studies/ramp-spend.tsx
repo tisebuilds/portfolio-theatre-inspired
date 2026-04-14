@@ -16,7 +16,7 @@ const tools = (
 export const rampSpendEpisodes: RampEpisode[] = [
   {
     title: "Employee onboarding",
-    pillSub: "From invite to first swipe without losing people in setup.",
+    pillSub: "From invite to first swipe while simplifying setup",
     status: "now",
     yearLabel: "'24 H2",
     titleTimingBadge: "2024",
@@ -172,7 +172,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
   },
   {
     title: "Wallet Drawer",
-    pillSub: "One place to see spend power without opening five tabs.",
+    pillSub:
+      "One place to see how you can spend without opening three drawers",
     status: "past",
     yearLabel: "2025",
     employment: "Full-time",

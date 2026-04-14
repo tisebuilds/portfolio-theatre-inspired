@@ -114,14 +114,21 @@ function HeroImage({
   src,
   alt,
   media = "image",
+  shouldLoad = true,
 }: {
   aspect: "web" | "mobile";
   src?: string;
   alt?: string;
   media?: "image" | "video";
+  /** When false, media is not requested (e.g. inactive episode in multi-player). */
+  shouldLoad?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
-  const showMedia = Boolean(src) && !failed;
+  const resolvedSrc = shouldLoad && src?.trim() ? src : undefined;
+  useEffect(() => {
+    if (shouldLoad) setFailed(false);
+  }, [shouldLoad, src]);
+  const showMedia = Boolean(resolvedSrc) && !failed;
   const isVideo = media === "video";
   const frameClass =
     showMedia && isVideo ? styles.heroMockVideoHug : heroFrameClass(aspect);
@@ -132,7 +139,8 @@ function HeroImage({
         isVideo ? (
           // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen capture, no separate captions file
           <video
-            src={src}
+            key={resolvedSrc}
+            src={resolvedSrc}
             controls
             playsInline
             preload="metadata"
@@ -141,7 +149,12 @@ function HeroImage({
           />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={src} alt={alt ?? ""} onError={() => setFailed(true)} />
+          <img
+            key={resolvedSrc}
+            src={resolvedSrc}
+            alt={alt ?? ""}
+            onError={() => setFailed(true)}
+          />
         )
       ) : (
         <HeroPlaceholder mobile={aspect === "mobile"} />
@@ -150,7 +163,14 @@ function HeroImage({
   );
 }
 
-function ScreenCell({ cell }: { cell: RampScreenCell }) {
+function ScreenCell({
+  cell,
+  shouldLoad = true,
+}: {
+  cell: RampScreenCell;
+  /** When false, cell media is not requested (inactive episode in multi-player). */
+  shouldLoad?: boolean;
+}) {
   const [failedBefore, setFailedBefore] = useState(false);
   const [failedAfter, setFailedAfter] = useState(false);
   const [showAfter, setShowAfter] = useState(true);
@@ -161,8 +181,16 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
   const isVideo = cell.media === "video";
   const srcBefore = cell.src?.trim() ?? "";
   const srcAfter = cell.srcAfter?.trim() ?? "";
+  const effectiveSrcBefore = shouldLoad ? srcBefore : "";
+  const effectiveSrcAfter = shouldLoad ? srcAfter : "";
   const hasBeforeAfterPair =
     !isVideo && Boolean(srcBefore) && Boolean(srcAfter);
+
+  useEffect(() => {
+    if (!shouldLoad) return;
+    setFailedBefore(false);
+    setFailedAfter(false);
+  }, [shouldLoad, srcBefore, srcAfter]);
 
   useEffect(() => {
     if (!hasBeforeAfterPair) return;
@@ -196,7 +224,9 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
   const aspectClass =
     cell.aspect === "intrinsic"
       ? styles.mcHug
-      : cell.aspect === "r16-9"
+      : cell.aspect === "r1-1"
+        ? styles["r1-1"]
+        : cell.aspect === "r16-9"
         ? styles["r16-9"]
         : cell.aspect === "r1024-817"
           ? styles["r1024-817"]
@@ -209,11 +239,13 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
                 : styles.wide3;
 
   const labelBase = cell.placeholderLabel ?? "Screen";
-  const showBeforeImg = hasBeforeAfterPair && srcBefore && !failedBefore;
-  const showAfterImg = hasBeforeAfterPair && srcAfter && !failedAfter;
+  const showBeforeImg =
+    hasBeforeAfterPair && Boolean(effectiveSrcBefore) && !failedBefore;
+  const showAfterImg =
+    hasBeforeAfterPair && Boolean(effectiveSrcAfter) && !failedAfter;
   const anyPairImgOk = showBeforeImg || showAfterImg;
   const showSingleImg =
-    !hasBeforeAfterPair && Boolean(cell.src) && !failedBefore;
+    !hasBeforeAfterPair && Boolean(effectiveSrcBefore) && !failedBefore;
   const fallbackLabel = cell.placeholderLabel ?? "Screen";
   const pairPlaceholder =
     hasBeforeAfterPair && !anyPairImgOk ? (
@@ -221,13 +253,14 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
     ) : null;
 
   if (isVideo) {
-    const showVideo = Boolean(cell.src) && !failedBefore;
+    const showVideo = Boolean(effectiveSrcBefore) && !failedBefore;
     return (
       <div className={`${styles.mc} ${aspectClass}`}>
         {showVideo ? (
           // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen captures, no separate captions file
           <video
-            src={cell.src}
+            key={effectiveSrcBefore}
+            src={effectiveSrcBefore}
             controls
             playsInline
             preload="metadata"
@@ -257,7 +290,7 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
             {showBeforeImg ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={srcBefore}
+                src={effectiveSrcBefore}
                 alt={cell.alt ?? `${labelBase} — before`}
                 className={showAfter ? styles.mcBaHidden : undefined}
                 aria-hidden={showAfter}
@@ -267,7 +300,7 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
             {showAfterImg ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={srcAfter}
+                src={effectiveSrcAfter}
                 alt={cell.altAfter ?? `${labelBase} — after`}
                 className={!showAfter ? styles.mcBaHidden : undefined}
                 aria-hidden={!showAfter}
@@ -369,7 +402,7 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
                         {showBeforeImg ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
-                            src={srcBefore}
+                            src={effectiveSrcBefore}
                             alt={cell.alt ?? `${labelBase} — before`}
                             className={showAfter ? styles.mcBaHidden : undefined}
                             aria-hidden={showAfter}
@@ -378,7 +411,7 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
                         {showAfterImg ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
-                            src={srcAfter}
+                            src={effectiveSrcAfter}
                             alt={
                               cell.altAfter ?? `${labelBase} — after`
                             }
@@ -422,7 +455,7 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
       ) : showSingleImg ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={cell.src}
+          src={effectiveSrcBefore}
           alt={cell.alt ?? ""}
           onError={() => setFailedBefore(true)}
         />
@@ -1193,6 +1226,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                       src={episode.hero.src}
                       alt={episode.hero.alt}
                       media={episode.hero.media}
+                      shouldLoad={p === activeEp}
                     />
                   ) : null}
                 </div>
@@ -1255,7 +1289,11 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                       </ul>
                       <div className={`${styles.mg} ${epGrid}`}>
                         {(episode.screenGrid?.cells ?? []).map((cell, i) => (
-                          <ScreenCell key={i} cell={cell} />
+                          <ScreenCell
+                            key={`p${p}-c${i}`}
+                            cell={cell}
+                            shouldLoad={p === activeEp}
+                          />
                         ))}
                       </div>
                     </>

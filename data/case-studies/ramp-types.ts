@@ -15,6 +15,8 @@ export type RampMetric = {
 
 export type RampScreenAspect =
   | "r16-9"
+  /** Square tile (e.g. 4×1 cinema rows). */
+  | "r1-1"
   /** Matches 1024×817 product / onboarding captures in this portfolio */
   | "r1024-817"
   | "r4-3"

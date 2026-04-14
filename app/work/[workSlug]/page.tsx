@@ -45,11 +45,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: "Ramp Treasury — Tise",
       description:
-        "Ramp Treasury work by Tise — Move Money, RBA Cashback Redemption, Quality of Life Updates.",
+        "Ramp Treasury work by Tise — Move Money, RBA cashback redemption, Quality of Life Updates.",
       openGraph: {
         title: "Ramp Treasury — Tise",
         description:
-          "Ramp Treasury work by Tise — Move Money, RBA Cashback Redemption, Quality of Life Updates.",
+          "Ramp Treasury work by Tise — Move Money, RBA cashback redemption, Quality of Life Updates.",
         images: [{ url: "/ramp/treasury/move-money-hero.png" }],
       },
     };

@@ -356,8 +356,12 @@
 }
 
 .heroMockVideoHug video {
+  width: 100%;
   height: auto;
   max-height: none;
+  display: block;
+  /* Box is sized from intrinsic aspect (width 100%, height auto); fill avoids letterboxing from `object-fit: contain` on `.heroMock video`. */
+  object-fit: fill;
 }
 
 .mockPh {
@@ -1071,7 +1075,12 @@ a.creditVal:focus-visible svg {
 }
 
 .mg4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* In a 2×2 grid, span-3 would overshoot; cap to full row width. */
+.mg4 .wide3 {
+  grid-column: span 2;
 }
 
 .mgStack {
@@ -1101,13 +1110,26 @@ a.creditVal:focus-visible svg {
   overflow: hidden;
 }
 
-.mc img,
-.mc video {
+.mc img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* contain = full frame visible inside the tile (cover was cropping screen captures). */
+.mc video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: #0a0a0a;
 }
 
 .mc.mcHug {
@@ -1300,6 +1322,10 @@ a.creditVal:focus-visible svg {
 
 .r16-9 {
   aspect-ratio: 16 / 9;
+}
+
+.r1-1 {
+  aspect-ratio: 1 / 1;
 }
 
 .r1024-817 {

@@ -38,8 +38,6 @@ export const rampSpendEpisodes: RampEpisode[] = [
       <>
         <p>
           Led redesign of onboarding for Ramp&apos;s largest growing user role.
-          Invited cardholders had been dropping off when account creation felt
-          long, opaque, or misaligned with how admins expected invites to work.
         </p>
       </>
     ),
@@ -171,7 +169,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
     ],
   },
   {
-    title: "Wallet Drawer",
+    title: "Wallet drawer",
     pillSub:
       "One place to see how you can spend without opening three drawers",
     status: "past",
@@ -326,28 +324,28 @@ export const rampSpendEpisodes: RampEpisode[] = [
       layout: "mg2",
       cells: [
         {
-          aspect: "r16-9",
+          aspect: "r9-16",
           media: "video",
           src: "/ramp/spend/akuma-updates-video-primary.mp4",
           alt: "Akuma tooling — primary web view",
           placeholderLabel: "WEB — Primary view",
         },
         {
-          aspect: "r16-9",
+          aspect: "r9-16",
           media: "video",
           src: "/ramp/spend/akuma-updates-video-web-detail.mp4",
           alt: "Akuma tooling — web detail",
           placeholderLabel: "Web detail",
         },
         {
-          aspect: "r16-9",
+          aspect: "r9-16",
           media: "video",
           src: "/ramp/spend/akuma-updates-video-mobile.mp4",
           alt: "Akuma tooling — mobile web",
           placeholderLabel: "Mobile web",
         },
         {
-          aspect: "r16-9",
+          aspect: "r9-16",
           media: "video",
           src: "/ramp/spend/akuma-updates-video-screen-detail.mp4",
           alt: "Akuma tooling — screen detail",
@@ -357,7 +355,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
     },
     credits: [
       {
-        role: "ENGINEERING",
+        role: "ENGINEER",
         name: "Gab Miranda",
         linkedInUrl: "https://www.linkedin.com/in/gabriel-miranda/",
       },

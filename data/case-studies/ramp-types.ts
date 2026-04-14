@@ -20,7 +20,9 @@ export type RampScreenAspect =
   | "r4-3"
   | "r9-16"
   | "wide"
-  | "wide3";
+  | "wide3"
+  /** Frame height follows the image; no fixed aspect crop (object-fit cover). */
+  | "intrinsic";
 
 export type RampScreenCell = {
   aspect: RampScreenAspect;
@@ -39,7 +41,7 @@ export type RampScreenCell = {
 };
 
 export type RampScreenGrid = {
-  layout: "mg2" | "mg3" | "mg4";
+  layout: "mg2" | "mg3" | "mg4" | "stack";
   cells: RampScreenCell[];
 };
 
@@ -69,11 +71,15 @@ export type RampEpisode = {
     aspect: "web" | "mobile";
     src?: string;
     alt?: string;
+    /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
+    media?: "image" | "video";
   };
   /** Skip hero mockup frame (pages that only had showcase body, e.g. AppDev phone). */
   hideHeroFrame?: boolean;
   /** Omit the “STUFF I WORKED ON” chapter rail (e.g. AppDev phone-only showcase). */
   hideStuffChapterHeader?: boolean;
+  /** Omit the “THINGS I LEARNED” chapter (learnings fields may stay in data). */
+  hideLearnings?: boolean;
   /** Halve default `.chapter` top padding for dense showcases (e.g. phone mockup). */
   stuffChapterTightTop?: boolean;
   outcome?: {

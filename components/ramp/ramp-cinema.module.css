@@ -1,5 +1,5 @@
 .root {
-  --bg: #0a0a0a;
+  --bg: #111111;
   --surface: #111111;
   --pill: #171717;
   --pill-border: #2c2c2c;
@@ -325,11 +325,30 @@
   aspect-ratio: 21 / 9;
 }
 
+/* Video heroes: frame height follows intrinsic aspect (after metadata loads). */
+.heroMockVideoHug {
+  display: block;
+  aspect-ratio: unset;
+  height: auto;
+}
+
 .heroMock img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.heroMock video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.heroMockVideoHug video {
+  height: auto;
+  max-height: none;
 }
 
 .mockPh {
@@ -914,7 +933,7 @@
   z-index: 100;
   white-space: nowrap;
   pointer-events: none;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(17, 17, 17, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border2);
@@ -954,6 +973,18 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.mgStack {
+  grid-template-columns: 1fr 1fr;
+  justify-items: stretch;
+  align-items: start;
+}
+
+/* Stack grid (2×2) + intrinsic captures: fill each cell; image still hugs intrinsic ratio. */
+.mgStack .mc.mcHug {
+  width: 100%;
+  max-width: 100%;
+}
+
 .mc {
   background: var(--surface);
   border: 1px solid var(--border2);
@@ -978,6 +1009,52 @@
   object-fit: cover;
 }
 
+.mc.mcHug {
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.mc.mcHug > img,
+.mc.mcHug > video {
+  position: static;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.mc.mcHug .mcBaStack {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  z-index: 1;
+  line-height: 0;
+}
+
+.mc.mcHug .mcBaStack img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.mc.mcHug .mcBaStack img:first-of-type {
+  position: relative;
+}
+
+.mc.mcHug .mcBaStack img:last-of-type:not(:first-of-type) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .mcBaStack {
   position: absolute;
   inset: 0;
@@ -988,9 +1065,15 @@
   transition: opacity 0.2s ease;
 }
 
+/* Inactive frame stays below the visible one so opacity:0 cannot paint over the active image. */
 .mcBaStack img.mcBaHidden {
+  z-index: 1;
   opacity: 0;
   pointer-events: none;
+}
+
+.mcBaStack img:not(.mcBaHidden) {
+  z-index: 2;
 }
 
 .mcBaBar {
@@ -1000,7 +1083,7 @@
   gap: 2px;
   padding: 3px;
   border-radius: 999px;
-  background: rgba(10, 10, 10, 0.92);
+  background: rgba(17, 17, 17, 0.92);
   border: 1px solid var(--pill-border);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
@@ -1288,7 +1371,7 @@
   align-items: center;
   justify-content: center;
   padding: 12px 16px;
-  background: #0a0a0a;
+  background: #111111;
   position: relative;
 }
 
@@ -1310,8 +1393,13 @@
 }
 
 .mcLightboxStack img.mcBaHidden {
+  z-index: 1;
   opacity: 0;
   pointer-events: none;
+}
+
+.mcLightboxStack img:not(.mcBaHidden) {
+  z-index: 2;
 }
 
 .mcLightboxFooter {

@@ -1,11 +1,15 @@
+import { CursorToolIcon } from "@/components/ramp/CursorToolIcon";
 import { FigmaToolIcon } from "@/components/ramp/FigmaToolIcon";
-import { GoogleDocsToolIcon } from "@/components/ramp/GoogleDocsToolIcon";
+import { SlackToolIcon } from "@/components/ramp/SlackToolIcon";
+import { VercelToolIcon } from "@/components/ramp/VercelToolIcon";
 import type { RampEpisode } from "./ramp-types";
 
 const tools = (
   <>
     <FigmaToolIcon />
-    <GoogleDocsToolIcon />
+    <SlackToolIcon />
+    <VercelToolIcon />
+    <CursorToolIcon />
   </>
 );
 
@@ -59,6 +63,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
     stuffBullets: [
       "Rewrote the invite email for employees.",
       "Updated UI, copy, and assets to match the new design system and language changes for employee onboarding.",
+      "Changed order of screens to enhance user education of Ramp product and increase feature engagement.",
     ],
     screenGrid: {
       layout: "mg2",
@@ -166,7 +171,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
     ],
   },
   {
-    title: "Unified Wallet Drawer",
+    title: "Wallet Drawer",
     pillSub: "One place to see spend power without opening five tabs.",
     status: "past",
     yearLabel: "2025",
@@ -177,39 +182,69 @@ export const rampSpendEpisodes: RampEpisode[] = [
     externalLabel: "ramp.com",
     logline: "A lesson in caring ruthlessly about the details",
     onePagerHref: "/ramp/spend/unified-wallet-one-pager.pdf",
+    hideLearnings: true,
     hero: {
       aspect: "web",
-      src: "/ramp/spend/unified-wallet-hero.png",
-      alt: "Unified Wallet Drawer hero",
+      media: "video",
+      src: "/ramp/spend/wallet-drawer-demo.mp4",
+      alt: "Wallet Drawer demo: unified wallet drawer interaction",
     },
     outcomeRich: (
       <p>
-        Pitched, designed, and led rollout to SuperGA for a project that
-        consolidated three separate drawers—Physical Card, Funds, and Switch
-        Funds—into one unified <strong>Wallet</strong> drawer with four states.
+        Pitched, designed, and led rollout to SuperGA for a re-design that had
+        zero customer disruption or negative feedback (zero tickets from CX)
+        on a high traffic surface.
       </p>
     ),
-    metrics: [
-      { value: "0", label: "CX TICKETS (ROLLOUT)" },
-      { value: "3→1", label: "DRAWERS CONSOLIDATED" },
-      { value: "4", label: "WALLET STATES" },
-    ],
     stuffBullets: [
-      "Cut design and tech debt, improved the mental model for cards and funds, and reduced clicks to complete common actions.",
-      "Designed responsive behavior so the same structure works beside tables and detail pages.",
-      "Worked with engineering on motion and focus management so the drawer felt lightweight, not modal-heavy.",
+      "Reduced design debt with visual design, fewer states, and more consistent interactions",
+      "Reduced tech debt via consolidation and refactor of repetitive content",
+      "Improved mental model for how cards and funds relate within Ramp",
+      "Decreased clicks for common actions (e.g., linking funds, termination)",
     ],
     screenGrid: {
-      layout: "mg3",
+      layout: "stack",
       cells: [
         {
-          aspect: "wide3",
-          src: "/ramp/spend/unified-wallet-screen-a.png",
+          aspect: "intrinsic",
+          src: "/ramp/spend/unified-wallet-before-primary.png",
+          alt:
+            "My funds drawer (before): virtual card with show details, lock, and replace; search and fund list with progress bars",
+          srcAfter: "/ramp/spend/unified-wallet-after-primary.png",
+          altAfter:
+            "Unified Wallet drawer on the Funds tab (after): grouped limits, virtual cards, and reimbursement-only funds",
           placeholderLabel: "WEB — Primary view",
         },
-        { aspect: "r4-3", placeholderLabel: "Web detail" },
-        { aspect: "r9-16", placeholderLabel: "Mobile web" },
-        { aspect: "r4-3", src: "/ramp/spend/unified-wallet-screen-b.png", placeholderLabel: "Screen detail" },
+        {
+          aspect: "intrinsic",
+          src: "/ramp/spend/unified-wallet-before-web-detail.png",
+          alt:
+            "My Ramp Card Overview (before): card details, Spending from with Switch, and Other available funds list",
+          srcAfter: "/ramp/spend/unified-wallet-after-web-detail.png",
+          altAfter:
+            "My wallet Ramp Card tab (after): card actions, expanded Design tooling fund with progress, and transactions",
+          placeholderLabel: "Web detail",
+        },
+        {
+          aspect: "intrinsic",
+          src: "/ramp/spend/unified-wallet-before-mobile.png",
+          alt:
+            "Wallet drawer on mobile web (before): My Ramp Card overview with card details, auto-match funds callout, and funds on this card",
+          srcAfter: "/ramp/spend/unified-wallet-after-mobile.png",
+          altAfter:
+            "Wallet drawer on mobile web (after): unified layout, Ramp Card, auto-matching, and empty transactions state",
+          placeholderLabel: "Mobile web",
+        },
+        {
+          aspect: "intrinsic",
+          src: "/ramp/spend/unified-wallet-before-screen-detail.png",
+          alt:
+            "Switch funds: auto-match funds unselected, manual fund selected (Vercel V0), and disabled save",
+          srcAfter: "/ramp/spend/unified-wallet-after-screen-detail.png",
+          altAfter:
+            "My wallet Ramp Card: Auto-matching expanded with auto-match funds selected, manual fund options, and save changes",
+          placeholderLabel: "Screen detail",
+        },
       ],
     },
     learnings: [
@@ -219,19 +254,39 @@ export const rampSpendEpisodes: RampEpisode[] = [
     ],
     credits: [
       {
-        role: "ENGINEERING",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "ENGINEER",
+        name: "Kiran Kunigiri",
+        linkedInUrl: "https://www.linkedin.com/in/kirankunigiri/",
       },
       {
-        role: "DATA",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "PRODUCT OPERATIONS",
+        name: "Sherry",
+        linkedInUrl: "https://www.linkedin.com/in/sherryywang/",
       },
       {
-        role: "PRODUCT",
-        name: "Ramp",
-        linkedInUrl: "https://www.linkedin.com/company/ramp/",
+        role: "DESIGN SYSTEMS & ENGINEER",
+        name: "Caroline",
+        linkedInUrl: "https://www.linkedin.com/in/curiouschaos/",
+      },
+      {
+        role: "ENGINEER",
+        name: "Jerry",
+        linkedInUrl: "https://www.linkedin.com/in/jerrytsui/",
+      },
+      {
+        role: "DESIGN MANAGER",
+        name: "Jason Li",
+        linkedInUrl: "https://www.linkedin.com/in/jasonzli/",
+      },
+      {
+        role: "LEAD DESIGNER",
+        name: "Catherine Wang",
+        linkedInUrl: "https://www.linkedin.com/in/bathren/",
+      },
+      {
+        role: "DESIGNER",
+        name: "Ariya Zheng",
+        linkedInUrl: "https://www.linkedin.com/in/ariyazheng/",
       },
     ],
   },

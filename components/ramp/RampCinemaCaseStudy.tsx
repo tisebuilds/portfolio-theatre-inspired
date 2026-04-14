@@ -48,6 +48,7 @@ function hasStuff(ep: RampEpisode): boolean {
 }
 
 function hasLearnings(ep: RampEpisode): boolean {
+  if (ep.hideLearnings) return false;
   if (ep.learningsRich != null) return true;
   return (ep.learnings?.length ?? 0) > 0;
 }
@@ -109,25 +110,44 @@ function HeroTitleCluster({
   );
 }
 
+function heroFrameClass(aspect: "web" | "mobile") {
+  return aspect === "web" ? styles.heroMockWeb : styles.heroMockMobile;
+}
+
 function HeroImage({
   aspect,
   src,
   alt,
+  media = "image",
 }: {
   aspect: "web" | "mobile";
   src?: string;
   alt?: string;
+  media?: "image" | "video";
 }) {
   const [failed, setFailed] = useState(false);
-  const showImg = Boolean(src) && !failed;
+  const showMedia = Boolean(src) && !failed;
+  const isVideo = media === "video";
+  const frameClass =
+    showMedia && isVideo ? styles.heroMockVideoHug : heroFrameClass(aspect);
 
   return (
-    <div
-      className={`${styles.heroMock} ${aspect === "web" ? styles.heroMockWeb : styles.heroMockMobile}`}
-    >
-      {showImg ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt ?? ""} onError={() => setFailed(true)} />
+    <div className={`${styles.heroMock} ${frameClass}`}>
+      {showMedia ? (
+        isVideo ? (
+          // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen capture, no separate captions file
+          <video
+            src={src}
+            controls
+            playsInline
+            preload="metadata"
+            aria-label={alt ?? "Case study hero video"}
+            onError={() => setFailed(true)}
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={src} alt={alt ?? ""} onError={() => setFailed(true)} />
+        )
       ) : (
         <HeroPlaceholder mobile={aspect === "mobile"} />
       )}
@@ -179,17 +199,19 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
   }, [lightboxOpen]);
 
   const aspectClass =
-    cell.aspect === "r16-9"
-      ? styles["r16-9"]
-      : cell.aspect === "r1024-817"
-        ? styles["r1024-817"]
-        : cell.aspect === "r4-3"
-          ? styles["r4-3"]
-          : cell.aspect === "r9-16"
-            ? styles["r9-16"]
-            : cell.aspect === "wide"
-              ? styles.wide
-              : styles.wide3;
+    cell.aspect === "intrinsic"
+      ? styles.mcHug
+      : cell.aspect === "r16-9"
+        ? styles["r16-9"]
+        : cell.aspect === "r1024-817"
+          ? styles["r1024-817"]
+          : cell.aspect === "r4-3"
+            ? styles["r4-3"]
+            : cell.aspect === "r9-16"
+              ? styles["r9-16"]
+              : cell.aspect === "wide"
+                ? styles.wide
+                : styles.wide3;
 
   const labelBase = cell.placeholderLabel ?? "Screen";
   const showBeforeImg = hasBeforeAfterPair && srcBefore && !failedBefore;
@@ -432,7 +454,9 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
       ? styles.mg2
       : layout === "mg3"
         ? styles.mg3
-        : styles.mg4;
+        : layout === "stack"
+          ? styles.mgStack
+          : styles.mg4;
 
   return (
     <div className={`${styles.root} ${styles.rootNoPlayer}`}>
@@ -520,6 +544,7 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                   aspect={episode.hero.aspect}
                   src={episode.hero.src}
                   alt={episode.hero.alt}
+                  media={episode.hero.media}
                 />
               ) : null}
             </div>
@@ -992,7 +1017,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                 ? styles.mg2
                 : layout === "mg3"
                   ? styles.mg3
-                  : styles.mg4;
+                  : layout === "stack"
+                    ? styles.mgStack
+                    : styles.mg4;
             const creditsList = episode.credits ?? [];
             return (
               <div
@@ -1090,6 +1117,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                       aspect={episode.hero.aspect}
                       src={episode.hero.src}
                       alt={episode.hero.alt}
+                      media={episode.hero.media}
                     />
                   ) : null}
                 </div>

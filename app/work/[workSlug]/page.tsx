@@ -58,11 +58,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: "Ramp Spend Management — Tise",
       description:
-        "Ramp Spend Management work by Tise — Employee onboarding, Unified Wallet Drawer, Quality of life updates for Akuma.",
+        "Ramp Spend Management work by Tise — Employee onboarding, Wallet Drawer, Quality of life updates for Akuma.",
       openGraph: {
         title: "Ramp Spend Management — Tise",
         description:
-          "Ramp Spend Management work by Tise — Employee onboarding, Unified Wallet Drawer, Quality of life updates for Akuma.",
+          "Ramp Spend Management work by Tise — Employee onboarding, Wallet Drawer, Quality of life updates for Akuma.",
         images: [{ url: "/ramp/spend/cardholder-creation-hero.png" }],
       },
     };
@@ -98,7 +98,7 @@ export default async function WorkCaseStudyPage({ params }: Props) {
       <Suspense
         fallback={
           <div
-            className="fixed inset-0 z-40 bg-[#0a0a0a]"
+            className="fixed inset-0 z-40 bg-[#111111]"
             aria-label="Loading case study"
           />
         }
@@ -112,7 +112,7 @@ export default async function WorkCaseStudyPage({ params }: Props) {
       <Suspense
         fallback={
           <div
-            className="fixed inset-0 z-40 bg-[#0a0a0a]"
+            className="fixed inset-0 z-40 bg-[#111111]"
             aria-label="Loading case study"
           />
         }

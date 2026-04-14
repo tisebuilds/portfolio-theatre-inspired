@@ -130,6 +130,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     externalHref: "https://ramp.com/treasury",
     externalLabel: "ramp.com",
     logline: "A lesson in operating on intuition",
+    hideLearnings: true,
     onePagerHref: "/ramp/treasury/move-money-one-pager.pdf",
     hero: {
       aspect: "web",

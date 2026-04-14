@@ -3,7 +3,11 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { RampEpisode, RampScreenCell } from "@/data/case-studies/ramp-types";
+import type {
+  RampEpisode,
+  RampEpisodeLearning,
+  RampScreenCell,
+} from "@/data/case-studies/ramp-types";
 import styles from "./ramp-cinema.module.css";
 
 type RampCinemaCaseStudyProps = {
@@ -36,6 +40,7 @@ function hasOutcome(ep: RampEpisode): boolean {
 }
 
 function hasStuff(ep: RampEpisode): boolean {
+  if (ep.hideStuffChapter) return false;
   if (ep.stuffRich != null) return true;
   const nBullets = ep.stuffBullets?.length ?? 0;
   const nCells = ep.screenGrid?.cells?.length ?? 0;
@@ -44,8 +49,60 @@ function hasStuff(ep: RampEpisode): boolean {
 
 function hasLearnings(ep: RampEpisode): boolean {
   if (ep.hideLearnings) return false;
+  if (ep.embedLearningsInStuffChapter) return false;
   if (ep.learningsRich != null) return true;
   return (ep.learnings?.length ?? 0) > 0;
+}
+
+function chapterSegmentsForEpisode(ep: RampEpisode): readonly string[] {
+  if (ep.hideStuffChapter && hasLearnings(ep)) {
+    return ["OVERVIEW", "OUTCOME", "THINGS I LEARNED", "CREDITS"];
+  }
+  return CHAPTER_SEGMENTS;
+}
+
+function hasEmbeddedStuffLearnings(ep: RampEpisode): boolean {
+  if (ep.hideLearnings) return false;
+  if (!ep.embedLearningsInStuffChapter) return false;
+  if (ep.learningsRich != null) return true;
+  return (ep.learnings?.length ?? 0) > 0;
+}
+
+function LearningTitleBody({ item }: { item: RampEpisodeLearning }) {
+  return (
+    <dl className={styles.chLessonDl}>
+      <dt className={styles.chLessonTitle}>{item.title}</dt>
+      <dd className={styles.chLessonDescription}>{item.description}</dd>
+    </dl>
+  );
+}
+
+function EpisodeLearningsSection({ episode }: { episode: RampEpisode }) {
+  return (
+    <>
+      <div className={styles.chHeader}>
+        <span className={styles.chName}>THINGS I LEARNED</span>
+        <div className={styles.chLine} />
+      </div>
+      {episode.learningsRich ? (
+        <div className={styles.stuffRich}>{episode.learningsRich}</div>
+      ) : (
+        <ul
+          className={`${styles.chBullets} ${styles.chBulletsLessons}`}
+        >
+          {(episode.learnings ?? []).map((b, i) => (
+            <li key={i}>
+              {typeof b === "string" ? (
+                b
+              ) : (
+                <LearningTitleBody item={b} />
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
 }
 
 function hasCredits(ep: RampEpisode): boolean {
@@ -115,6 +172,7 @@ function HeroImage({
   alt,
   media = "image",
   shouldLoad = true,
+  videoVariants,
 }: {
   aspect: "web" | "mobile";
   src?: string;
@@ -122,21 +180,83 @@ function HeroImage({
   media?: "image" | "video";
   /** When false, media is not requested (e.g. inactive episode in multi-player). */
   shouldLoad?: boolean;
+  videoVariants?: { label: string; src: string }[];
 }) {
   const [failed, setFailed] = useState(false);
-  const resolvedSrc = shouldLoad && src?.trim() ? src : undefined;
+  const [variantIndex, setVariantIndex] = useState(0);
+  const hasVideoVariants = Boolean(
+    videoVariants && videoVariants.length >= 2,
+  );
+  const effectiveMedia: "image" | "video" = hasVideoVariants
+    ? "video"
+    : media;
+
+  useEffect(() => {
+    setVariantIndex(0);
+  }, [videoVariants]);
+
+  const variantSrc =
+    hasVideoVariants && videoVariants
+      ? videoVariants[variantIndex]?.src?.trim()
+      : undefined;
+  const resolvedSrc = hasVideoVariants
+    ? shouldLoad && variantSrc
+      ? variantSrc
+      : undefined
+    : shouldLoad && src?.trim()
+      ? src
+      : undefined;
+
   useEffect(() => {
     if (shouldLoad) setFailed(false);
-  }, [shouldLoad, src]);
+  }, [shouldLoad, src, variantIndex, hasVideoVariants]);
+
   const showMedia = Boolean(resolvedSrc) && !failed;
-  const isVideo = media === "video";
+  const isVideo = effectiveMedia === "video";
   const frameClass =
     showMedia && isVideo ? styles.heroMockVideoHug : heroFrameClass(aspect);
+  const rootClass =
+    hasVideoVariants && showMedia && isVideo
+      ? `${styles.heroMock} ${styles.heroMockVideoHug} ${styles.heroMockVideoVariants}`
+      : `${styles.heroMock} ${frameClass}`;
 
   return (
-    <div className={`${styles.heroMock} ${frameClass}`}>
+    <div className={rootClass}>
       {showMedia ? (
-        isVideo ? (
+        isVideo && hasVideoVariants && videoVariants ? (
+          <div className={styles.heroVideoVariantInner}>
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen capture, no separate captions file */}
+            <video
+              key={resolvedSrc}
+              src={resolvedSrc}
+              controls
+              playsInline
+              preload="metadata"
+              aria-label={
+                alt ??
+                `${videoVariants[variantIndex]?.label ?? "Variant"} — case study hero video`
+              }
+              onError={() => setFailed(true)}
+            />
+            <div
+              className={`${styles.mcBaBar} ${styles.heroVariantBar}`}
+              role="toolbar"
+              aria-label="Hero recording variant"
+            >
+              {videoVariants.map((v, i) => (
+                <button
+                  key={v.src}
+                  type="button"
+                  className={`${styles.mcBaToggleBtn} ${i === variantIndex ? styles.mcBaToggleBtnActive : ""}`}
+                  aria-pressed={i === variantIndex}
+                  onClick={() => setVariantIndex(i)}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : isVideo ? (
           // eslint-disable-next-line jsx-a11y/media-has-caption -- portfolio screen capture, no separate captions file
           <video
             key={resolvedSrc}
@@ -572,6 +692,7 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                   src={episode.hero.src}
                   alt={episode.hero.alt}
                   media={episode.hero.media}
+                  videoVariants={episode.hero.videoVariants}
                 />
               ) : null}
             </div>
@@ -589,7 +710,9 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                   >
                     {episode.outcomeRich ?? (
                       <>
-                        <p>{episode.outcome!.problem}</p>
+                        {episode.outcome!.problem.trim() ? (
+                          <p>{episode.outcome!.problem}</p>
+                        ) : null}
                         <p>{episode.outcome!.outcome}</p>
                       </>
                     )}
@@ -640,35 +763,35 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                           <li key={i}>{b}</li>
                         ))}
                       </ul>
-                      <div className={`${styles.mg} ${epGrid}`}>
-                        {(episode.screenGrid?.cells ?? []).map((cell, i) => (
-                          <ScreenCell key={i} cell={cell} />
-                        ))}
-                      </div>
+                      {(episode.screenGrid?.cells?.length ?? 0) > 0 ? (
+                        <div className={`${styles.mg} ${epGrid}`}>
+                          {(episode.screenGrid?.cells ?? []).map((cell, i) => (
+                            <ScreenCell key={i} cell={cell} />
+                          ))}
+                        </div>
+                      ) : null}
                     </>
                   )}
+                  {hasEmbeddedStuffLearnings(episode) ? (
+                    <div className={styles.stuffEmbeddedLearnings}>
+                      <EpisodeLearningsSection episode={episode} />
+                    </div>
+                  ) : null}
                 </div>
               </>
             ) : null}
 
             {hasLearnings(episode) ? (
-              <div className={styles.chapter}>
-                  <div className={styles.chHeader}>
-                    <span className={styles.chName}>THINGS I LEARNED</span>
-                    <div className={styles.chLine} />
-                  </div>
-                  {episode.learningsRich ? (
-                    <div className={styles.stuffRich}>{episode.learningsRich}</div>
-                  ) : (
-                    <ul
-                      className={`${styles.chBullets} ${styles.chBulletsLessons}`}
-                    >
-                      {(episode.learnings ?? []).map((b, i) => (
-                        <li key={i}>{b}</li>
-                      ))}
-                    </ul>
-                  )}
+              <>
+                {!hasStuff(episode) ? (
+                  <span className={styles.chAnchor} id="p0-ch2" />
+                ) : null}
+                <div className={styles.chapter}>
+                  <EpisodeLearningsSection episode={episode} />
                 </div>
+              </>
+            ) : !hasStuff(episode) ? (
+              <span className={styles.chAnchor} id="p0-ch2" />
             ) : null}
 
             {hasCredits(episode) ? (
@@ -1086,6 +1209,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   ]);
 
   const ep = episodes[activeEp];
+  const chSegs = chapterSegmentsForEpisode(ep);
 
   return (
     <div className={styles.root}>
@@ -1226,6 +1350,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                       src={episode.hero.src}
                       alt={episode.hero.alt}
                       media={episode.hero.media}
+                      videoVariants={episode.hero.videoVariants}
                       shouldLoad={p === activeEp}
                     />
                   ) : null}
@@ -1242,7 +1367,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   >
                     {episode.outcomeRich ?? (
                       <>
-                        <p>{episode.outcome!.problem}</p>
+                        {episode.outcome!.problem.trim() ? (
+                          <p>{episode.outcome!.problem}</p>
+                        ) : null}
                         <p>{episode.outcome!.outcome}</p>
                       </>
                     )}
@@ -1268,58 +1395,60 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   ) : null}
                 </div>
 
-                <span className={styles.chAnchor} id={`p${p}-ch2`} />
-                <div
-                  className={`${styles.chapter}${episode.stuffChapterTightTop ? ` ${styles.chapterStuffTightTop}` : ""}`}
-                >
-                  <div className={styles.chHeader}>
-                    <span className={styles.chName}>STUFF I WORKED ON</span>
-                    <div className={styles.chLine} />
-                  </div>
-                  {episode.stuffRich ? (
-                    <div className={styles.stuffRich}>{episode.stuffRich}</div>
-                  ) : (
-                    <>
-                      <ul
-                        className={`${styles.chBullets} ${styles.chBulletsStuff}`}
-                      >
-                        {(episode.stuffBullets ?? []).map((b, i) => (
-                          <li key={i}>{b}</li>
-                        ))}
-                      </ul>
-                      <div className={`${styles.mg} ${epGrid}`}>
-                        {(episode.screenGrid?.cells ?? []).map((cell, i) => (
-                          <ScreenCell
-                            key={`p${p}-c${i}`}
-                            cell={cell}
-                            shouldLoad={p === activeEp}
-                          />
-                        ))}
+                {hasStuff(episode) ? (
+                  <>
+                    <span className={styles.chAnchor} id={`p${p}-ch2`} />
+                    <div
+                      className={`${styles.chapter}${episode.stuffChapterTightTop ? ` ${styles.chapterStuffTightTop}` : ""}`}
+                    >
+                      <div className={styles.chHeader}>
+                        <span className={styles.chName}>STUFF I WORKED ON</span>
+                        <div className={styles.chLine} />
                       </div>
-                    </>
-                  )}
-                </div>
+                      {episode.stuffRich ? (
+                        <div className={styles.stuffRich}>{episode.stuffRich}</div>
+                      ) : (
+                        <>
+                          <ul
+                            className={`${styles.chBullets} ${styles.chBulletsStuff}`}
+                          >
+                            {(episode.stuffBullets ?? []).map((b, i) => (
+                              <li key={i}>{b}</li>
+                            ))}
+                          </ul>
+                          {(episode.screenGrid?.cells?.length ?? 0) > 0 ? (
+                            <div className={`${styles.mg} ${epGrid}`}>
+                              {(episode.screenGrid?.cells ?? []).map((cell, i) => (
+                                <ScreenCell
+                                  key={`p${p}-c${i}`}
+                                  cell={cell}
+                                  shouldLoad={p === activeEp}
+                                />
+                              ))}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
+                      {hasEmbeddedStuffLearnings(episode) ? (
+                        <div className={styles.stuffEmbeddedLearnings}>
+                          <EpisodeLearningsSection episode={episode} />
+                        </div>
+                      ) : null}
+                    </div>
+                  </>
+                ) : null}
 
                 {hasLearnings(episode) ? (
-                  <div className={styles.chapter}>
-                    <div className={styles.chHeader}>
-                      <span className={styles.chName}>THINGS I LEARNED</span>
-                      <div className={styles.chLine} />
+                  <>
+                    {!hasStuff(episode) ? (
+                      <span className={styles.chAnchor} id={`p${p}-ch2`} />
+                    ) : null}
+                    <div className={styles.chapter}>
+                      <EpisodeLearningsSection episode={episode} />
                     </div>
-                    {episode.learningsRich ? (
-                      <div className={styles.stuffRich}>
-                        {episode.learningsRich}
-                      </div>
-                    ) : (
-                      <ul
-                        className={`${styles.chBullets} ${styles.chBulletsLessons}`}
-                      >
-                        {(episode.learnings ?? []).map((b, i) => (
-                          <li key={i}>{b}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                  </>
+                ) : !hasStuff(episode) ? (
+                  <span className={styles.chAnchor} id={`p${p}-ch2`} />
                 ) : null}
 
                 <span className={styles.chAnchor} id={`p${p}-ch3`} />
@@ -1378,9 +1507,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
 
       <div className={styles.playerPill} id="playerPill">
         <div ref={chBarRef} className={styles.chBar} id="chBar">
-          {CHAPTER_SEGMENTS.map((label, i) => (
+          {chSegs.map((label, i) => (
             <button
-              key={label}
+              key={`${label}-${i}`}
               type="button"
               className={`${styles.chSeg} ${i === curCh ? styles.chSegActive : ""}`}
               onClick={() => jumpChapter(i)}
@@ -1549,8 +1678,9 @@ export function RampCinemaCaseStudy({
   episodes,
   showPlayer = true,
 }: RampCinemaCaseStudyProps) {
-  if (episodes.length === 1 && showPlayer === false) {
-    return <RampCinemaCaseStudySingle episodes={episodes} />;
+  const visibleEpisodes = episodes.filter((e) => !e.hidden);
+  if (visibleEpisodes.length === 1 && showPlayer === false) {
+    return <RampCinemaCaseStudySingle episodes={visibleEpisodes} />;
   }
-  return <RampCinemaCaseStudyMulti episodes={episodes} />;
+  return <RampCinemaCaseStudyMulti episodes={visibleEpisodes} />;
 }

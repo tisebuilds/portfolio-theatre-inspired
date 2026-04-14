@@ -1,7 +1,25 @@
+import { CursorToolIcon } from "@/components/ramp/CursorToolIcon";
 import { FigmaToolIcon } from "@/components/ramp/FigmaToolIcon";
+import { MagicPatternsToolIcon } from "@/components/ramp/MagicPatternsToolIcon";
+import { SlackToolIcon } from "@/components/ramp/SlackToolIcon";
+import { VercelToolIcon } from "@/components/ramp/VercelToolIcon";
 import type { RampCredit, RampEpisode } from "./ramp-types";
 
-const tools = <FigmaToolIcon />;
+const tools = (
+  <>
+    <FigmaToolIcon />
+    <VercelToolIcon />
+    <MagicPatternsToolIcon />
+    <CursorToolIcon />
+  </>
+);
+
+const rbaCashbackTools = (
+  <>
+    <FigmaToolIcon />
+    <SlackToolIcon />
+  </>
+);
 
 const treasuryCredits: RampCredit[] = [
   {
@@ -74,17 +92,34 @@ const williamLooCredit: RampCredit = {
   linkedInUrl: "https://www.linkedin.com/in/williamlooo/",
 };
 
-/** After Moritz: Fardeem, William, then shared engineer tail (Max onward; index 5). */
+/** RBA cashback credits omit several roles from the shared Treasury list (see episode). */
 const rbaTreasuryCredits: RampCredit[] = [
-  ...treasuryCredits.slice(0, 5),
+  {
+    role: "DESIGN LEAD",
+    name: "George Visan",
+    linkedInUrl: "https://www.linkedin.com/in/gvisan/",
+  },
   fardeemMunirCredit,
   williamLooCredit,
-  ...treasuryCredits.slice(5),
+  {
+    role: "PRODUCT MANAGER",
+    name: "Karl Yang",
+    linkedInUrl: "https://www.linkedin.com/in/karl-yang/",
+  },
+  {
+    role: "PRODUCT OPERATIONS",
+    name: "Christy Chung",
+    linkedInUrl: "https://www.linkedin.com/in/christy-chung-443b3955/",
+  },
+  {
+    role: "DATA",
+    name: "James Coen",
+    linkedInUrl: "https://www.linkedin.com/in/james-coen/",
+  },
 ];
 
 export const rampTreasuryEpisodes: RampEpisode[] = [
   {
-    hideLearnings: true,
     title: "Move money drawer",
     pillSub: "Enabling businesses to move money in and out of their bank accounts",
     status: "now",
@@ -115,13 +150,13 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       </>
     ),
     metrics: [
-      { value: "$63.9M", label: "COMPLETED PAYMENT VOLUME" },
-      { value: "1,106", label: "COMPLETED PAYMENTS" },
-      { value: "222", label: "BUSINESSES WITH PAYMENTS" },
       {
         value: "$959,927.75",
         label: "SUCCESSFUL CHECK DEPOSITS",
       },
+      { value: "$63.9M", label: "COMPLETED PAYMENT VOLUME" },
+      { value: "1,106", label: "COMPLETED PAYMENTS" },
+      { value: "222", label: "BUSINESSES WITH PAYMENTS" },
     ],
     stuffBullets: [
       "Added arrival date input box to increase clarity on when transfers and deposits would settle in an RBA.",
@@ -169,71 +204,64 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     credits: treasuryCredits,
   },
   {
-    hideLearnings: true,
     title: "RBA cashback redemption",
-    pillSub: "Helping teams actually use the value they had already earned.",
+    pillSub: "Redeem Ramp cashback directly into a bank account",
     status: "past",
     yearLabel: "2025",
     employment: "Full-time",
     metaYear: "H2 2025",
-    tools,
+    tools: rbaCashbackTools,
     externalHref: "https://ramp.com/treasury",
     externalLabel: "ramp.com",
     logline: "A lesson in starting from the solution first",
     onePagerHref: "/ramp/treasury/rba-cashback-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/ramp/treasury/rba-cashback-hero.png",
-      alt: "RBA cashback redemption hero",
-    },
-    outcome: {
-      problem:
-        "Redeeming Reserve Business Account cashback was not legible enough for busy finance operators, which muted a meaningful Treasury benefit.",
-      outcome:
-        "Delivered a redemption path that surfaces eligibility, timing, and outcomes in plain language so teams can convert rewards into working cash with confidence.",
-    },
-    metrics: [
-      { value: "—", label: "REDEMPTIONS" },
-      { value: "—", label: "TIME TO COMPLETE" },
-      { value: "—", label: "SUPPORT TICKETS" },
-    ],
-    stuffBullets: [
-      "Mapped the redemption journey against policy and operational constraints so the UI could stay compliant without feeling gated.",
-      "Designed progressive disclosure for balances, pending states, and confirmations.",
-      "Worked closely with Treasury PMs to align language with how customers talk about yield and liquidity.",
-    ],
-    screenGrid: {
-      layout: "mg4",
-      cells: [
+      alt: "RBA cashback redemption — new vs existing customer",
+      media: "video",
+      videoVariants: [
         {
-          aspect: "r1-1",
-          src: "/ramp/treasury/rba-cashback-screen-a.png",
-          placeholderLabel: "Primary web view",
+          label: "New customer",
+          src: "/ramp/treasury/rba-cashback-new-customer.mp4",
         },
         {
-          aspect: "r1-1",
-          src: "/ramp/treasury/rba-cashback-screen-b.png",
-          placeholderLabel: "Screen A",
-        },
-        {
-          aspect: "r1-1",
-          placeholderLabel: "Screen B",
-        },
-        {
-          aspect: "r1-1",
-          placeholderLabel: "Screen C",
+          label: "Existing customer",
+          src: "/ramp/treasury/rba-cashback-existing-customer.mp4",
         },
       ],
     },
+    outcome: {
+      problem: "",
+      outcome:
+        "Led design enabling customers to redeem cashback into Ramp Business Accounts and open new accounts using their rewards.",
+    },
+    metrics: [
+      { value: "$6.4M", label: "CASHBACK REDEMPTIONS" },
+      { value: "303", valuePill: "91% funded", label: "NEW RBA CUSTOMERS" },
+      { value: "48%", label: "MoM FUNDED GROWTH" },
+    ],
+    hideStuffChapter: true,
     learnings: [
-      "Rewards UX is emotional even in B2B: small copy choices change whether value feels real or theoretical.",
-      "If the backend state machine is messy, the interface should still feel linear.",
-      "Prototype the unhappy paths first; redemption flows live or die on edge cases.",
+      {
+        title: "Friction in onboarding for rewards can be beneficial",
+        description:
+          "Slowing down users filters more intentional users.",
+      },
+      {
+        title: "Protect the existing set up for current customers",
+        description:
+          "Opening a new account should not disrupt established workflows businesses already rely on.",
+      },
+      {
+        title: "Copy matters",
+        description:
+          "Clear, explicit wording and thoughtful labeling have a direct impact on user experience.",
+      },
     ],
     credits: rbaTreasuryCredits,
   },
   {
-    hideLearnings: true,
+    hidden: true,
     title: "Quality of life updates",
     pillSub: "Small surfaces, compounding trust across Treasury.",
     status: "past",

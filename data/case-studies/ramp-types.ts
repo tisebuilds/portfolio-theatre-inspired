@@ -47,7 +47,15 @@ export type RampScreenGrid = {
   cells: RampScreenCell[];
 };
 
+/** Title + body, same pattern as standard case-study learnings (e.g. Disney). */
+export type RampEpisodeLearning = {
+  title: string;
+  description: string;
+};
+
 export type RampEpisode = {
+  /** When true, omitted from cinema UI (episode data kept for later). */
+  hidden?: boolean;
   title: string;
   /** Italic line in the player pill */
   pillSub: string;
@@ -75,13 +83,22 @@ export type RampEpisode = {
     alt?: string;
     /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
     media?: "image" | "video";
+    /**
+     * When set (2+ entries), hero shows a toggle to swap between videos (e.g. journey variants).
+     * Implies video; `src` is ignored for playback.
+     */
+    videoVariants?: { label: string; src: string }[];
   };
   /** Skip hero mockup frame (pages that only had showcase body, e.g. AppDev phone). */
   hideHeroFrame?: boolean;
   /** Omit the “STUFF I WORKED ON” chapter rail (e.g. AppDev phone-only showcase). */
   hideStuffChapterHeader?: boolean;
+  /** Omit the entire “STUFF I WORKED ON” chapter (bullets, grid, stuffRich, embedded learnings). */
+  hideStuffChapter?: boolean;
   /** Omit the “THINGS I LEARNED” chapter (learnings fields may stay in data). */
   hideLearnings?: boolean;
+  /** When true, show THINGS I LEARNED inside the STUFF I WORKED ON chapter (no standalone learnings chapter). */
+  embedLearningsInStuffChapter?: boolean;
   /** Halve default `.chapter` top padding for dense showcases (e.g. phone mockup). */
   stuffChapterTightTop?: boolean;
   outcome?: {
@@ -93,7 +110,7 @@ export type RampEpisode = {
   stuffBullets?: string[];
   screenGrid?: RampScreenGrid;
   stuffRich?: ReactNode;
-  learnings?: string[];
+  learnings?: (string | RampEpisodeLearning)[];
   learningsRich?: ReactNode;
   creditsIntro?: ReactNode;
   credits?: RampCredit[];

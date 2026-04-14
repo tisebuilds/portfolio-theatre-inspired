@@ -1,3 +1,8 @@
+import {
+  caseStudySectionHeadingClass,
+  caseStudySpacing,
+} from "@/components/case-study-spacing";
+
 type SkillsListProps = {
   items: string[];
 };
@@ -5,13 +10,12 @@ type SkillsListProps = {
 export function SkillsList({ items }: SkillsListProps) {
   return (
     <section aria-labelledby="skills-heading" className="rounded-none">
-      <h2
-        id="skills-heading"
-        className="text-sm font-medium uppercase tracking-wider text-neutral-500 mb-3"
-      >
+      <h2 id="skills-heading" className={caseStudySectionHeadingClass}>
         Skills
       </h2>
-      <ul className="list-none p-0 m-0 flex flex-wrap gap-2">
+      <ul
+        className={`list-none p-0 m-0 flex flex-wrap gap-2 ${caseStudySpacing.labelToContent}`}
+      >
         {items.map((skill, i) => (
           <li
             key={i}

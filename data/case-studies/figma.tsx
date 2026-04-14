@@ -111,7 +111,7 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
   hero: {
     src: "/posters/figma-case-study-hero.png",
     alt: "Isometric illustration of layered Figma-style editor windows on a mint background.",
-    caption: "Growth Design Intern Driving Upgrades for Figma Products",
+    caption: "Growth design intern driving upgrades for Figma products",
     priority: true,
   },
   overview: (
@@ -143,7 +143,6 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
     { title: "✨ Riffing is Magical", content: null },
     { title: "💬 Balancing and incorporating feedback", content: null },
   ],
-  creditsIntro:
-    "Thank you to these amazing people supporting me during my internship!",
+  creditsIntro: "",
   creditsColumns,
 };

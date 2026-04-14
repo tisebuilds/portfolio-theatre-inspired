@@ -171,7 +171,6 @@ export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
       content: "I got the chance to work cross-functionally across teams",
     },
   ],
-  creditsIntro:
-    "Thank you to these amazing people supporting me during my internship!",
+  creditsIntro: "",
   creditsColumns,
 };

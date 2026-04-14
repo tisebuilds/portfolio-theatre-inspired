@@ -276,23 +276,31 @@ function CreditsScene({ exp }: { exp: WorkExperience }) {
         Credits
       </h2>
 
-      <div className="flex flex-col gap-3 max-w-xs">
+      <div className="flex flex-col gap-3 max-w-md">
         {cast.map((member, i) => (
-          <div key={i} className="flex justify-between items-baseline gap-6">
+          <div
+            key={i}
+            className="flex flex-wrap justify-center items-baseline gap-x-2 gap-y-0.5 text-center"
+          >
+            {member.role ? (
+              <>
+                <span
+                  className="text-[10px] uppercase tracking-[0.15em]"
+                  style={{ color: CREDIT_ROLE }}
+                >
+                  {member.role}
+                </span>
+                <span style={{ color: TEXT_TER }} aria-hidden>
+                  —
+                </span>
+              </>
+            ) : null}
             <span
               className="text-[13px] font-serif"
               style={{ color: TEXT_BODY }}
             >
               {member.name}
             </span>
-            {member.role && (
-              <span
-                className="text-[10px] uppercase tracking-[0.15em]"
-                style={{ color: CREDIT_ROLE }}
-              >
-                {member.role}
-              </span>
-            )}
           </div>
         ))}
       </div>
@@ -393,8 +401,27 @@ function InfoBar({
     content = (
       <>
         <p className="text-[13px] text-neutral-200 font-semibold">Credits</p>
-        <p className="text-[12px] text-neutral-400">
-          {cast.map((m) => m.name).join(", ")}
+        <p className="text-[12px] text-neutral-400 leading-relaxed">
+          {cast.map((m, i) => (
+            <span key={i}>
+              {i > 0 ? (
+                <span className="text-neutral-600" aria-hidden>
+                  {" "}
+                  ·{" "}
+                </span>
+              ) : null}
+              {m.role ? (
+                <>
+                  <span className="text-neutral-500">{m.role}</span>
+                  <span className="text-neutral-600" aria-hidden>
+                    {" "}
+                    —{" "}
+                  </span>
+                </>
+              ) : null}
+              {m.name}
+            </span>
+          ))}
         </p>
       </>
     );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { caseStudySpacing } from "@/components/case-study-spacing";
 
 type Props = {
   projectTitle: string;
@@ -80,7 +81,7 @@ export function DesignDecisionsDrawer({ projectTitle, isOpen, onClose }: Props) 
         <button
           type="button"
           onClick={openDrawer}
-          className="mt-6 inline-flex items-center gap-2 self-start text-left text-sm text-neutral-400 hover:text-neutral-200 underline-offset-2 hover:underline transition-colors"
+          className={caseStudySpacing.designDecisionsTrigger}
           aria-label="Read key design decisions"
         >
           <svg
@@ -121,7 +122,7 @@ export function DesignDecisionsDrawer({ projectTitle, isOpen, onClose }: Props) 
         }`}
       >
         <div className="flex items-center justify-between shrink-0 px-6 py-4 border-b border-neutral-700">
-          <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-400">
+          <h2 className="text-sm font-medium uppercase tracking-[0.12em] text-neutral-400">
             Decision log
           </h2>
           <button

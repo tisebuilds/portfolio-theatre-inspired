@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { caseStudySpacing } from "@/components/case-study-spacing";
 
 type CaseStudyPageShellProps = {
   title: string;
@@ -40,8 +41,8 @@ export function CaseStudyPageShell({
     "inline-flex h-5 items-center rounded-sm bg-white/[0.06] px-2.5 text-xs font-medium tabular-nums tracking-tight text-white/55";
   const sectionClass =
     showcaseLayout === "flush"
-      ? "relative mt-6 flex justify-center pt-0 pb-10 sm:mt-8 sm:pt-0 sm:pb-14"
-      : "relative mt-8 flex min-h-[min(52vh,480px)] justify-center pt-3 pb-8 sm:mt-10 sm:pt-4 sm:pb-12";
+      ? caseStudySpacing.showcaseSectionFlush
+      : caseStudySpacing.showcaseSectionDefault;
 
   const showcaseInnerClass =
     showcaseLayout === "flush"

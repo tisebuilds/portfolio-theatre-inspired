@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { CaseStudyPageShell } from "@/components/CaseStudyPageShell";
+import { caseStudySpacing } from "@/components/case-study-spacing";
 import { caseStudyType } from "@/components/case-study-typography";
 import { ExternalLinkIcon } from "@/components/case-study-icons";
 
@@ -40,8 +41,8 @@ export type StandardWorkCaseStudyProps = {
 
 function SectionLabel({ children }: { children: string }) {
   return (
-    <div className="flex w-full items-center gap-4">
-      <p className={`shrink-0 ${caseStudyType.mutedLabel}`}>{children}</p>
+    <div className={caseStudySpacing.sectionLabelClass}>
+      <p className={`shrink-0 ${caseStudyType.sectionLabel}`}>{children}</p>
       <div
         className="h-px min-w-0 flex-1 bg-white/[0.08]"
         aria-hidden
@@ -59,11 +60,11 @@ function CreditNameLine({ name, href }: { name: string; href?: string }) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`group ${baseClass} no-underline underline-offset-[0.35em] decoration-white/70 hover:underline hover:text-white hover:decoration-white focus-visible:outline-none focus-visible:underline focus-visible:decoration-white focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black`}
+        className={`group ${baseClass} no-underline underline-offset-[0.35em] decoration-neutral-400 hover:underline hover:decoration-white focus-visible:outline-none focus-visible:underline focus-visible:decoration-white focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black`}
       >
         {name}
         <ExternalLinkIcon
-          className="shrink-0 translate-y-px text-white/40 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+          className="shrink-0 translate-y-px text-neutral-400 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
           aria-hidden
         />
       </a>
@@ -87,7 +88,7 @@ const headerClassNames = {
 } as const;
 
 const secondaryLinkClass =
-  "text-white/85 underline decoration-white/25 underline-offset-[0.2em] transition-colors hover:text-white hover:decoration-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
+  "text-neutral-400 underline decoration-neutral-400 underline-offset-[0.2em] transition-colors hover:text-white hover:decoration-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
 
 export function StandardWorkCaseStudy({
   idPrefix,
@@ -112,7 +113,9 @@ export function StandardWorkCaseStudy({
       headerClassNames={headerClassNames}
       meta={meta}
     >
-      <div className="flex w-full max-w-4xl flex-col items-stretch gap-11 sm:gap-14 sm:px-0">
+      <div
+        className={`flex w-full max-w-4xl flex-col items-stretch sm:px-0 ${caseStudySpacing.sectionStack}`}
+      >
         <div className="flex w-full justify-center">
           <figure className="relative m-0 mx-auto w-full max-w-3xl">
             <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/[0.08] bg-black">
@@ -138,7 +141,7 @@ export function StandardWorkCaseStudy({
           <h3 id={overviewId} className="sr-only">
             Overview
           </h3>
-          <div className={`mt-6 max-w-3xl ${caseStudyType.body}`}>
+          <div className={`${caseStudySpacing.labelToContent} max-w-3xl ${caseStudyType.body}`}>
             {overview}
           </div>
         </section>
@@ -148,7 +151,9 @@ export function StandardWorkCaseStudy({
           <h3 id={learningsId} className="sr-only">
             Learnings
           </h3>
-          <dl className="mt-6 space-y-8 sm:space-y-9">
+          <dl
+            className={`${caseStudySpacing.labelToContent} ${caseStudySpacing.learningsList} m-0 p-0`}
+          >
             {learnings.map((item, index) => (
               <div
                 key={`${idPrefix}-learning-${index}`}
@@ -182,25 +187,41 @@ export function StandardWorkCaseStudy({
           <h3 id={creditsId} className="sr-only">
             Credits
           </h3>
-          <p className={`mt-6 max-w-3xl ${caseStudyType.bodySecondary}`}>
-            {creditsIntro}
-          </p>
-          <div className="mt-7 grid grid-cols-1 gap-x-8 gap-y-9 sm:mt-8 sm:grid-cols-2 md:grid-cols-3 md:gap-y-11">
-            {creditsColumns.map((col, i) => (
-              <ul
-                key={i}
-                className="m-0 flex min-w-0 list-none flex-col gap-4 p-0"
+          <div className={caseStudySpacing.labelToContent}>
+            {creditsIntro.trim() ? (
+              <p
+                className={`mb-7 max-w-3xl sm:mb-8 ${caseStudyType.bodySecondary}`}
               >
-                {col.map((entry) => (
-                  <li key={entry.name} className="flex flex-col gap-1.5">
-                    {entry.role?.trim() ? (
-                      <p className={caseStudyType.mutedLabel}>{entry.role}</p>
-                    ) : null}
-                    <CreditNameLine name={entry.name} href={entry.href} />
-                  </li>
-                ))}
-              </ul>
-            ))}
+                {creditsIntro}
+              </p>
+            ) : null}
+            <div className={caseStudySpacing.creditsColumnsGrid}>
+              {creditsColumns.map((col, i) => (
+                <ul
+                  key={i}
+                  className="m-0 flex min-w-0 list-none flex-col gap-4 p-0"
+                >
+                  {col.map((entry) => (
+                    <li
+                      key={entry.name}
+                      className="flex flex-wrap items-baseline gap-x-2 gap-y-0"
+                    >
+                      {entry.role?.trim() ? (
+                        <>
+                          <span className={caseStudyType.mutedLabel}>
+                            {entry.role}
+                          </span>
+                          <span className="text-neutral-500" aria-hidden>
+                            —
+                          </span>
+                        </>
+                      ) : null}
+                      <CreditNameLine name={entry.name} href={entry.href} />
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
           </div>
         </section>
       </div>

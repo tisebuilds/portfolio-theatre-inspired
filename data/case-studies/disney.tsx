@@ -227,7 +227,6 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
       ),
     },
   ],
-  creditsIntro:
-    "Thank you to the amazing creators for showing me how Disney makes magic and adding delight to design…",
+  creditsIntro: "",
   creditsColumns,
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { caseStudySpacing } from "@/components/case-study-spacing";
 import { caseStudyType } from "@/components/case-study-typography";
 
 export type StandardLearningItem = {
@@ -20,9 +21,11 @@ export function LearningsFromStandard({
 }) {
   if (presentation === "bodyCopy") {
     return (
-      <ul className="m-0 list-none space-y-6 p-0 sm:space-y-7">
+      <ul
+        className={`m-0 list-none p-0 ${caseStudySpacing.learningsBodyCopyList}`}
+      >
         {items.map((item, index) => (
-          <li key={`learning-${index}`} className={caseStudyType.learningBody}>
+          <li key={`learning-${index}`} className={caseStudyType.learningBodyCopy}>
             {item.title}
             {item.content != null ? <> {item.content}</> : null}
           </li>
@@ -32,7 +35,7 @@ export function LearningsFromStandard({
   }
 
   return (
-    <dl className="m-0 mt-0 space-y-8 p-0 sm:space-y-9">
+    <dl className={`m-0 mt-0 p-0 ${caseStudySpacing.learningsList}`}>
       {items.map((item, index) => (
         <div
           key={`learning-${index}`}

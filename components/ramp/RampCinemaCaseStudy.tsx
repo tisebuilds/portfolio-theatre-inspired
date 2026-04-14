@@ -13,15 +13,10 @@ type RampCinemaCaseStudyProps = {
 };
 
 const CHAPTER_SEGMENTS = [
-  { num: "01", name: "OUTCOME" },
-  { num: "02", name: "STUFF I WORKED ON" },
-  { num: "03", name: "THINGS I LEARNED" },
-] as const;
-
-const CHAPTER_SEGMENTS_NO_LEARNINGS = [
-  { num: "01", name: "OUTCOME" },
-  { num: "02", name: "STUFF I WORKED ON" },
-  { num: "03", name: "CREDITS" },
+  "OVERVIEW",
+  "OUTCOME",
+  "STUFF I WORKED ON",
+  "CREDITS",
 ] as const;
 
 /** One-pager PDFs are not ready yet; flip to true when they ship. */
@@ -440,8 +435,6 @@ function ScreenCell({ cell }: { cell: RampScreenCell }) {
 
 function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
   const episode = episodes[0];
-  let chNum = 1;
-  const nextNum = () => String(chNum++).padStart(2, "0");
 
   useEffect(() => {
     document.body.classList.add("ramp-cinema");
@@ -463,6 +456,7 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
       <div className={styles.scroller} id="scroller">
         <div className={styles.contentWrap}>
           <div className={`${styles.panel} ${styles.panelActive}`}>
+            <span className={styles.chAnchor} id="p0-ch0" />
             <div className={styles.hero}>
               <div className={styles.titleRow}>
                     <HeroTitleCluster
@@ -551,14 +545,15 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
 
             {hasOutcome(episode) ? (
               <>
-                <span className={styles.chAnchor} id="p0-ch0" />
+                <span className={styles.chAnchor} id="p0-ch1" />
                 <div className={styles.chapter}>
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>{nextNum()}</span>
                     <span className={styles.chName}>OUTCOME</span>
                     <div className={styles.chLine} />
                   </div>
-                  <div className={styles.chBody}>
+                  <div
+                    className={`${styles.chBody} ${styles.chBodyPrimary}`}
+                  >
                     {episode.outcomeRich ?? (
                       <>
                         <p>{episode.outcome!.problem}</p>
@@ -591,25 +586,23 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
 
             {hasStuff(episode) ? (
               <>
-                <span className={styles.chAnchor} id="p0-ch1" />
+                <span className={styles.chAnchor} id="p0-ch2" />
                 <div
                   className={`${styles.chapter}${episode.stuffChapterTightTop ? ` ${styles.chapterStuffTightTop}` : ""}`}
                 >
-                  {(() => {
-                    const stuffNum = nextNum();
-                    return episode.hideStuffChapterHeader ? null : (
-                      <div className={styles.chHeader}>
-                        <span className={styles.chNum}>{stuffNum}</span>
-                        <span className={styles.chName}>STUFF I WORKED ON</span>
-                        <div className={styles.chLine} />
-                      </div>
-                    );
-                  })()}
+                  {episode.hideStuffChapterHeader ? null : (
+                    <div className={styles.chHeader}>
+                      <span className={styles.chName}>STUFF I WORKED ON</span>
+                      <div className={styles.chLine} />
+                    </div>
+                  )}
                   {episode.stuffRich ? (
                     <div className={styles.stuffRich}>{episode.stuffRich}</div>
                   ) : (
                     <>
-                      <ul className={styles.chBullets}>
+                      <ul
+                        className={`${styles.chBullets} ${styles.chBulletsStuff}`}
+                      >
                         {(episode.stuffBullets ?? []).map((b, i) => (
                           <li key={i}>{b}</li>
                         ))}
@@ -626,11 +619,8 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
             ) : null}
 
             {hasLearnings(episode) ? (
-              <>
-                <span className={styles.chAnchor} id="p0-ch2" />
-                <div className={styles.chapter}>
+              <div className={styles.chapter}>
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>{nextNum()}</span>
                     <span className={styles.chName}>THINGS I LEARNED</span>
                     <div className={styles.chLine} />
                   </div>
@@ -646,13 +636,13 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                     </ul>
                   )}
                 </div>
-              </>
             ) : null}
 
             {hasCredits(episode) ? (
+              <>
+                <span className={styles.chAnchor} id="p0-ch3" />
               <div className={styles.credits}>
                 <div className={styles.chHeader}>
-                  <span className={styles.chNum}>{nextNum()}</span>
                   <span className={styles.chName}>CREDITS</span>
                   <div className={styles.chLine} />
                 </div>
@@ -665,36 +655,40 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
                 ) : null}
                 <div className={styles.creditsGrid}>
                   {(episode.credits ?? []).map((c, i) => (
-                    <div key={`${c.role}-${c.name}-${i}`}>
+                    <div
+                      key={`${c.role}-${c.name}-${i}`}
+                      className={styles.creditLine}
+                    >
                       {c.role?.trim() ? (
-                        <div className={styles.creditRole}>{c.role}</div>
+                        <span className={styles.creditRole}>{c.role}</span>
                       ) : null}
-                      <div className={styles.creditVal}>
-                        {c.linkedInUrl ? (
-                          <a
-                            href={c.linkedInUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <span>{c.name}</span>
-                            <svg
-                              viewBox="0 0 10 10"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              aria-hidden
-                            >
-                              <path d="M2 8L8 2M3 2h5v5" />
-                            </svg>
-                          </a>
-                        ) : (
+                      {c.linkedInUrl ? (
+                        <a
+                          className={styles.creditVal}
+                          href={c.linkedInUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${c.role ? `${c.role}: ` : ""}${c.name} (opens in new tab)`}
+                        >
                           <span>{c.name}</span>
-                        )}
-                      </div>
+                          <svg
+                            viewBox="0 0 10 10"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            aria-hidden
+                          >
+                            <path d="M2 8L8 2M3 2h5v5" />
+                          </svg>
+                        </a>
+                      ) : (
+                        <span className={styles.creditVal}>{c.name}</span>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
+              </>
             ) : null}
           </div>
         </div>
@@ -709,6 +703,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   const searchParams = useSearchParams();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const chBarRef = useRef<HTMLDivElement>(null);
+  const pillMenuRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const kbdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -719,13 +714,19 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   const activeEp = clampEp(rawEp, maxEp);
 
   const [curCh, setCurCh] = useState(0);
-  const [fillPct, setFillPct] = useState<[number, number, number]>([0, 0, 0]);
+  const [fillPct, setFillPct] = useState<[number, number, number, number]>([
+    0, 0, 0, 0,
+  ]);
   const [playing, setPlaying] = useState(false);
   const [playIconPause, setPlayIconPause] = useState(false);
   const [tt, setTt] = useState<{ x: number; y: number; text: string } | null>(
     null,
   );
   const [kbdShow, setKbdShow] = useState(false);
+  const [pillMenuOpen, setPillMenuOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  /** While the hero case title is visible in the scroller, hide duplicate title in the pill. */
+  const [heroTitleInView, setHeroTitleInView] = useState(true);
 
   const setEpInUrl = useCallback(
     (idx: number) => {
@@ -764,20 +765,59 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
     if (!el) return;
     el.scrollTop = 0;
     setCurCh(0);
-    setFillPct([0, 0, 0]);
+    setFillPct([0, 0, 0, 0]);
+    setHeroTitleInView(true);
     stopPlay();
   }, [activeEp, stopPlay]);
 
   useEffect(() => {
+    const root = scrollerRef.current;
+    const target = document.getElementById(`ramp-hero-title-${activeEp}`);
+    if (!root || !target) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) setHeroTitleInView(entry.isIntersecting);
+      },
+      { root, threshold: 0 },
+    );
+    obs.observe(target);
+    return () => obs.disconnect();
+  }, [activeEp]);
+
+  useEffect(() => {
     return () => stopPlay();
   }, [stopPlay]);
+
+  useEffect(() => {
+    const onFs = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
+  useEffect(() => {
+    if (!pillMenuOpen) return;
+    const onDocDown = (e: MouseEvent) => {
+      if (pillMenuRef.current?.contains(e.target as Node)) return;
+      setPillMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPillMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDocDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [pillMenuOpen]);
 
   const onScroll = useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
     const p = activeEp;
-    const anchors = [0, 1, 2].map((ch) =>
+    const anchors = [0, 1, 2, 3].map((ch) =>
       document.getElementById(`p${p}-ch${ch}`),
     );
 
@@ -789,33 +829,65 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
       a ? a.getBoundingClientRect().top + scrollTop - scRect.top : 0,
     );
 
-    const ch1start = bounds[1];
-    const ch2start = bounds[2];
+    const b0 = bounds[0];
+    const b1 = bounds[1];
+    const b2 = bounds[2];
+    const b3 = bounds[3];
     const end = scrollH;
 
     let nextCh = 0;
-    let pct0 = 0;
-    let pct1 = 0;
-    let pct2 = 0;
+    const pct: [number, number, number, number] = [0, 0, 0, 0];
 
-    if (scrollTop < ch1start) {
+    if (scrollTop < b1) {
       nextCh = 0;
-      pct0 = ch1start > 0 ? Math.min(scrollTop / ch1start, 1) : 0;
-    } else if (scrollTop < ch2start) {
+      pct[0] = Math.min(
+        (scrollTop - b0) / Math.max(b1 - b0, 1),
+        1,
+      );
+    } else if (scrollTop < b2) {
       nextCh = 1;
-      pct0 = 1;
-      pct1 = Math.min(
-        (scrollTop - ch1start) / Math.max(ch2start - ch1start, 1),
+      pct[0] = 1;
+      pct[1] = Math.min(
+        (scrollTop - b1) / Math.max(b2 - b1, 1),
+        1,
+      );
+    } else if (scrollTop < b3) {
+      nextCh = 2;
+      pct[0] = 1;
+      pct[1] = 1;
+      pct[2] = Math.min(
+        (scrollTop - b2) / Math.max(b3 - b2, 1),
         1,
       );
     } else {
-      nextCh = 2;
-      pct0 = 1;
-      pct1 = 1;
-      pct2 = Math.min((scrollTop - ch2start) / Math.max(end - ch2start, 1), 1);
+      nextCh = 3;
+      pct[0] = 1;
+      pct[1] = 1;
+      pct[2] = 1;
+      pct[3] = Math.min(
+        (scrollTop - b3) / Math.max(end - b3, 1),
+        1,
+      );
     }
 
-    setFillPct([pct0, pct1, pct2]);
+    // If the block after the credits anchor is shorter than the viewport,
+    // max scrollTop never reaches b3, so we'd stay on segment 2 while CREDITS
+    // is on screen. When pinned to the end, force the credits segment.
+    const creditsAnchor = anchors[3];
+    if (
+      creditsAnchor &&
+      end > 0 &&
+      scrollTop >= end - 3 &&
+      scrollTop < b3
+    ) {
+      nextCh = 3;
+      pct[0] = 1;
+      pct[1] = 1;
+      pct[2] = 1;
+      pct[3] = 1;
+    }
+
+    setFillPct(pct);
     setCurCh((prev) => (prev !== nextCh ? nextCh : prev));
   }, [activeEp]);
 
@@ -847,7 +919,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   }, [curCh, jumpChapter]);
 
   const nextChapter = useCallback(() => {
-    if (curCh < 2) jumpChapter(curCh + 1);
+    if (curCh < 3) jumpChapter(curCh + 1);
     else if (activeEp < maxEp) setEpInUrl(activeEp + 1);
   }, [activeEp, curCh, jumpChapter, maxEp, setEpInUrl]);
 
@@ -941,6 +1013,10 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
           jumpChapter(2);
           flashHint();
           break;
+        case "Digit4":
+          jumpChapter(3);
+          flashHint();
+          break;
         case "ArrowLeft":
           e.preventDefault();
           prevChapter();
@@ -949,6 +1025,16 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
         case "ArrowRight":
           e.preventDefault();
           nextChapter();
+          flashHint();
+          break;
+        case "KeyR":
+          e.preventDefault();
+          restartEp();
+          flashHint();
+          break;
+        case "KeyF":
+          e.preventDefault();
+          toggleFullscreen();
           flashHint();
           break;
         default:
@@ -964,13 +1050,10 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
     nextEp,
     prevChapter,
     prevEp,
+    restartEp,
+    toggleFullscreen,
     togglePlay,
   ]);
-
-  const ep = episodes[activeEp];
-  const chapterSegments = hasLearnings(ep)
-    ? CHAPTER_SEGMENTS
-    : CHAPTER_SEGMENTS_NO_LEARNINGS;
 
   const showSegTip = (e: React.MouseEvent, label: string) => {
     const barEl = chBarRef.current;
@@ -982,6 +1065,8 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
       text: label,
     });
   };
+
+  const ep = episodes[activeEp];
 
   return (
     <div className={styles.root}>
@@ -1003,9 +1088,18 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
         <span className={styles.kbd}>Space</span> play &nbsp;·&nbsp;
         <span className={styles.kbd}>1</span>
         <span className={styles.kbd}>2</span>
-        <span className={styles.kbd}>3</span> chapters &nbsp;·&nbsp;
-        <span className={styles.kbd}>↑</span>
-        <span className={styles.kbd}>↓</span> episodes
+        <span className={styles.kbd}>3</span>
+        <span className={styles.kbd}>4</span> sections
+        {maxEp > 0 ? (
+          <>
+            &nbsp;·&nbsp;
+            <span className={styles.kbd}>↑</span>
+            <span className={styles.kbd}>↓</span> episodes
+          </>
+        ) : null}
+        &nbsp;·&nbsp;
+        <span className={styles.kbd}>R</span> restart &nbsp;·&nbsp;
+        <span className={styles.kbd}>F</span> fullscreen
       </div>
 
       <div className={styles.scroller} ref={scrollerRef} id="scroller">
@@ -1028,14 +1122,20 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                 id={`panel-${p}`}
                 aria-hidden={p !== activeEp}
               >
+                <span className={styles.chAnchor} id={`p${p}-ch0`} />
                 <div className={styles.hero}>
                   <div className={styles.titleRow}>
-                    <HeroTitleCluster
-                      title={episode.title}
-                      yearLabel={
-                        episode.titleTimingBadge ?? episode.yearLabel
-                      }
-                    />
+                    <div
+                      id={`ramp-hero-title-${p}`}
+                      className={styles.heroTitleObserve}
+                    >
+                      <HeroTitleCluster
+                        title={episode.title}
+                        yearLabel={
+                          episode.titleTimingBadge ?? episode.yearLabel
+                        }
+                      />
+                    </div>
                     {episode.journalUrl ? (
                       <a
                         className={styles.journalBtn}
@@ -1122,14 +1222,15 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   ) : null}
                 </div>
 
-                <span className={styles.chAnchor} id={`p${p}-ch0`} />
+                <span className={styles.chAnchor} id={`p${p}-ch1`} />
                 <div className={styles.chapter}>
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>01</span>
                     <span className={styles.chName}>OUTCOME</span>
                     <div className={styles.chLine} />
                   </div>
-                  <div className={styles.chBody}>
+                  <div
+                    className={`${styles.chBody} ${styles.chBodyPrimary}`}
+                  >
                     {episode.outcomeRich ?? (
                       <>
                         <p>{episode.outcome!.problem}</p>
@@ -1158,12 +1259,11 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   ) : null}
                 </div>
 
-                <span className={styles.chAnchor} id={`p${p}-ch1`} />
+                <span className={styles.chAnchor} id={`p${p}-ch2`} />
                 <div
                   className={`${styles.chapter}${episode.stuffChapterTightTop ? ` ${styles.chapterStuffTightTop}` : ""}`}
                 >
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>02</span>
                     <span className={styles.chName}>STUFF I WORKED ON</span>
                     <div className={styles.chLine} />
                   </div>
@@ -1171,7 +1271,9 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                     <div className={styles.stuffRich}>{episode.stuffRich}</div>
                   ) : (
                     <>
-                      <ul className={styles.chBullets}>
+                      <ul
+                        className={`${styles.chBullets} ${styles.chBulletsStuff}`}
+                      >
                         {(episode.stuffBullets ?? []).map((b, i) => (
                           <li key={i}>{b}</li>
                         ))}
@@ -1186,39 +1288,30 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                 </div>
 
                 {hasLearnings(episode) ? (
-                  <>
-                    <span className={styles.chAnchor} id={`p${p}-ch2`} />
-                    <div className={styles.chapter}>
-                      <div className={styles.chHeader}>
-                        <span className={styles.chNum}>03</span>
-                        <span className={styles.chName}>THINGS I LEARNED</span>
-                        <div className={styles.chLine} />
-                      </div>
-                      {episode.learningsRich ? (
-                        <div className={styles.stuffRich}>
-                          {episode.learningsRich}
-                        </div>
-                      ) : (
-                        <ul
-                          className={`${styles.chBullets} ${styles.chBulletsLessons}`}
-                        >
-                          {(episode.learnings ?? []).map((b, i) => (
-                            <li key={i}>{b}</li>
-                          ))}
-                        </ul>
-                      )}
+                  <div className={styles.chapter}>
+                    <div className={styles.chHeader}>
+                      <span className={styles.chName}>THINGS I LEARNED</span>
+                      <div className={styles.chLine} />
                     </div>
-                  </>
+                    {episode.learningsRich ? (
+                      <div className={styles.stuffRich}>
+                        {episode.learningsRich}
+                      </div>
+                    ) : (
+                      <ul
+                        className={`${styles.chBullets} ${styles.chBulletsLessons}`}
+                      >
+                        {(episode.learnings ?? []).map((b, i) => (
+                          <li key={i}>{b}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 ) : null}
 
+                <span className={styles.chAnchor} id={`p${p}-ch3`} />
                 <div className={styles.credits}>
-                  {!hasLearnings(episode) ? (
-                    <span className={styles.chAnchor} id={`p${p}-ch2`} />
-                  ) : null}
                   <div className={styles.chHeader}>
-                    <span className={styles.chNum}>
-                      {hasLearnings(episode) ? "04" : "03"}
-                    </span>
                     <span className={styles.chName}>CREDITS</span>
                     <div className={styles.chLine} />
                   </div>
@@ -1231,32 +1324,35 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   ) : null}
                   <div className={styles.creditsGrid}>
                     {creditsList.map((c, i) => (
-                      <div key={`${p}-${c.role}-${c.name}-${i}`}>
+                      <div
+                        key={`${p}-${c.role}-${c.name}-${i}`}
+                        className={styles.creditLine}
+                      >
                         {c.role?.trim() ? (
-                          <div className={styles.creditRole}>{c.role}</div>
+                          <span className={styles.creditRole}>{c.role}</span>
                         ) : null}
-                        <div className={styles.creditVal}>
-                          {c.linkedInUrl ? (
-                            <a
-                              href={c.linkedInUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <span>{c.name}</span>
-                              <svg
-                                viewBox="0 0 10 10"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                aria-hidden
-                              >
-                                <path d="M2 8L8 2M3 2h5v5" />
-                              </svg>
-                            </a>
-                          ) : (
+                        {c.linkedInUrl ? (
+                          <a
+                            className={styles.creditVal}
+                            href={c.linkedInUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${c.role ? `${c.role}: ` : ""}${c.name} (opens in new tab)`}
+                          >
                             <span>{c.name}</span>
-                          )}
-                        </div>
+                            <svg
+                              viewBox="0 0 10 10"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              aria-hidden
+                            >
+                              <path d="M2 8L8 2M3 2h5v5" />
+                            </svg>
+                          </a>
+                        ) : (
+                          <span className={styles.creditVal}>{c.name}</span>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -1269,19 +1365,16 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
 
       <div className={styles.playerPill} id="playerPill">
         <div ref={chBarRef} className={styles.chBar} id="chBar">
-          {chapterSegments.map((seg, i) => (
+          {CHAPTER_SEGMENTS.map((label, i) => (
             <button
-              key={seg.num}
+              key={label}
               type="button"
               className={`${styles.chSeg} ${i === curCh ? styles.chSegActive : ""}`}
               onClick={() => jumpChapter(i)}
-              onMouseEnter={(e) =>
-                showSegTip(e, `${seg.num} · ${seg.name}`)
-              }
+              onMouseEnter={(e) => showSegTip(e, label)}
               onMouseLeave={() => setTt(null)}
             >
-              <span className={styles.chSegNum}>{seg.num}</span>
-              <span className={styles.chSegName}>{seg.name}</span>
+              <span className={styles.chSegName}>{label}</span>
               <div
                 className={styles.segFill}
                 style={{ width: `${fillPct[i] * 100}%` }}
@@ -1331,105 +1424,110 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
             </button>
           </div>
 
-          <div className={styles.utilBtns}>
+          <div className={styles.pillMoreWrap} ref={pillMenuRef}>
             <button
               type="button"
-              className={styles.tBtn}
-              title="Restart"
-              onClick={restartEp}
+              className={`${styles.tBtn} ${styles.pillMoreBtn}`}
+              title="More (restart, fullscreen)"
+              aria-label="More options"
+              aria-expanded={pillMenuOpen}
+              aria-haspopup="true"
+              aria-controls="pill-more-menu"
+              onClick={() => setPillMenuOpen((o) => !o)}
             >
-              <svg
-                viewBox="0 0 13 13"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden
-              >
-                <path d="M2 6.5A4.5 4.5 0 1 1 4 10.4" />
-                <path d="M2 3.5v3h3" />
-              </svg>
+              <span className={styles.pillMoreDots} aria-hidden>
+                ···
+              </span>
             </button>
-            <button
-              type="button"
-              className={styles.tBtn}
-              title="Fullscreen"
-              onClick={toggleFullscreen}
-            >
-              <svg
-                viewBox="0 0 13 13"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                aria-hidden
+            {pillMenuOpen ? (
+              <div
+                className={styles.pillMenu}
+                id="pill-more-menu"
+                role="menu"
+                aria-label="Player options"
               >
-                <path d="M1 1h4M1 1v4M12 1h-4M12 1v4M1 12h4M1 12v-4M12 12h-4M12 12v-4" />
-              </svg>
-            </button>
+                <button
+                  type="button"
+                  className={styles.pillMenuItem}
+                  role="menuitem"
+                  onClick={() => {
+                    restartEp();
+                    setPillMenuOpen(false);
+                  }}
+                >
+                  Restart episode
+                </button>
+                <button
+                  type="button"
+                  className={styles.pillMenuItem}
+                  role="menuitem"
+                  onClick={() => {
+                    toggleFullscreen();
+                    setPillMenuOpen(false);
+                  }}
+                >
+                  {isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                </button>
+              </div>
+            ) : null}
           </div>
 
-          <div className={styles.vSep} aria-hidden />
-
-          <div className={styles.nowInfo}>
-            <div className={styles.nowTitle}>{ep.title}</div>
-            <div className={styles.nowSub}>{ep.pillSub}</div>
-          </div>
-
-          <div className={styles.vSep} aria-hidden />
-
-          <div className={styles.epSwitcher}>
-            <div className={styles.epThumb}>
-              <img
-                className={styles.epThumbLogo}
-                src="/logos/black/Ramp.png"
-                alt="Ramp"
-                width={14}
-                height={14}
-                decoding="async"
-              />
+          <div
+            className={`${styles.nowInfoCluster} ${heroTitleInView ? styles.nowInfoClusterHeroTitleInView : ""}`}
+          >
+            <div className={styles.vSep} aria-hidden />
+            <div className={styles.nowInfo}>
+              <div className={styles.nowTitle}>{ep.title}</div>
+              <div className={styles.nowSub}>{ep.pillSub}</div>
             </div>
-            <div className={styles.epInfo}>
-              <div className={styles.epNum}>
-                EP {String(activeEp + 1).padStart(2, "0")} /{" "}
-                {String(episodes.length).padStart(2, "0")}
+          </div>
+
+          {maxEp > 0 ? (
+            <div className={styles.epSwitcherCluster}>
+              <div className={styles.vSep} aria-hidden />
+              <div className={styles.epSwitcher}>
+                <button
+                  type="button"
+                  className={styles.epArrowBtn}
+                  title="Previous episode (↑)"
+                  aria-label="Previous episode"
+                  disabled={activeEp === 0}
+                  onClick={prevEp}
+                >
+                  <svg
+                    viewBox="0 0 9 9"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden
+                  >
+                    <path d="M6 1.5L3 4.5l3 3" />
+                  </svg>
+                </button>
+                <div className={styles.epNum}>
+                  EPISODE {activeEp + 1}/{episodes.length}
+                </div>
+                <button
+                  type="button"
+                  className={styles.epArrowBtn}
+                  title="Next episode (↓)"
+                  aria-label="Next episode"
+                  disabled={activeEp >= maxEp}
+                  onClick={nextEp}
+                >
+                  <svg
+                    viewBox="0 0 9 9"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden
+                  >
+                    <path d="M3 1.5l3 3-3 3" />
+                  </svg>
+                </button>
               </div>
             </div>
-            <div className={styles.epNav}>
-              <button
-                type="button"
-                className={styles.epNavBtn}
-                title="Previous episode (↑)"
-                disabled={activeEp === 0}
-                onClick={prevEp}
-              >
-                <svg
-                  viewBox="0 0 9 9"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  aria-hidden
-                >
-                  <path d="M1.5 6L4.5 3l3 3" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className={styles.epNavBtn}
-                title="Next episode (↓)"
-                disabled={activeEp >= maxEp}
-                onClick={nextEp}
-              >
-                <svg
-                  viewBox="0 0 9 9"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  aria-hidden
-                >
-                  <path d="M1.5 3L4.5 6l3-3" />
-                </svg>
-              </button>
-            </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </div>

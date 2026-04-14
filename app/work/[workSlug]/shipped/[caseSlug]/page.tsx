@@ -7,6 +7,10 @@ import { TabbedPrototypeSection } from "@/components/TabbedPrototypeSection";
 import { SkillsList } from "@/components/SkillsList";
 import { DesignDecisionsDrawer } from "@/components/DesignDecisionsDrawer";
 import { ComingSoonCaseStudyPage } from "@/components/ComingSoonCaseStudyPage";
+import {
+  caseStudySectionHeadingClass,
+  caseStudySpacing,
+} from "@/components/case-study-spacing";
 import type { ShippedCaseStudy } from "@/app/types";
 import type { WorkExperience } from "@/app/types";
 
@@ -82,11 +86,13 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
 
   return (
     <div className="min-h-screen flex flex-col">
-        <main className="container mx-auto flex w-full max-w-6xl flex-1 flex-col gap-14 px-6 py-16">
-        {/* Content aligned with prototype chrome (max-w-4xl mx-auto) */}
-          <div className="max-w-4xl mx-auto w-full flex flex-col gap-14">
+      <main className="container mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-16">
+        <div className={`max-w-4xl mx-auto w-full ${caseStudySpacing.pageStack}`}>
           {/* Project: title + description at top of page */}
-          <section className="flex flex-col gap-6 max-w-2xl" aria-label="Project">
+          <section
+            className={caseStudySpacing.projectIntroStack}
+            aria-label="Project"
+          >
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-neutral-200">
                 {study.title}
@@ -123,7 +129,7 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
             <TabbedPrototypeSection tabs={study.tabs} title={study.title} />
           ) : (
             <figure
-              className="w-full max-w-4xl mx-auto flex flex-col gap-4"
+              className={`w-full max-w-4xl mx-auto ${caseStudySpacing.prototypeFigureStack}`}
               aria-label={`${study.title} – prototype and problem`}
             >
               <PrototypeEmbed
@@ -134,7 +140,7 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
                 urlBarText={study.urlBarText}
               />
               {study.problem && (
-                <figcaption className="flex flex-col gap-1.5">
+                <figcaption className={caseStudySpacing.prototypeCaptionStack}>
                   <p className="text-neutral-500 text-sm leading-relaxed text-center">
                     {study.problem}
                   </p>
@@ -146,10 +152,10 @@ export default async function ShippedCaseStudyPage({ params }: Props) {
           {/* Impact: card-style metrics */}
           {study.impact && study.impact.length > 0 && (
             <section className="flex flex-col w-full max-w-4xl" aria-label="Impact">
-              <h2 className="text-sm font-medium uppercase tracking-wider text-neutral-500 mb-3">
-                Impact
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <h2 className={caseStudySectionHeadingClass}>Impact</h2>
+              <div
+                className={`${caseStudySpacing.impactMetricsGrid} ${caseStudySpacing.labelToContent}`}
+              >
                 {study.impact.map((card, i) => (
                   <article
                     key={i}

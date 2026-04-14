@@ -8,11 +8,20 @@
   --border2: #2a2a2a;
   --accent: #e7f256;
   --text: #ffffff;
-  --text-mid: #777777;
-  --text-dim: #3a3a3a;
+  --text-muted: #a3a3aa;
   --nav-h: 48px;
-  --pill-h: 110px;
+  --pill-h: 94px;
   --pill-bottom: 20px;
+
+  /* Vertical rhythm — mirrors components/case-study-spacing.ts (8px grid) */
+  --cs-chapter-y: 32px;
+  --cs-chapter-y-tight: 16px;
+  --cs-ch-header-inline-gap: 14px;
+  --cs-ch-header-after: 24px;
+  --cs-ch-body-paragraph-gap: 16px;
+  --cs-ch-body-to-block: 24px;
+  --cs-ch-bullet-stack-gap: 14px;
+  --cs-ch-bullet-item-inline-gap: 12px;
 
   position: fixed;
   inset: 0;
@@ -71,14 +80,14 @@
   column-gap: 0;
   width: 100%;
   font-size: 12px;
-  color: var(--text-mid);
+  color: var(--text-muted);
 }
 
 /* Match .metaItem + .metaItem::before { margin: 0 10px } for structured hero rows */
 .metaRowRich [data-case-meta-sep] {
   flex-shrink: 0;
   margin: 0 10px;
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 .scroller::-webkit-scrollbar {
@@ -160,7 +169,7 @@
   border: 1px solid var(--border2);
   border-radius: 8px;
   background: transparent;
-  color: var(--text-dim);
+  color: var(--text-muted);
   cursor: pointer;
   text-decoration: none;
   flex-shrink: 0;
@@ -196,7 +205,7 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  color: var(--text-muted);
   border: 1px solid var(--border2);
   border-radius: 8px;
   background: transparent;
@@ -229,7 +238,7 @@
 
 .metaItem {
   font-size: 12px;
-  color: var(--text-mid);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
 }
@@ -237,7 +246,7 @@
 .metaItem + .metaItem::before {
   content: "·";
   margin: 0 10px;
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 .metaTools {
@@ -274,7 +283,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--text-mid);
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 12px;
   border-bottom: 1px solid var(--border2);
@@ -296,7 +305,7 @@
 .logline {
   font-size: 15px;
   line-height: 1.7;
-  color: var(--text-mid);
+  color: var(--text-muted);
   font-weight: 300;
   font-style: italic;
   max-width: 520px;
@@ -356,7 +365,7 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 .mockPh svg {
@@ -377,32 +386,25 @@
 }
 
 .chapter {
-  padding: 52px 0;
+  padding: var(--cs-chapter-y) 0;
 }
 
 .chapterStuffTightTop {
-  padding-top: 26px;
+  padding-top: var(--cs-chapter-y-tight);
 }
 
 .chHeader {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.chNum {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
+  gap: var(--cs-ch-header-inline-gap);
+  margin-bottom: var(--cs-ch-header-after);
 }
 
 .chName {
   font-size: 10px;
   font-weight: 700;
-  color: var(--text-dim);
-  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
 }
 
 .chLine {
@@ -414,16 +416,20 @@
 .chBody {
   font-size: 14px;
   line-height: 1.85;
-  color: var(--text-mid);
+  color: var(--text-muted);
   max-width: 100%;
 }
 
+.chBodyPrimary {
+  color: var(--text);
+}
+
 .chBody p + p {
-  margin-top: 16px;
+  margin-top: var(--cs-ch-body-paragraph-gap);
 }
 
 .chBody p + .chBullets {
-  margin-top: 16px;
+  margin-top: var(--cs-ch-body-paragraph-gap);
 }
 
 .chBody p {
@@ -441,13 +447,13 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--cs-ch-bullet-stack-gap);
   max-width: 100%;
 }
 
 .chBullets li {
   display: flex;
-  gap: 12px;
+  gap: var(--cs-ch-bullet-item-inline-gap);
   align-items: flex-start;
   font-size: 15px;
   line-height: 1.65;
@@ -457,10 +463,30 @@
 
 .chBullets li::before {
   content: "·";
-  color: var(--text-mid);
+  color: var(--text-muted);
   font-size: 18px;
   line-height: 1.4;
   flex-shrink: 0;
+}
+
+/* Stuff I worked on — em dash, hanging indent so wraps align with body text */
+.chBulletsStuff li {
+  display: block;
+  position: relative;
+  padding-left: 1.65em;
+}
+
+.chBulletsStuff li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--text-muted);
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.65;
+  flex-shrink: unset;
+  width: auto;
 }
 
 /* Learnings chapter only — match case-study lesson type scale */
@@ -477,7 +503,7 @@
   border: 1px solid var(--border2);
   border-radius: 8px;
   overflow: hidden;
-  margin-top: 28px;
+  margin-top: var(--cs-ch-body-to-block);
 }
 
 .metrics2x2 {
@@ -520,15 +546,18 @@
 
 .metricLbl {
   font-size: 11px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
   font-weight: 500;
   line-height: 1.35;
 }
 
 .creditsIntro {
-  margin-bottom: 28px;
-  max-width: 100%;
+  margin-bottom: 32px;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .credits {
@@ -537,47 +566,78 @@
 
 .creditsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 20px 16px;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: start;
+  column-gap: 20px;
+  row-gap: 22px;
+  max-width: 100%;
+  padding-top: 4px;
+  margin-top: 0;
+}
+
+.creditLine {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 4px 0;
+  text-align: left;
 }
 
 .creditRole {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
-  margin-bottom: 4px;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.35;
 }
 
 .creditVal {
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: clamp(15px, 2.4vw, 17px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
   color: var(--text);
+  line-height: 1.35;
+  min-width: 0;
 }
 
-.creditVal a {
+a.creditVal {
   color: var(--text);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition:
-    border-color 0.2s ease,
-    gap 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
+  border-bottom: none;
+  /* inline-block: shrink-wrap to text so underline isn’t column-wide (inline-flex + wrap was stretching). */
+  display: inline-block;
+  max-width: 100%;
+  box-sizing: border-box;
+  vertical-align: top;
 }
 
-.creditVal a:hover,
-.creditVal a:focus-visible {
+a.creditVal > span {
+  text-decoration: none;
+}
+
+a.creditVal:hover > span,
+a.creditVal:focus-visible > span {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--text);
+}
+
+a.creditVal:hover,
+a.creditVal:focus-visible {
   color: var(--text);
-  border-bottom-color: var(--text);
-  gap: 4px;
 }
 
-.creditVal a svg {
+a.creditVal svg {
+  display: inline-block;
   width: 10px;
   height: 10px;
-  flex-shrink: 0;
+  vertical-align: 0.12em;
   opacity: 0;
   max-width: 0;
   margin-left: 0;
@@ -588,11 +648,11 @@
     margin-left 0.2s ease;
 }
 
-.creditVal a:hover svg,
-.creditVal a:focus-visible svg {
+a.creditVal:hover svg,
+a.creditVal:focus-visible svg {
   opacity: 1;
   max-width: 10px;
-  margin-left: 0;
+  margin-left: 4px;
 }
 
 .playerPill {
@@ -604,7 +664,7 @@
   background: var(--pill);
   border: 1px solid var(--pill-border);
   border-radius: 18px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow:
     0 12px 48px rgba(0, 0, 0, 0.7),
     0 2px 8px rgba(0, 0, 0, 0.4);
@@ -614,10 +674,12 @@
 
 .chBar {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  height: 38px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  min-height: 34px;
   border-bottom: 1px solid var(--pill-border);
   position: relative;
+  border-radius: 17px 17px 0 0;
+  overflow: hidden;
 }
 
 .chSeg {
@@ -626,6 +688,8 @@
   align-items: center;
   justify-content: center;
   gap: 7px;
+  min-height: 34px;
+  padding: 4px 2px;
   cursor: pointer;
   border-right: 1px solid var(--pill-border);
   overflow: hidden;
@@ -662,23 +726,21 @@
   pointer-events: none;
 }
 
-.chSegNum {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--text-dim);
-}
-
-.chSegActive .chSegNum {
-  color: var(--accent);
-  opacity: 0.7;
-}
-
 .chSegName {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 0 3px;
+  text-align: center;
+  max-width: 100%;
+  line-height: 1.15;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  word-break: break-word;
 }
 
 .chSegActive .chSegName {
@@ -688,9 +750,11 @@
 .ctrlRow {
   display: flex;
   align-items: center;
-  padding: 0 18px;
-  height: 60px;
-  gap: 6px;
+  padding: 6px 14px;
+  min-height: 56px;
+  gap: 4px;
+  border-radius: 0 0 17px 17px;
+  overflow: visible;
 }
 
 .transport {
@@ -705,7 +769,7 @@
   height: 32px;
   border: none;
   background: transparent;
-  color: var(--text-mid);
+  color: var(--text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -741,11 +805,64 @@
   flex-shrink: 0;
 }
 
-.utilBtns {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+.pillMoreWrap {
+  position: relative;
   flex-shrink: 0;
+}
+
+.pillMoreBtn {
+  letter-spacing: 0.12em;
+}
+
+.pillMoreDots {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  margin-top: -2px;
+  color: var(--text-muted);
+}
+
+.pillMoreBtn:hover .pillMoreDots {
+  color: var(--text);
+}
+
+.pillMenu {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 168px;
+  padding: 4px;
+  background: var(--surface3);
+  border: 1px solid var(--pill-border);
+  border-radius: 10px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+  z-index: 320;
+}
+
+.pillMenuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.pillMenuItem:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .vSep {
@@ -756,12 +873,49 @@
   flex-shrink: 0;
 }
 
+.nowInfoCluster {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  transition:
+    max-width 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.34s ease,
+    transform 0.34s ease;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.nowInfoClusterHeroTitleInView {
+  max-width: 0;
+  opacity: 0;
+  transform: translate3d(0, 5px, 0);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nowInfoCluster {
+    transition:
+      max-width 0.01ms,
+      opacity 0.01ms,
+      transform 0.01ms;
+  }
+}
+
+.heroTitleObserve {
+  flex: 1;
+  min-width: 0;
+}
+
 .nowInfo {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
+  justify-content: center;
 }
 
 .nowTitle {
@@ -771,15 +925,24 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 .nowSub {
   font-size: 11px;
-  color: var(--text-mid);
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-style: italic;
+  line-height: 1.25;
+}
+
+.epSwitcherCluster {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .epSwitcher {
@@ -788,43 +951,8 @@
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   flex-shrink: 0;
-}
-
-.epThumb {
-  width: calc(var(--ep-num-size) * var(--ep-num-line-height));
-  height: calc(var(--ep-num-size) * var(--ep-num-line-height));
-  background: var(--surface3);
-  border: 1px solid var(--pill-border);
-  border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.epThumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.epThumb img.epThumbLogo {
-  object-fit: contain;
-  width: 50%;
-  height: 50%;
-  padding: 0;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.epInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
 }
 
 .epLive {
@@ -849,7 +977,7 @@
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 .epNum {
@@ -858,45 +986,39 @@
   font-weight: 600;
   color: var(--text);
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
-.epNav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.epNavBtn {
-  width: 22px;
-  height: 18px;
-  border: 1px solid var(--pill-border);
+.epArrowBtn {
+  width: 28px;
+  height: 28px;
+  border: none;
   background: transparent;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--text-mid);
+  color: var(--text-muted);
+  flex-shrink: 0;
   transition:
     background 0.12s,
-    color 0.12s,
-    border-color 0.12s;
+    color 0.12s;
 }
 
-.epNavBtn:hover:not(:disabled) {
+.epArrowBtn:hover:not(:disabled) {
   background: var(--surface3);
   color: var(--text);
-  border-color: var(--border2);
 }
 
-.epNavBtn:disabled {
+.epArrowBtn:disabled {
   opacity: 0.25;
   cursor: default;
 }
 
-.epNavBtn svg {
-  width: 9px;
-  height: 9px;
+.epArrowBtn svg {
+  width: 11px;
+  height: 11px;
 }
 
 .tt {
@@ -908,7 +1030,7 @@
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--text-mid);
+  color: var(--text-muted);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.1s;
@@ -926,7 +1048,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 10px;
-  color: var(--text-mid);
+  color: var(--text-muted);
   letter-spacing: 0.06em;
   opacity: 0;
   transition: opacity 0.3s;
@@ -993,7 +1115,7 @@
   align-items: center;
   justify-content: center;
   font-size: 9px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   letter-spacing: 0.08em;
   font-weight: 600;
   position: relative;
@@ -1118,7 +1240,7 @@
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  color: var(--text-mid);
+  color: var(--text-muted);
   background: transparent;
   line-height: 1;
   transition:
@@ -1162,7 +1284,7 @@
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--text-mid);
+  color: var(--text-muted);
   background: transparent;
   padding: 7px 16px;
   border-radius: 999px;
@@ -1190,7 +1312,7 @@
   position: relative;
   z-index: 0;
   font-size: 9px;
-  color: var(--text-dim);
+  color: var(--text-muted);
   letter-spacing: 0.08em;
   font-weight: 600;
   text-align: center;
@@ -1242,6 +1364,10 @@
     display: none;
   }
 
+  .nowInfoCluster {
+    display: none;
+  }
+
   .contentWrap {
     padding: 0 24px;
   }
@@ -1258,13 +1384,16 @@
   .wide3 {
     grid-column: span 2;
   }
+
+  .creditsGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Before/after lightbox (portaled to document.body — tokens duplicated from .root) */
 .mcLightboxRoot {
   --text: #ffffff;
-  --text-mid: #777777;
-  --text-dim: #3a3a3a;
+  --text-muted: #a3a3aa;
   --surface3: #1e1e1e;
   --accent: #e7f256;
   --pill-border: #2c2c2c;
@@ -1327,7 +1456,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-mid);
+  color: var(--text-muted);
 }
 
 .mcLightboxClose {
@@ -1342,7 +1471,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  color: var(--text-mid);
+  color: var(--text-muted);
   background: transparent;
   transition:
     color 0.15s ease,

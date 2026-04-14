@@ -163,6 +163,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       "Added arrival date input box to increase clarity on when transfers and deposits would settle in an RBA.",
       "Led design that enabled customers to deposit checks into Ramp Business Accounts (critical capability as ~26% of businesses still operate with check).",
       "Led design for invoice-free vendor payments enabling lightweight flows for one-off vendors.",
+      'Updated CTAs and drawer name from "Transfer funds" to "Move money" based on expanded capabilities.',
     ],
     screenGrid: {
       layout: "mg4",

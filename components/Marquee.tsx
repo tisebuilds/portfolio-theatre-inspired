@@ -2,7 +2,7 @@
 
 import { useRef, useCallback, useState } from "react";
 
-const LETTERBOXD_URL = "https://letterboxd.com/teeshay24/";
+const FILMS_URL = "https://tisewatched.vercel.app/";
 
 const line1 = ["Tise", "moves", "ideas", "from", "draft", "to", "production,"];
 const line2 = ["using", "lessons", "from", "great"];
@@ -62,7 +62,7 @@ export function Marquee() {
           </span>
         ))}
         <a
-          href={LETTERBOXD_URL}
+          href={FILMS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="underline underline-offset-2 hover:text-white transition-colors"

@@ -1,6 +1,9 @@
 import Image from "next/image";
-import type { StandardWorkCaseStudyProps } from "@/components/StandardWorkCaseStudy";
-import { secondaryLinkClass } from "@/components/StandardWorkCaseStudy";
+import {
+  secondaryLinkClass,
+  type StandardWorkCaseStudyProps,
+} from "@/components/StandardWorkCaseStudy";
+import { SITE_EMAIL } from "@/lib/site";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
@@ -175,9 +178,14 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
       I designed a paired OTT and mobile user experience to enhance virtual
       co-viewing for the streaming fleet. I also participated in a user
       research audience project about Disney guests.{" "}
-      <strong className="font-semibold">
+      <a
+        href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
+          "Request for Disney internship case study",
+        )}`}
+        className={`font-semibold ${secondaryLinkClass}`}
+      >
         Please contact me for case study.
-      </strong>
+      </a>
     </p>
   ),
   learnings: [

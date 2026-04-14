@@ -1,4 +1,8 @@
-import type { StandardWorkCaseStudyProps } from "@/components/StandardWorkCaseStudy";
+import {
+  secondaryLinkClass,
+  type StandardWorkCaseStudyProps,
+} from "@/components/StandardWorkCaseStudy";
+import { SITE_EMAIL } from "@/lib/site";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
 import { FigmaCaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
@@ -131,9 +135,14 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
       <p>
         My experiences taught me how to manage expectations, incorporate
         feedback and become a self-sufficient designer.{" "}
-        <strong className="font-semibold">
+        <a
+          href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
+            "Request for Figma internship case study",
+          )}`}
+          className={`font-semibold ${secondaryLinkClass}`}
+        >
           Please contact me for case study.
-        </strong>
+        </a>
       </p>
     </div>
   ),

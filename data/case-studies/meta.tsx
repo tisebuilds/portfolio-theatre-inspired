@@ -1,4 +1,8 @@
-import type { StandardWorkCaseStudyProps } from "@/components/StandardWorkCaseStudy";
+import {
+  secondaryLinkClass,
+  type StandardWorkCaseStudyProps,
+} from "@/components/StandardWorkCaseStudy";
+import { SITE_EMAIL } from "@/lib/site";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
@@ -147,9 +151,14 @@ export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
         the AXP Design Team. I submitted logos for the AXP context and organized
         weekly intern lunches for my office. My team won Design After School:
         Intern Edition for strong craft and polish.{" "}
-        <strong className="font-semibold">
+        <a
+          href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
+            "Request for Meta internship case study",
+          )}`}
+          className={`font-semibold ${secondaryLinkClass}`}
+        >
           Please contact me for case study.
-        </strong>
+        </a>
       </p>
     </div>
   ),

@@ -1021,27 +1021,6 @@ a.creditVal:focus-visible svg {
   height: 11px;
 }
 
-.tt {
-  position: fixed;
-  background: var(--surface3);
-  border: 1px solid var(--pill-border);
-  padding: 4px 10px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.1s;
-  z-index: 400;
-  white-space: nowrap;
-}
-
-.ttShow {
-  opacity: 1;
-}
-
 .kbdHint {
   position: fixed;
   bottom: calc(var(--pill-h) + var(--pill-bottom) + 12px);

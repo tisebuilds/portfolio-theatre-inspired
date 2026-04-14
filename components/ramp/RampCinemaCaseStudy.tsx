@@ -719,9 +719,6 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   ]);
   const [playing, setPlaying] = useState(false);
   const [playIconPause, setPlayIconPause] = useState(false);
-  const [tt, setTt] = useState<{ x: number; y: number; text: string } | null>(
-    null,
-  );
   const [kbdShow, setKbdShow] = useState(false);
   const [pillMenuOpen, setPillMenuOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -1055,32 +1052,10 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
     togglePlay,
   ]);
 
-  const showSegTip = (e: React.MouseEvent, label: string) => {
-    const barEl = chBarRef.current;
-    if (!barEl) return;
-    const rect = barEl.getBoundingClientRect();
-    setTt({
-      x: e.clientX - 30,
-      y: rect.top - 32,
-      text: label,
-    });
-  };
-
   const ep = episodes[activeEp];
 
   return (
     <div className={styles.root}>
-      <div
-        className={`${styles.tt} ${tt ? styles.ttShow : ""}`}
-        style={
-          tt
-            ? { left: tt.x, top: tt.y }
-            : { left: -9999, top: -9999, opacity: 0 }
-        }
-      >
-        {tt?.text}
-      </div>
-
       <div
         className={`${styles.kbdHint} ${kbdShow ? styles.kbdHintShow : ""}`}
         id="kbdHint"
@@ -1371,8 +1346,6 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
               type="button"
               className={`${styles.chSeg} ${i === curCh ? styles.chSegActive : ""}`}
               onClick={() => jumpChapter(i)}
-              onMouseEnter={(e) => showSegTip(e, label)}
-              onMouseLeave={() => setTt(null)}
             >
               <span className={styles.chSegName}>{label}</span>
               <div

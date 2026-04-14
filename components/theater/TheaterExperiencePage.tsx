@@ -495,18 +495,6 @@ function SceneRail({
               className="relative flex-1 group"
               aria-label={label}
             >
-              {/* Tooltip */}
-              <span
-                className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2.5 py-1 rounded text-[11px] font-medium whitespace-nowrap pointer-events-none transition-opacity duration-150 z-10"
-                style={{
-                  background: "#222",
-                  color: "#ccc",
-                  opacity: isHov ? 1 : 0,
-                }}
-              >
-                {label}
-              </span>
-
               {/* Bar segment */}
               <span
                 className="block w-full rounded-[2px] transition-all duration-150"

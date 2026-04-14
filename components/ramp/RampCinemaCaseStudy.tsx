@@ -1216,22 +1216,46 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
       <div
         className={`${styles.kbdHint} ${kbdShow ? styles.kbdHintShow : ""}`}
         id="kbdHint"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
       >
-        <span className={styles.kbd}>Space</span> play &nbsp;·&nbsp;
-        <span className={styles.kbd}>1</span>
-        <span className={styles.kbd}>2</span>
-        <span className={styles.kbd}>3</span>
-        <span className={styles.kbd}>4</span> sections
+        <div className={styles.kbdGroup}>
+          <kbd className={styles.kbdChip}>Space</kbd>
+          <span className={styles.kbdAction}>play</span>
+        </div>
+        <span className={styles.kbdSep} aria-hidden={true} />
+        <div className={styles.kbdGroup}>
+          <span className={styles.kbdChipCluster} aria-label="Keys 1 through 4">
+            <kbd className={styles.kbdChip}>1</kbd>
+            <kbd className={styles.kbdChip}>2</kbd>
+            <kbd className={styles.kbdChip}>3</kbd>
+            <kbd className={styles.kbdChip}>4</kbd>
+          </span>
+          <span className={styles.kbdAction}>sections</span>
+        </div>
         {maxEp > 0 ? (
           <>
-            &nbsp;·&nbsp;
-            <span className={styles.kbd}>↑</span>
-            <span className={styles.kbd}>↓</span> episodes
+            <span className={styles.kbdSep} aria-hidden={true} />
+            <div className={styles.kbdGroup}>
+              <span className={styles.kbdChipCluster}>
+                <kbd className={styles.kbdChip}>↑</kbd>
+                <kbd className={styles.kbdChip}>↓</kbd>
+              </span>
+              <span className={styles.kbdAction}>episodes</span>
+            </div>
           </>
         ) : null}
-        &nbsp;·&nbsp;
-        <span className={styles.kbd}>R</span> restart &nbsp;·&nbsp;
-        <span className={styles.kbd}>F</span> fullscreen
+        <span className={styles.kbdSep} aria-hidden={true} />
+        <div className={styles.kbdGroup}>
+          <kbd className={styles.kbdChip}>R</kbd>
+          <span className={styles.kbdAction}>restart</span>
+        </div>
+        <span className={styles.kbdSep} aria-hidden={true} />
+        <div className={styles.kbdGroup}>
+          <kbd className={styles.kbdChip}>F</kbd>
+          <span className={styles.kbdAction}>fullscreen</span>
+        </div>
       </div>
 
       <div className={styles.scroller} ref={scrollerRef} id="scroller">

@@ -68,6 +68,7 @@ export function TvShell({ projects }: TvShellProps) {
   const reducedMotion = useReducedMotion();
 
   const timersRef = useRef<number[]>([]);
+  const bootedThisMountRef = useRef(false);
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((id) => clearTimeout(id));
     timersRef.current = [];
@@ -115,6 +116,41 @@ export function TvShell({ projects }: TvShellProps) {
   useEffect(() => {
     return () => clearTimers();
   }, [clearTimers]);
+
+  useEffect(() => {
+    if (!isMd) return;
+    if (reducedMotion) return;
+    if (signalLost) return;
+    if (bootedThisMountRef.current) return;
+
+    const BOOT_STATIC_MS = 600;
+    const key = "tvBooted";
+    let alreadyBooted = false;
+    try {
+      alreadyBooted = window.sessionStorage.getItem(key) === "1";
+    } catch {
+      alreadyBooted = false;
+    }
+    if (alreadyBooted) return;
+
+    bootedThisMountRef.current = true;
+    try {
+      window.sessionStorage.setItem(key, "1");
+    } catch {
+      // ignore
+    }
+
+    clearTimers();
+    setScanOpacity(SCANLINE_PEAK);
+    setPhase("static");
+
+    const t1 = window.setTimeout(() => setPhase("fade"), BOOT_STATIC_MS);
+    const t2 = window.setTimeout(() => {
+      setPhase("idle");
+      setScanOpacity(SCANLINE_REST);
+    }, BOOT_STATIC_MS + FADE_IN_MS);
+    timersRef.current.push(t1, t2);
+  }, [clearTimers, isMd, reducedMotion, signalLost]);
 
   useLayoutEffect(() => {
     if (phase === "dissolve") {

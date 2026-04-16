@@ -144,7 +144,7 @@ export function AboutViewport() {
           <section className="flex flex-col items-start gap-6">
             <AboutHeading />
             <p className="about-text-body max-w-[60ch]">
-              I move ideas from draft to production, using lessons from watching many{" "}
+              I move ideas from draft to production, using lessons from great{" "}
               {letterboxdHref ? (
                 <a
                   href={letterboxdHref}
@@ -507,7 +507,7 @@ export function AboutViewport() {
               <div className="md:col-span-7">
                 <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
                   <li className="min-w-0">
-                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
                       <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
                         Outcome-first
                       </h3>
@@ -518,7 +518,7 @@ export function AboutViewport() {
                     </div>
                   </li>
                   <li className="min-w-0">
-                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
                       <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
                         Prototypes for alignment
                       </h3>
@@ -529,7 +529,7 @@ export function AboutViewport() {
                     </div>
                   </li>
                   <li className="min-w-0">
-                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
                       <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
                         My process
                       </h3>
@@ -540,7 +540,7 @@ export function AboutViewport() {
                     </div>
                   </li>
                   <li className="min-w-0">
-                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
                       <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
                         Bias to action
                       </h3>

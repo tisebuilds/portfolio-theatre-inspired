@@ -23,6 +23,8 @@ const disneyEpisode: RampEpisode = {
     <LearningsFromStandard
       items={disneyCaseStudyContent.learnings}
       learningsLayout={disneyCaseStudyContent.learningsLayout}
+      presentation="bodyCopy"
+      bodyCopyTitleSeparator=": "
     />
   ),
   creditsIntro: disneyCaseStudyContent.creditsIntro,

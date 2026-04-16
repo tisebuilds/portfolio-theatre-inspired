@@ -14,7 +14,7 @@ export type StandardWorkCaseStudyCredit = {
 };
 
 export type StandardWorkCaseStudyLearning = {
-  title: string;
+  title: ReactNode;
   content: ReactNode;
 };
 
@@ -34,6 +34,11 @@ export type StandardWorkCaseStudyProps = {
   overview: ReactNode;
   /** `split` = title and body on one row; `stacked` = title above body (single column). */
   learningsLayout?: "split" | "stacked";
+  /**
+   * When learnings are shown as `presentation="bodyCopy"` (e.g. TV shell), inserted between
+   * title and body when `content` is set. Defaults to a single space.
+   */
+  learningsBodyCopyTitleSeparator?: string;
   learnings: StandardWorkCaseStudyLearning[];
   creditsIntro: string;
   creditsColumns: StandardWorkCaseStudyCredit[][];

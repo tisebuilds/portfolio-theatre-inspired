@@ -6,7 +6,9 @@ import Image from "next/image";
 import { AboutHeading } from "@/components/AboutHeading";
 import { ExternalLinkIcon } from "@/components/case-study-icons";
 import aboutData from "@/data/about.json";
+import { ABOUT_PHILOSOPHY_NAV } from "@/data/about-philosophy-nav";
 import type { AboutData } from "@/app/types";
+import { PhilosophyNavCard } from "@/components/tv/PhilosophyNavCard";
 
 const about = aboutData as AboutData;
 const letterboxdHref = "https://letterboxd.com/teeshay24/diary/";
@@ -162,13 +164,10 @@ export function AboutViewport() {
               .
             </p>
             <div className="w-full max-w-[60ch] space-y-3">
-              <h2 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
-                Favorite films
-              </h2>
               <ul className="m-0 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-4">
                 {favoriteFilms.map((film) => (
                   <li key={film.title} className="min-w-0">
-                    <figure className="group relative overflow-hidden rounded-none border border-neutral-700/60 bg-neutral-950 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.9)] transition-transform duration-200 hover:-translate-y-0.5 hover:border-tv-pink/60">
+                    <figure className="group relative overflow-hidden rounded-none border border-neutral-700/60 bg-neutral-950 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.9)] transition-[border-color] duration-200 hover:border-tv-pink/60">
                       <div className="relative aspect-[2/3] w-full">
                         <Image
                           src={film.posterSrc}
@@ -177,6 +176,12 @@ export function AboutViewport() {
                           className="object-cover opacity-100"
                           sizes="(max-width: 640px) 44vw, 140px"
                         />
+                        <div
+                          className="pointer-events-none absolute inset-0 overflow-hidden"
+                          aria-hidden={true}
+                        >
+                          <div className="absolute -left-1/2 top-0 h-full w-[70%] bg-gradient-to-r from-transparent via-white/45 to-transparent mix-blend-screen opacity-0 motion-reduce:hidden group-hover:animate-poster-gleam" />
+                        </div>
                       </div>
                     </figure>
                   </li>
@@ -284,6 +289,55 @@ export function AboutViewport() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+
+          <section aria-labelledby="process-heading" className="space-y-4">
+            <h2
+              id="process-heading"
+              className="about-text-display"
+            >
+              <a
+                href="https://www.youtube.com/watch?v=4u94juYwLLM"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-neutral-400"
+              >
+                Execution &gt; Process
+              </a>
+            </h2>
+            <div className="grid gap-6 md:grid-cols-12 md:gap-10">
+              <div className="space-y-4 md:col-span-5">
+                <p className="about-text-body max-w-[60ch] text-neutral-200">
+                  My internships and early career taught me that execution is
+                  everything. Process has value, but no one cares for process if
+                  the outcome is disappointing.
+                </p>
+                <p className="about-text-body max-w-[60ch] text-neutral-200">
+                  My portfolio reflects that belief. Instead of traditional case
+                  studies, it focuses on outcomes. I use my slide deck to tell
+                  the story behind the work: the constraints, decisions,
+                  tradeoffs, and context that shaped each project.
+                </p>
+              </div>
+
+              <div className="md:col-span-7">
+                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+                  {ABOUT_PHILOSOPHY_NAV.map((item, i) => (
+                    <li
+                      key={
+                        "backLinks" in item
+                          ? item.philosophyTitle
+                          : `${item.episodeLabel}-${i}`
+                      }
+                      className="min-w-0"
+                    >
+                      <PhilosophyNavCard item={item} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </section>
 
@@ -475,86 +529,6 @@ export function AboutViewport() {
             </div>
           </section>
 
-          <section aria-labelledby="process-heading" className="space-y-4">
-            <h2
-              id="process-heading"
-              className="about-text-display"
-            >
-              <a
-                href="https://www.youtube.com/watch?v=4u94juYwLLM"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-neutral-400"
-              >
-                Execution &gt; Process
-              </a>
-            </h2>
-            <div className="grid gap-6 md:grid-cols-12 md:gap-10">
-              <div className="space-y-4 md:col-span-5">
-                <p className="about-text-body max-w-[60ch] text-neutral-200">
-                  My internships and early career taught me that execution is
-                  everything. Process has value, but no one cares for process if
-                  the outcome is disappointing.
-                </p>
-                <p className="about-text-body max-w-[60ch] text-neutral-200">
-                  My portfolio reflects that belief. Instead of traditional case
-                  studies, it focuses on outcomes. I use my slide deck to tell
-                  the story behind the work: the constraints, decisions,
-                  tradeoffs, and context that shaped each project.
-                </p>
-              </div>
-
-              <div className="md:col-span-7">
-                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
-                  <li className="min-w-0">
-                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
-                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
-                        Outcome-first
-                      </h3>
-                      <p className="about-text-body mt-2 text-neutral-200">
-                        Users don&apos;t interact with case studies, they only see
-                        what we ship.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="min-w-0">
-                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
-                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
-                        Prototypes for alignment
-                      </h3>
-                      <p className="about-text-body mt-2 text-neutral-200">
-                        I use prototypes and AI to drive alignment and clarity
-                        fast.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="min-w-0">
-                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
-                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
-                        My process
-                      </h3>
-                      <p className="about-text-body mt-2 text-neutral-200">
-                        I am not the right hire if you are looking for somone who&apos;s
-                        practice is based on process.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="min-w-0">
-                    <div className="h-full rounded-xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
-                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
-                        Bias to action
-                      </h3>
-                      <p className="about-text-body mt-2 text-neutral-200">
-                        Sometimes I move before every requirement is perfectly
-                        defined, but when I believe something should exist, I
-                        build it.
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
 
           <section
             aria-labelledby="credits-heading"

@@ -5,7 +5,7 @@ import { caseStudySpacing } from "@/components/case-study-spacing";
 import { caseStudyType } from "@/components/case-study-typography";
 
 export type StandardLearningItem = {
-  title: string;
+  title: ReactNode;
   content: ReactNode;
 };
 
@@ -13,13 +13,26 @@ export function LearningsFromStandard({
   items,
   learningsLayout = "split",
   presentation = "definitionList",
+  bodyCopyTitleSeparator,
 }: {
   items: StandardLearningItem[];
   learningsLayout?: "split" | "stacked";
   /** `bodyCopy` — uniform lesson paragraphs (e.g. title-only lines). */
   presentation?: "definitionList" | "bodyCopy";
+  /** Between title and body in `bodyCopy` mode when `content` is set. Default: one space. */
+  bodyCopyTitleSeparator?: string;
 }) {
   if (presentation === "bodyCopy") {
+    const join = bodyCopyTitleSeparator ?? " ";
+    /** Colon + space as a small DOM subtree so it always serializes in the DOM. */
+    const titleBodyGlue =
+      join === ": " ? (
+        <>
+          <span>:</span>{" "}
+        </>
+      ) : (
+        join
+      );
     return (
       <ul
         className={`m-0 list-none p-0 ${caseStudySpacing.learningsBodyCopyList}`}
@@ -27,7 +40,12 @@ export function LearningsFromStandard({
         {items.map((item, index) => (
           <li key={`learning-${index}`} className={caseStudyType.learningBodyCopy}>
             {item.title}
-            {item.content != null ? <> {item.content}</> : null}
+            {item.content != null ? (
+              <>
+                {titleBodyGlue}
+                {item.content}
+              </>
+            ) : null}
           </li>
         ))}
       </ul>

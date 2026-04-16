@@ -38,9 +38,22 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        "poster-gleam": {
+          "0%": {
+            transform: "translateX(-140%) skewX(-14deg)",
+            opacity: "0",
+          },
+          "18%": { opacity: "1" },
+          "82%": { opacity: "1" },
+          "100%": {
+            transform: "translateX(220%) skewX(-14deg)",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         marquee: "marquee 25s linear infinite",
+        "poster-gleam": "poster-gleam 0.72s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
       transitionTimingFunction: {
         spring: "cubic-bezier(0.16, 1, 0.3, 1)",

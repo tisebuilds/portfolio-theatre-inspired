@@ -29,6 +29,7 @@ function episodeFromStandard(content: {
   overview: RampEpisode["outcomeRich"];
   learnings: Parameters<typeof LearningsFromStandard>[0]["items"];
   learningsLayout?: Parameters<typeof LearningsFromStandard>[0]["learningsLayout"];
+  learningsBodyCopyTitleSeparator?: string;
   creditsIntro: string;
   creditsColumns: Parameters<typeof standardCreditsColumnsToRampCredits>[0];
 }): RampEpisode {
@@ -46,6 +47,7 @@ function episodeFromStandard(content: {
         items={content.learnings}
         learningsLayout={content.learningsLayout}
         presentation="bodyCopy"
+        bodyCopyTitleSeparator={content.learningsBodyCopyTitleSeparator}
       />
     ),
     creditsIntro: content.creditsIntro,

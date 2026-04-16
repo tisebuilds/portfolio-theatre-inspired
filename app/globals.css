@@ -251,6 +251,16 @@
   animation-play-state: paused;
 }
 
+.sticker-hover-bob {
+  animation: none;
+  will-change: transform;
+}
+
+.sticker-hover-bob:hover,
+.sticker-hover-bob:focus-visible {
+  animation: sticker-bob 3s ease-in-out infinite both;
+}
+
 @keyframes star-burst {
   0% {
     opacity: 1;

@@ -408,7 +408,7 @@ export function TvShell({ projects }: TvShellProps) {
                     signalLost
                       ? "CH -- / 08"
                       : aboutActive
-                        ? "CH 09 / 09"
+                        ? "About me"
                         : `CH ${String(channelIndex + 1).padStart(2, "0")} / 08`
                   }
                   onUp={onPrev}

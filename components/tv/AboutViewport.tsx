@@ -9,12 +9,24 @@ import aboutData from "@/data/about.json";
 import type { AboutData } from "@/app/types";
 
 const about = aboutData as AboutData;
-const letterboxdHref = about.pins.find((p) => p.label === "Film")?.href;
+const letterboxdHref = "https://letterboxd.com/teeshay24/diary/";
 
 export function AboutViewport() {
   const mentorCollageViewportRef = useRef<HTMLDivElement | null>(null);
   const [mentorScale, setMentorScale] = useState(1);
   const [activePin, setActivePin] = useState<string>("");
+  const favoriteFilms = [
+    { title: "Spirited Away", posterSrc: "/posters/spirited-away.png" },
+    { title: "Sinners", posterSrc: "/posters/sinners.png" },
+    {
+      title: "Devil Wears Prada",
+      posterSrc: "/posters/devil-wears-prada.png",
+    },
+    {
+      title: "Legally Blonde",
+      posterSrc: "/posters/legally-blonde.png",
+    },
+  ] as const;
 
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(
     null,
@@ -132,14 +144,14 @@ export function AboutViewport() {
           <section className="flex flex-col items-start gap-6">
             <AboutHeading />
             <p className="about-text-body max-w-[60ch]">
-              I move ideas from draft to production, using lessons from great{" "}
+              I move ideas from draft to production, using lessons from watching many{" "}
               {letterboxdHref ? (
                 <a
                   href={letterboxdHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-baseline gap-1 text-neutral-200 underline decoration-neutral-500 underline-offset-[0.2em] transition-colors hover:text-white hover:decoration-neutral-400"
-                  aria-label="Letterboxd profile (opens in new tab)"
+                  aria-label="Letterboxd diary (opens in new tab)"
                 >
                   films
                   <ExternalLinkIcon className="relative -top-px ml-0.5 shrink-0 text-neutral-400 transition-colors group-hover:text-neutral-200" />
@@ -149,77 +161,104 @@ export function AboutViewport() {
               )}
               .
             </p>
+            <div className="w-full max-w-[60ch] space-y-3">
+              <h2 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+                Favorite films
+              </h2>
+              <ul className="m-0 grid list-none grid-cols-2 gap-4 p-0 sm:grid-cols-4">
+                {favoriteFilms.map((film) => (
+                  <li key={film.title} className="min-w-0">
+                    <figure className="group relative overflow-hidden rounded-none border border-neutral-700/60 bg-neutral-950 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.9)] transition-transform duration-200 hover:-translate-y-0.5 hover:border-tv-pink/60">
+                      <div className="relative aspect-[2/3] w-full">
+                        <Image
+                          src={film.posterSrc}
+                          alt={`${film.title} poster`}
+                          fill
+                          className="object-cover opacity-100"
+                          sizes="(max-width: 640px) 44vw, 140px"
+                        />
+                      </div>
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
 
           <section aria-labelledby="awards-heading" className="space-y-4">
-            <h2
-              id="awards-heading"
-              className="about-text-body max-w-[60ch]"
-            >
-              I&apos;ve been recognized for my ability to cultivate community and
-              culture.
-            </h2>
-            <div className="relative py-6">
-              {[
-                {
-                  name: "WICC",
-                  rotate: -8,
-                  delay: "0s",
-                  className: "top-0 left-[4%] sm:left-[8%]",
-                  image: "/stickers/wicc.png",
-                  imageClassName: "h-[48px] w-[78px] object-contain",
-                },
-                {
-                  name: "URMC",
-                  rotate: 5,
-                  delay: "0.7s",
-                  className: "top-[12%] right-[2%] sm:right-[6%]",
-                  image: "/stickers/urmc.png",
-                  imageClassName: "h-[46px] w-[82px] object-contain",
-                },
-                {
-                  name: "Intro to DPD",
-                  rotate: -3,
-                  delay: "1.4s",
-                  className: "bottom-[30%] left-[1%] sm:left-[5%]",
-                  image: "/stickers/intro-to-dpd.png",
-                  imageClassName: "h-[36px] w-[110px] object-contain",
-                },
-                {
-                  name: "CUXD",
-                  rotate: 6,
-                  delay: "0.35s",
-                  className: "bottom-[8%] right-[4%] sm:right-[10%]",
-                  image: "/stickers/cuxd.png",
-                  imageClassName: "h-[36px] w-[61px] object-contain",
-                },
-                {
-                  name: "ColorStack",
-                  rotate: -4,
-                  delay: "1.05s",
-                  className: "bottom-0 left-[15%] sm:left-[20%]",
-                  image: "/stickers/colorstack.png",
-                  imageClassName: "h-[37px] w-[107px] object-contain",
-                },
-              ].map((org) => (
-                <span
-                  key={org.name}
-                  className={`sticker absolute z-10 cursor-default select-none rounded-sm p-0 bg-transparent shadow-none ${org.className}`}
-                  style={{
-                    "--sticker-r": `${org.rotate}deg`,
-                    animationDelay: org.delay,
-                  } as CSSProperties}
-                >
-                  <Image
-                    src={org.image}
-                    alt={org.name}
-                    width={110}
-                    height={48}
-                    className={org.imageClassName}
-                  />
-                </span>
-              ))}
+            <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <h2
+                id="awards-heading"
+                className="about-text-body max-w-[60ch] sm:flex-1"
+              >
+                I&apos;ve been recognized for my ability to cultivate community and
+                culture.
+              </h2>
 
+              <div className="flex flex-wrap items-center gap-0.5 sm:shrink-0 sm:justify-end">
+                {[
+                  {
+                    name: "WICC",
+                    href: "https://www.flipsnack.com/FFC8EDCC5A8/wicc/full-view.html?p=1",
+                    rotate: -8,
+                    image: "/stickers/wicc.png",
+                    imageClassName: "h-[22px] w-[38px] object-contain",
+                  },
+                  {
+                    name: "URMC",
+                    href: "https://www.flipsnack.com/FFC8EDCC5A8/urmc/full-view.html?p=1",
+                    rotate: 5,
+                    image: "/stickers/urmc.png",
+                    imageClassName: "h-[22px] w-[40px] object-contain",
+                  },
+                  {
+                    name: "AppDev",
+                    href: "https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html?p=1",
+                    rotate: -3,
+                    image: "/logos/black/appdev-logo.png",
+                    imageClassName: "h-[20px] w-[64px] object-contain",
+                  },
+                  {
+                    name: "CuXD",
+                    href: "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=8",
+                    rotate: 6,
+                    image: "/stickers/cuxd.png",
+                    imageClassName: "h-[20px] w-[34px] object-contain",
+                  },
+                  {
+                    name: "ColorStack",
+                    href: "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=12",
+                    rotate: -4,
+                    image: "/stickers/colorstack.png",
+                    imageClassName: "h-[20px] w-[56px] object-contain",
+                  },
+                ].map((org) => (
+                  <a
+                    key={org.name}
+                    href={org.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${org.name} in a new tab`}
+                    className="sticker-hover-bob inline-flex h-9 items-center justify-center rounded-sm bg-transparent px-1.5 drop-shadow-[0_16px_22px_rgba(0,0,0,0.45)] transition-transform hover:-translate-y-0.5 hover:drop-shadow-[0_18px_26px_rgba(0,0,0,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tv-pink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    style={
+                      {
+                        "--sticker-r": `${org.rotate}deg`,
+                      } as CSSProperties
+                    }
+                  >
+                    <Image
+                      src={org.image}
+                      alt={org.name}
+                      width={110}
+                      height={48}
+                      className={org.imageClassName}
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div className="py-6">
               <ul className="m-0 flex w-full min-w-0 list-none flex-nowrap justify-start gap-2 p-0 sm:gap-4 md:gap-6">
                 {about.awards.map((award, i) => (
                   <li
@@ -450,29 +489,70 @@ export function AboutViewport() {
                 Execution &gt; Process
               </a>
             </h2>
-            <div className="space-y-6">
-              <p className="about-text-body max-w-[60ch] text-neutral-200">
-                My internships and early career taught me that execution is
-                everything. Process has value, but no one cares for process if
-                the outcome is disappointing.
-              </p>
-              <p className="about-text-body max-w-[60ch] text-neutral-200">
-                My portfolio reflects that belief. Instead of traditional case
-                studies, it focuses on outcomes. I use my slide deck to tell the
-                story behind the work: the constraints, decisions, tradeoffs,
-                and context that shaped each project.
-              </p>
-              <p className="about-text-body max-w-[60ch] text-neutral-200">
-                I am not the right hire if you are looking for someone who
-                treats process as the product. My strength is driving clarity and
-                alignment for ideas (often with prototypes).
-              </p>
-              <p className="about-text-body max-w-[60ch] text-neutral-200">
-                I bias toward action. Sometimes I move before every requirement
-                is perfectly defined, but when I believe something should exist,
-                I build it. Storytelling and prototypes are the tools I trust
-                most for solving problems.
-              </p>
+            <div className="grid gap-6 md:grid-cols-12 md:gap-10">
+              <div className="space-y-4 md:col-span-5">
+                <p className="about-text-body max-w-[60ch] text-neutral-200">
+                  My internships and early career taught me that execution is
+                  everything. Process has value, but no one cares for process if
+                  the outcome is disappointing.
+                </p>
+                <p className="about-text-body max-w-[60ch] text-neutral-200">
+                  My portfolio reflects that belief. Instead of traditional case
+                  studies, it focuses on outcomes. I use my slide deck to tell
+                  the story behind the work: the constraints, decisions,
+                  tradeoffs, and context that shaped each project.
+                </p>
+              </div>
+
+              <div className="md:col-span-7">
+                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+                  <li className="min-w-0">
+                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+                        Outcome-first
+                      </h3>
+                      <p className="about-text-body mt-2 text-neutral-200">
+                        Users don&apos;t interact with case studies, they only see
+                        what we ship.
+                      </p>
+                    </div>
+                  </li>
+                  <li className="min-w-0">
+                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+                        Prototypes for alignment
+                      </h3>
+                      <p className="about-text-body mt-2 text-neutral-200">
+                        I use prototypes and AI to drive alignment and clarity
+                        fast.
+                      </p>
+                    </div>
+                  </li>
+                  <li className="min-w-0">
+                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+                        My process
+                      </h3>
+                      <p className="about-text-body mt-2 text-neutral-200">
+                        I am not the right hire if you are looking for somone who&apos;s
+                        practice is based on process.
+                      </p>
+                    </div>
+                  </li>
+                  <li className="min-w-0">
+                    <div className="h-full rounded-2xl border border-neutral-800 bg-neutral-900/40 px-5 py-4">
+                      <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+                        Bias to action
+                      </h3>
+                      <p className="about-text-body mt-2 text-neutral-200">
+                        Sometimes I move before every requirement is perfectly
+                        defined, but when I believe something should exist, I
+                        build it.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
             </div>
           </section>
 

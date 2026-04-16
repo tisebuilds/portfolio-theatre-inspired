@@ -49,7 +49,7 @@ export function ProjectPreview({
 
     const timer = window.setTimeout(() => {
       setEmbedTimedOut(true);
-    }, 3000);
+    }, 8000);
     return () => window.clearTimeout(timer);
   }, [tvEmbedUrl, embedLoaded, embedFailed]);
 
@@ -111,7 +111,7 @@ export function ProjectPreview({
             src={tvEmbedUrl}
             title={project.title}
             className="h-full w-full"
-            allow="fullscreen"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
             allowFullScreen
             referrerPolicy="no-referrer"
             sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"

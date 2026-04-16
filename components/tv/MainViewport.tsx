@@ -74,7 +74,7 @@ function DemoChannel({ project }: { project: Project }) {
 
     const timer = window.setTimeout(() => {
       setEmbedTimedOut(true);
-    }, 3000);
+    }, 8000);
     return () => window.clearTimeout(timer);
   }, [tvEmbedUrl, embedLoaded, embedFailed]);
 
@@ -131,7 +131,7 @@ function DemoChannel({ project }: { project: Project }) {
             <iframe
               title={project.title}
               src={tvEmbedUrl}
-              allow="fullscreen"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
               allowFullScreen
               referrerPolicy="no-referrer"
               sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
@@ -160,7 +160,13 @@ function DemoChannel({ project }: { project: Project }) {
           </a>
         </div>
       ) : null}
-      <span className="absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-tv-muted">
+      <span
+        className={
+          project.slug === "ipod-concert-diary"
+            ? "absolute right-3 top-3 rounded bg-black/85 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white"
+            : "absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-tv-muted"
+        }
+      >
         Applet
       </span>
     </div>

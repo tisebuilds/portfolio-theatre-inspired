@@ -161,7 +161,7 @@ function DemoChannel({ project }: { project: Project }) {
         </div>
       ) : null}
       <span className="absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-tv-muted">
-        Demo
+        Applet
       </span>
     </div>
   );

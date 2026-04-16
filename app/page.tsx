@@ -1,9 +1,14 @@
-import { HomePageContent } from "@/components/HomePageContent";
-import workData from "@/data/work.json";
-import type { WorkExperience } from "./types";
+import { Suspense } from "react";
+import { TvShell } from "@/components/tv/TvShell";
+import projectsData from "@/data/projects.json";
+import type { Project } from "./types";
 
-const experiences = workData as WorkExperience[];
+const projects = projectsData as Project[];
 
 export default function HomePage() {
-  return <HomePageContent experiences={experiences} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-tv-bg" aria-hidden />}>
+      <TvShell projects={projects} />
+    </Suspense>
+  );
 }

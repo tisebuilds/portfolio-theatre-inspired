@@ -146,7 +146,7 @@ function DropdownMenu({
 
 const sections = [
   { key: "work", label: "Experiences", href: "/" },
-  { key: "projects", label: "Projects", href: "/projects" },
+  { key: "projects", label: "Projects", href: "/?ch=6" },
   { key: "about", label: "About", href: "/about" },
 ] as const;
 

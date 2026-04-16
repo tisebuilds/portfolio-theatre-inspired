@@ -95,6 +95,8 @@ export type RampEpisode = {
   hideStuffChapterHeader?: boolean;
   /** Omit the entire “STUFF I WORKED ON” chapter (bullets, grid, stuffRich, embedded learnings). */
   hideStuffChapter?: boolean;
+  /** When set, replaces the default “THINGS I LEARNED” chapter header (e.g. side projects). */
+  learningsChapterHeading?: string;
   /** Omit the “THINGS I LEARNED” chapter (learnings fields may stay in data). */
   hideLearnings?: boolean;
   /** When true, show THINGS I LEARNED inside the STUFF I WORKED ON chapter (no standalone learnings chapter). */

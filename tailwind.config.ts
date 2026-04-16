@@ -11,6 +11,10 @@ const config: Config = {
       colors: {
         black: "#111111",
         accent: "#E94C9A",
+        "tv-bg": "#0a0a0a",
+        "tv-text": "#f0f0f0",
+        "tv-muted": "#888888",
+        "tv-pink": "#ff3cac",
       },
       fontFamily: {
         sans: [
@@ -18,6 +22,13 @@ const config: Config = {
           "system-ui",
           "ui-sans-serif",
           "sans-serif",
+        ],
+        mono: [
+          "var(--font-jetbrains-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
         ],
         serif: ["Georgia", "Times New Roman", "serif"],
         handwritten: ["var(--font-caveat)", "cursive"],

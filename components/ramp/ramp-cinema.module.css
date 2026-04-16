@@ -48,6 +48,38 @@
   bottom: max(24px, env(safe-area-inset-bottom, 0px));
 }
 
+.rootEmbedded {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  height: 100%;
+  overflow: hidden;
+  --nav-h: 0px;
+  --pill-bottom: 0px;
+}
+
+.rootEmbedded .scroller {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.rootEmbedded.rootNoPlayer .scroller {
+  bottom: 0;
+}
+
+.rootEmbedded:not(.rootNoPlayer) .scroller {
+  bottom: var(--pill-h);
+}
+
+.rootEmbedded .playerPill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .scroller {
   position: fixed;
   top: var(--nav-h);

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Caveat } from "next/font/google";
-import { NavBar } from "@/components/NavBar";
+import { AppChrome } from "@/components/AppChrome";
 import "./globals.css";
 
 function siteUrl() {
@@ -12,18 +11,6 @@ function siteUrl() {
   }
   return new URL("http://localhost:3000");
 }
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
@@ -37,10 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${caveat.variable}`}>
-      <body className="min-h-screen bg-black text-neutral-200 antialiased font-sans pt-20">
-        <NavBar />
-        {children}
+    <html lang="en">
+      <body className="min-h-screen bg-tv-bg text-tv-text antialiased font-sans">
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

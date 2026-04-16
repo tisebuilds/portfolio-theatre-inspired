@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Offline-safe font variables used by tailwind.config.ts */
+  --font-inter: ui-sans-serif;
+  --font-jetbrains-mono: ui-monospace;
+  --font-caveat: cursive;
+}
+
 @layer base {
   body {
     @apply leading-relaxed;
@@ -17,6 +24,142 @@
   p {
     @apply leading-relaxed;
   }
+}
+
+@keyframes tv-ticker-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.tv-ticker-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tv-ticker-marquee 120s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-ticker-track {
+    animation: none;
+  }
+}
+
+.tv-sidebar-nav .nav-item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 20px;
+  border-radius: 10px;
+  text-align: left;
+  transition: background 0.15s ease, border-radius 0.15s ease, color 0.15s ease;
+  color: var(--muted-light);
+}
+
+.tv-sidebar-nav .nav-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 0;
+  opacity: 0;
+}
+
+.tv-sidebar-nav .nav-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0;
+}
+
+.tv-sidebar-nav .nav-item:hover .nav-name {
+  color: var(--text);
+}
+
+.tv-sidebar-nav .nav-ch {
+  min-width: 18px;
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tv-sidebar-nav .nav-icon {
+  width: 0.8em;
+  height: 0.8em;
+  flex-shrink: 0;
+  opacity: 0.35;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-sidebar-nav .nav-icon .nav-logo {
+  height: 0.8em;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.tv-sidebar-nav .nav-icon svg {
+  width: 0.8em;
+  height: 0.8em;
+  display: block;
+}
+
+.tv-sidebar-nav .nav-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted-light);
+  transition: color 0.15s ease;
+}
+
+.tv-sidebar-nav .nav-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0;
+}
+
+.tv-sidebar-nav .nav-item.active::before {
+  opacity: 1;
+}
+
+.tv-sidebar-nav .nav-item.active .nav-ch {
+  color: var(--accent);
+}
+
+.tv-sidebar-nav .nav-item.active .nav-icon {
+  opacity: 0.8;
+}
+
+.tv-sidebar-nav .nav-item.active .nav-name {
+  color: var(--text);
+}
+
+.tv-sidebar-nav .nav-section-label {
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 20px;
+  margin-bottom: 4px;
+}
+
+.tv-sidebar-nav .nav-section-label.spaced {
+  margin-top: 18px;
 }
 
 @layer utilities {
@@ -205,8 +348,8 @@
   inset: 12px;
   border-radius: 50%;
   border: 1px solid transparent;
-  border-bottom-color: rgba(201, 160, 82, 0.25);
-  border-left-color: rgba(201, 160, 82, 0.07);
+  border-bottom-color: rgba(255, 60, 172, 0.25);
+  border-left-color: rgba(255, 60, 172, 0.07);
   animation: cs-spin-reverse 14s linear infinite;
 }
 
@@ -261,7 +404,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #c9a052;
+  background: #ff3cac;
   opacity: 0.7;
 }
 

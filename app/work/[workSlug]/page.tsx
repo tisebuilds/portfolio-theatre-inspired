@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { notFound, redirect } from "next/navigation";
 import workData from "@/data/work.json";
 import { ColorStackCaseStudyClient } from "@/components/ColorStackCaseStudyClient";
 import { ComingSoonCaseStudyPage } from "@/components/ComingSoonCaseStudyPage";
@@ -8,8 +7,6 @@ import { CornellAppDevCaseStudyClient } from "@/components/CornellAppDevCaseStud
 import { DisneyCaseStudyClient } from "@/components/DisneyCaseStudyClient";
 import { FigmaCaseStudyClient } from "@/components/FigmaCaseStudyClient";
 import { MetaCaseStudyClient } from "@/components/MetaCaseStudyClient";
-import { RampSpendCaseStudyClient } from "@/components/RampSpendCaseStudyClient";
-import { RampTreasuryCaseStudyClient } from "@/components/RampTreasuryCaseStudyClient";
 import type { WorkExperience } from "@/app/types";
 
 const experiences = workData as WorkExperience[];
@@ -41,32 +38,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (workSlug === "meta") {
     return { title: "Meta — Case study" };
   }
-  if (workSlug === "ramp-treasury") {
-    return {
-      title: "Ramp Treasury — Tise",
-      description:
-        "Ramp Treasury work by Tise — Move Money and RBA cashback redemption.",
-      openGraph: {
-        title: "Ramp Treasury — Tise",
-        description:
-          "Ramp Treasury work by Tise — Move Money and RBA cashback redemption.",
-        images: [{ url: "/ramp/treasury/move-money-hero.png" }],
-      },
-    };
-  }
-  if (workSlug === "ramp-spend") {
-    return {
-      title: "Ramp Spend Management — Tise",
-      description:
-        "Ramp Spend Management work by Tise — Employee onboarding, Wallet Drawer, Quality of life updates for Akuma.",
-      openGraph: {
-        title: "Ramp Spend Management — Tise",
-        description:
-          "Ramp Spend Management work by Tise — Employee onboarding, Wallet Drawer, Quality of life updates for Akuma.",
-        images: [{ url: "/ramp/spend/cardholder-creation-hero.png" }],
-      },
-    };
-  }
   const experience = experiences.find((item) => item.slug === workSlug);
   return {
     title: experience ? `${experience.title} — Case study` : "Case study",
@@ -75,6 +46,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function WorkCaseStudyPage({ params }: Props) {
   const { workSlug } = await params;
+
+  if (workSlug === "ramp-spend") {
+    redirect("/?ch=1&view=episode&ep=0");
+  }
+  if (workSlug === "ramp-treasury") {
+    redirect("/?ch=2&view=episode&ep=0");
+  }
+
   const experience = experiences.find((item) => item.slug === workSlug);
   if (!experience) notFound();
 
@@ -92,34 +71,6 @@ export default async function WorkCaseStudyPage({ params }: Props) {
   }
   if (workSlug === "meta") {
     return <MetaCaseStudyClient />;
-  }
-  if (workSlug === "ramp-treasury") {
-    return (
-      <Suspense
-        fallback={
-          <div
-            className="fixed inset-0 z-40 bg-[#111111]"
-            aria-label="Loading case study"
-          />
-        }
-      >
-        <RampTreasuryCaseStudyClient />
-      </Suspense>
-    );
-  }
-  if (workSlug === "ramp-spend") {
-    return (
-      <Suspense
-        fallback={
-          <div
-            className="fixed inset-0 z-40 bg-[#111111]"
-            aria-label="Loading case study"
-          />
-        }
-      >
-        <RampSpendCaseStudyClient />
-      </Suspense>
-    );
   }
 
   return (

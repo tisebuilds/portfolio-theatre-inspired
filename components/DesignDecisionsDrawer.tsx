@@ -162,11 +162,11 @@ export function DesignDecisionsDrawer({ projectTitle, isOpen, onClose }: Props) 
             </div>
 
             {/* Trade-off callout */}
-            <div className="mt-10 p-4 rounded-lg bg-amber-950/40 border border-amber-800/50">
-              <p className="text-xs font-medium uppercase tracking-wider text-amber-600/90 mb-2">
+            <div className="mt-10 p-4 rounded-lg bg-fuchsia-950/40 border border-fuchsia-800/50">
+              <p className="text-xs font-medium uppercase tracking-wider text-fuchsia-400/90 mb-2">
                 {MOCK_ENTRY.tradeoff.label}
               </p>
-              <p className="text-sm text-amber-100/90 leading-relaxed">
+              <p className="text-sm text-fuchsia-100/90 leading-relaxed">
                 {MOCK_ENTRY.tradeoff.body}
               </p>
             </div>

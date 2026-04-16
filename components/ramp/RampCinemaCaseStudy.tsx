@@ -1,7 +1,14 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import type {
   RampEpisode,
@@ -9,11 +16,19 @@ import type {
   RampScreenCell,
 } from "@/data/case-studies/ramp-types";
 import styles from "./ramp-cinema.module.css";
+import { EpisodeTitleRailContext } from "@/components/tv/EpisodeTitleRailContext";
 
 type RampCinemaCaseStudyProps = {
   episodes: RampEpisode[];
   /** When false, hides the bottom player and episode controls (single-episode internship pages). */
   showPlayer?: boolean;
+  /**
+   * `tvShell`: ArrowLeft/Right = episode; [ ] = chapter; ArrowUp/Down unused (portfolio shell handles channels).
+   * Default matches standalone `/work/...` pages.
+   */
+  keyboardMode?: "cinemaLegacy" | "tvShell";
+  /** `embedded` keeps layout within parent (for TvShell player). */
+  layoutMode?: "fullscreen" | "embedded";
 };
 
 const CHAPTER_SEGMENTS = [
@@ -28,6 +43,23 @@ const SHOW_ONE_PAGER_DOWNLOAD = false;
 
 function clampEp(n: number, max: number) {
   return Math.min(Math.max(n, 0), max);
+}
+
+/** Rect overlap inside the scroller — more reliable than IO alone when layout is still settling. */
+function heroTitleOverlapsScroller(
+  root: HTMLElement,
+  target: HTMLElement,
+): boolean {
+  const rootRect = root.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  if (rootRect.height < 2) return true;
+  if (targetRect.height < 1) return true;
+  return (
+    targetRect.bottom > rootRect.top &&
+    targetRect.top < rootRect.bottom &&
+    targetRect.right > rootRect.left &&
+    targetRect.left < rootRect.right
+  );
 }
 
 function hasOutcome(ep: RampEpisode): boolean {
@@ -78,10 +110,12 @@ function LearningTitleBody({ item }: { item: RampEpisodeLearning }) {
 }
 
 function EpisodeLearningsSection({ episode }: { episode: RampEpisode }) {
+  const learningsHeading =
+    episode.learningsChapterHeading ?? "THINGS I LEARNED";
   return (
     <>
       <div className={styles.chHeader}>
-        <span className={styles.chName}>THINGS I LEARNED</span>
+        <span className={styles.chName}>{learningsHeading}</span>
         <div className={styles.chLine} />
       </div>
       {episode.learningsRich ? (
@@ -586,13 +620,20 @@ function ScreenCell({
   );
 }
 
-function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
+function RampCinemaCaseStudySingle({
+  episodes,
+  layoutMode = "fullscreen",
+}: {
+  episodes: RampEpisode[];
+  layoutMode?: "fullscreen" | "embedded";
+}) {
   const episode = episodes[0];
 
   useEffect(() => {
+    if (layoutMode === "embedded") return;
     document.body.classList.add("ramp-cinema");
     return () => document.body.classList.remove("ramp-cinema");
-  }, []);
+  }, [layoutMode]);
 
   const layout = episode.screenGrid?.layout ?? "mg2";
   const epGrid =
@@ -605,7 +646,11 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
           : styles.mg4;
 
   return (
-    <div className={`${styles.root} ${styles.rootNoPlayer}`}>
+    <div
+      className={`${styles.root} ${styles.rootNoPlayer} ${
+        layoutMode === "embedded" ? styles.rootEmbedded : ""
+      }`}
+    >
       <div className={styles.scroller} id="scroller">
         <div className={styles.contentWrap}>
           <div className={`${styles.panel} ${styles.panelActive}`}>
@@ -853,10 +898,23 @@ function RampCinemaCaseStudySingle({ episodes }: { episodes: RampEpisode[] }) {
   );
 }
 
-function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
+function RampCinemaCaseStudyMulti({
+  episodes,
+  keyboardMode = "cinemaLegacy",
+  showPlayer = true,
+  layoutMode = "fullscreen",
+}: {
+  episodes: RampEpisode[];
+  keyboardMode?: "cinemaLegacy" | "tvShell";
+  showPlayer?: boolean;
+  layoutMode?: "fullscreen" | "embedded";
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const showKbdHintUi =
+    searchParams.get("kbd") === "1" ||
+    process.env.NEXT_PUBLIC_SHOW_RAMP_KBD_HINT === "1";
   const scrollerRef = useRef<HTMLDivElement>(null);
   const chBarRef = useRef<HTMLDivElement>(null);
   const pillMenuRef = useRef<HTMLDivElement>(null);
@@ -880,6 +938,11 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   /** While the hero case title is visible in the scroller, hide duplicate title in the pill. */
   const [heroTitleInView, setHeroTitleInView] = useState(true);
+  const episodeTitleRail = useContext(EpisodeTitleRailContext);
+  const setRailHeroTitleInViewRef = useRef(
+    episodeTitleRail?.setHeroTitleInView,
+  );
+  setRailHeroTitleInViewRef.current = episodeTitleRail?.setHeroTitleInView;
 
   const setEpInUrl = useCallback(
     (idx: number) => {
@@ -892,9 +955,10 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   );
 
   useEffect(() => {
+    if (layoutMode === "embedded") return;
     document.body.classList.add("ramp-cinema");
     return () => document.body.classList.remove("ramp-cinema");
-  }, []);
+  }, [layoutMode]);
 
   useEffect(() => {
     if (rawEp !== activeEp) {
@@ -919,23 +983,43 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
     el.scrollTop = 0;
     setCurCh(0);
     setFillPct([0, 0, 0, 0]);
-    setHeroTitleInView(true);
     stopPlay();
   }, [activeEp, stopPlay]);
 
   useEffect(() => {
     const root = scrollerRef.current;
-    const target = document.getElementById(`ramp-hero-title-${activeEp}`);
-    if (!root || !target) return;
+    const targetId = `ramp-hero-title-${activeEp}`;
+    const getTarget = () =>
+      document.getElementById(targetId) as HTMLElement | null;
 
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry) setHeroTitleInView(entry.isIntersecting);
-      },
-      { root, threshold: 0 },
-    );
-    obs.observe(target);
-    return () => obs.disconnect();
+    if (!root) return;
+
+    const sync = () => {
+      const target = getTarget();
+      if (!target) {
+        setHeroTitleInView(true);
+        setRailHeroTitleInViewRef.current?.(true);
+        return;
+      }
+      const inView = heroTitleOverlapsScroller(root, target);
+      setHeroTitleInView(inView);
+      setRailHeroTitleInViewRef.current?.(inView);
+    };
+
+    root.addEventListener("scroll", sync, { passive: true });
+    const ro = new ResizeObserver(sync);
+    ro.observe(root);
+    const t0 = getTarget();
+    if (t0) ro.observe(t0);
+
+    sync();
+    const raf = requestAnimationFrame(sync);
+
+    return () => {
+      root.removeEventListener("scroll", sync);
+      ro.disconnect();
+      cancelAnimationFrame(raf);
+    };
   }, [activeEp]);
 
   useEffect(() => {
@@ -1115,12 +1199,14 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   }, []);
 
   const flashHint = useCallback(() => {
+    if (!showKbdHintUi) return;
     setKbdShow(true);
     if (kbdTimerRef.current) clearTimeout(kbdTimerRef.current);
     kbdTimerRef.current = setTimeout(() => setKbdShow(false), 2000);
-  }, []);
+  }, [showKbdHintUi]);
 
   useEffect(() => {
+    if (!showKbdHintUi) return;
     const t = setTimeout(() => {
       setKbdShow(true);
       kbdTimerRef.current = setTimeout(() => setKbdShow(false), 3000);
@@ -1129,7 +1215,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
       clearTimeout(t);
       if (kbdTimerRef.current) clearTimeout(kbdTimerRef.current);
     };
-  }, []);
+  }, [showKbdHintUi]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -1137,6 +1223,63 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement
       ) {
+        return;
+      }
+      if (keyboardMode === "tvShell") {
+        switch (e.code) {
+          case "Space":
+            e.preventDefault();
+            togglePlay();
+            break;
+          case "Digit1":
+            jumpChapter(0);
+            flashHint();
+            break;
+          case "Digit2":
+            jumpChapter(1);
+            flashHint();
+            break;
+          case "Digit3":
+            jumpChapter(2);
+            flashHint();
+            break;
+          case "Digit4":
+            jumpChapter(3);
+            flashHint();
+            break;
+          case "ArrowLeft":
+            e.preventDefault();
+            prevEp();
+            flashHint();
+            break;
+          case "ArrowRight":
+            e.preventDefault();
+            nextEp();
+            flashHint();
+            break;
+          case "BracketLeft":
+            e.preventDefault();
+            prevChapter();
+            flashHint();
+            break;
+          case "BracketRight":
+            e.preventDefault();
+            nextChapter();
+            flashHint();
+            break;
+          case "KeyR":
+            e.preventDefault();
+            restartEp();
+            flashHint();
+            break;
+          case "KeyF":
+            e.preventDefault();
+            toggleFullscreen();
+            flashHint();
+            break;
+          default:
+            break;
+        }
         return;
       }
       switch (e.code) {
@@ -1199,6 +1342,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   }, [
     flashHint,
     jumpChapter,
+    keyboardMode,
     nextChapter,
     nextEp,
     prevChapter,
@@ -1212,51 +1356,81 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
   const chSegs = chapterSegmentsForEpisode(ep);
 
   return (
-    <div className={styles.root}>
-      <div
-        className={`${styles.kbdHint} ${kbdShow ? styles.kbdHintShow : ""}`}
-        id="kbdHint"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        <div className={styles.kbdGroup}>
-          <kbd className={styles.kbdChip}>Space</kbd>
-          <span className={styles.kbdAction}>play</span>
+    <div
+      className={`${styles.root} ${
+        layoutMode === "embedded" ? styles.rootEmbedded : ""
+      } ${showPlayer ? "" : styles.rootNoPlayer}`}
+    >
+      {showKbdHintUi ? (
+        <div
+          className={`${styles.kbdHint} ${kbdShow ? styles.kbdHintShow : ""}`}
+          id="kbdHint"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <div className={styles.kbdGroup}>
+            <kbd className={styles.kbdChip}>Space</kbd>
+            <span className={styles.kbdAction}>play</span>
+          </div>
+          <span className={styles.kbdSep} aria-hidden={true} />
+          <div className={styles.kbdGroup}>
+            <span
+              className={styles.kbdChipCluster}
+              aria-label="Keys 1 through 4"
+            >
+              <kbd className={styles.kbdChip}>1</kbd>
+              <kbd className={styles.kbdChip}>2</kbd>
+              <kbd className={styles.kbdChip}>3</kbd>
+              <kbd className={styles.kbdChip}>4</kbd>
+            </span>
+            <span className={styles.kbdAction}>sections</span>
+          </div>
+          {maxEp > 0 ? (
+            <>
+              <span className={styles.kbdSep} aria-hidden={true} />
+              <div className={styles.kbdGroup}>
+                <span className={styles.kbdChipCluster}>
+                  {keyboardMode === "tvShell" ? (
+                    <>
+                      <kbd className={styles.kbdChip}>←</kbd>
+                      <kbd className={styles.kbdChip}>→</kbd>
+                    </>
+                  ) : (
+                    <>
+                      <kbd className={styles.kbdChip}>↑</kbd>
+                      <kbd className={styles.kbdChip}>↓</kbd>
+                    </>
+                  )}
+                </span>
+                <span className={styles.kbdAction}>episodes</span>
+              </div>
+              {keyboardMode === "tvShell" ? (
+                <>
+                  <span className={styles.kbdSep} aria-hidden={true} />
+                  <div className={styles.kbdGroup}>
+                    <span className={styles.kbdChipCluster}>
+                      <kbd className={styles.kbdChip}>[</kbd>
+                      <kbd className={styles.kbdChip}>]</kbd>
+                    </span>
+                    <span className={styles.kbdAction}>sections</span>
+                  </div>
+                </>
+              ) : null}
+            </>
+          ) : null}
+          <span className={styles.kbdSep} aria-hidden={true} />
+          <div className={styles.kbdGroup}>
+            <kbd className={styles.kbdChip}>R</kbd>
+            <span className={styles.kbdAction}>restart</span>
+          </div>
+          <span className={styles.kbdSep} aria-hidden={true} />
+          <div className={styles.kbdGroup}>
+            <kbd className={styles.kbdChip}>F</kbd>
+            <span className={styles.kbdAction}>fullscreen</span>
+          </div>
         </div>
-        <span className={styles.kbdSep} aria-hidden={true} />
-        <div className={styles.kbdGroup}>
-          <span className={styles.kbdChipCluster} aria-label="Keys 1 through 4">
-            <kbd className={styles.kbdChip}>1</kbd>
-            <kbd className={styles.kbdChip}>2</kbd>
-            <kbd className={styles.kbdChip}>3</kbd>
-            <kbd className={styles.kbdChip}>4</kbd>
-          </span>
-          <span className={styles.kbdAction}>sections</span>
-        </div>
-        {maxEp > 0 ? (
-          <>
-            <span className={styles.kbdSep} aria-hidden={true} />
-            <div className={styles.kbdGroup}>
-              <span className={styles.kbdChipCluster}>
-                <kbd className={styles.kbdChip}>↑</kbd>
-                <kbd className={styles.kbdChip}>↓</kbd>
-              </span>
-              <span className={styles.kbdAction}>episodes</span>
-            </div>
-          </>
-        ) : null}
-        <span className={styles.kbdSep} aria-hidden={true} />
-        <div className={styles.kbdGroup}>
-          <kbd className={styles.kbdChip}>R</kbd>
-          <span className={styles.kbdAction}>restart</span>
-        </div>
-        <span className={styles.kbdSep} aria-hidden={true} />
-        <div className={styles.kbdGroup}>
-          <kbd className={styles.kbdChip}>F</kbd>
-          <span className={styles.kbdAction}>fullscreen</span>
-        </div>
-      </div>
+      ) : null}
 
       <div className={styles.scroller} ref={scrollerRef} id="scroller">
         <div className={styles.contentWrap}>
@@ -1529,7 +1703,8 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
         </div>
       </div>
 
-      <div className={styles.playerPill} id="playerPill">
+      {showPlayer ? (
+        <div className={styles.playerPill} id="playerPill">
         <div ref={chBarRef} className={styles.chBar} id="chBar">
           {chSegs.map((label, i) => (
             <button
@@ -1669,7 +1844,7 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
                   </svg>
                 </button>
                 <div className={styles.epNum}>
-                  EPISODE {activeEp + 1}/{episodes.length}
+                  Case {activeEp + 1}/{episodes.length}
                 </div>
                 <button
                   type="button"
@@ -1693,7 +1868,8 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
             </div>
           ) : null}
         </div>
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -1701,10 +1877,24 @@ function RampCinemaCaseStudyMulti({ episodes }: { episodes: RampEpisode[] }) {
 export function RampCinemaCaseStudy({
   episodes,
   showPlayer = true,
+  keyboardMode = "cinemaLegacy",
+  layoutMode = "fullscreen",
 }: RampCinemaCaseStudyProps) {
   const visibleEpisodes = episodes.filter((e) => !e.hidden);
   if (visibleEpisodes.length === 1 && showPlayer === false) {
-    return <RampCinemaCaseStudySingle episodes={visibleEpisodes} />;
+    return (
+      <RampCinemaCaseStudySingle
+        episodes={visibleEpisodes}
+        layoutMode={layoutMode}
+      />
+    );
   }
-  return <RampCinemaCaseStudyMulti episodes={visibleEpisodes} />;
+  return (
+    <RampCinemaCaseStudyMulti
+      episodes={visibleEpisodes}
+      keyboardMode={keyboardMode}
+      showPlayer={showPlayer}
+      layoutMode={layoutMode}
+    />
+  );
 }

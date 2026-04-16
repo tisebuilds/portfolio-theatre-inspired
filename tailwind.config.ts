@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         black: "#111111",
-        accent: "#E94C9A",
+        accent: "#E299C0",
         "tv-bg": "#0a0a0a",
         "tv-text": "#f0f0f0",
         "tv-muted": "#888888",
-        "tv-pink": "#ff3cac",
+        "tv-pink": "#E299C0",
       },
       fontFamily: {
         sans: [

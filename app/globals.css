@@ -405,8 +405,8 @@
   inset: 12px;
   border-radius: 50%;
   border: 1px solid transparent;
-  border-bottom-color: rgba(255, 60, 172, 0.25);
-  border-left-color: rgba(255, 60, 172, 0.07);
+  border-bottom-color: rgba(226, 153, 192, 0.25);
+  border-left-color: rgba(226, 153, 192, 0.07);
   animation: cs-spin-reverse 14s linear infinite;
 }
 
@@ -461,7 +461,7 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff3cac;
+  background: #e299c0;
   opacity: 0.7;
 }
 

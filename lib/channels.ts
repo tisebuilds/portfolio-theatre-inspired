@@ -36,7 +36,7 @@ export type TvChannel = {
 
 export const TV_CHANNEL_COUNT = 8;
 
-export const ACCENT_WORK = "#ff3cac";
+export const ACCENT_WORK = "#E299C0";
 /** Same as work — single pink accent across the TV UI. */
 export const ACCENT_SIDE = ACCENT_WORK;
 export const TV_BG = "#0a0a0a";

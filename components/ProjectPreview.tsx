@@ -20,6 +20,9 @@ export function ProjectPreview({
   const isOn = project !== null;
   const [showStatic, setShowStatic] = useState(false);
   const prevSlug = useRef<string | null>(null);
+  const [embedLoaded, setEmbedLoaded] = useState(false);
+  const [embedFailed, setEmbedFailed] = useState(false);
+  const [embedTimedOut, setEmbedTimedOut] = useState(false);
 
   useEffect(() => {
     const slug = project?.slug ?? null;
@@ -32,6 +35,24 @@ export function ProjectPreview({
     prevSlug.current = slug;
   }, [project?.slug]);
 
+  const tvEmbedUrl = project?.tvEmbedUrl ?? null;
+  useEffect(() => {
+    setEmbedLoaded(false);
+    setEmbedFailed(false);
+    setEmbedTimedOut(false);
+    if (!tvEmbedUrl) return;
+  }, [tvEmbedUrl]);
+
+  useEffect(() => {
+    if (!tvEmbedUrl) return;
+    if (embedLoaded || embedFailed) return;
+
+    const timer = window.setTimeout(() => {
+      setEmbedTimedOut(true);
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [tvEmbedUrl, embedLoaded, embedFailed]);
+
   const youtubeEmbedUrl = (() => {
     if (!project?.video) return null;
     const m = project.video.match(
@@ -41,47 +62,68 @@ export function ProjectPreview({
   })();
   const directVideoUrl = project?.video && !youtubeEmbedUrl ? project.video : null;
 
+  const fallbackMedia = youtubeEmbedUrl ? (
+    <iframe
+      src={youtubeEmbedUrl}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      className="h-full w-full"
+    />
+  ) : directVideoUrl ? (
+    <video
+      src={directVideoUrl}
+      className="h-full w-full object-cover object-top"
+      autoPlay
+      muted={!project?.videoSound}
+      loop
+      playsInline
+      controls
+    />
+  ) : project?.poster || project?.image ? (
+    <img
+      src={project?.poster ?? project?.image ?? ""}
+      alt=""
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <div className="flex h-full w-full flex-col items-center justify-center p-12 text-center">
+      <span className="text-lg font-medium uppercase tracking-wider text-neutral-200 md:text-xl">
+        {project?.title}
+      </span>
+      {project?.tagline && (
+        <span className="mt-2 max-w-md text-sm text-neutral-500">
+          {project.tagline}
+        </span>
+      )}
+      {project?.dateRange && (
+        <span className="mt-2 text-xs text-neutral-600">{project.dateRange}</span>
+      )}
+    </div>
+  );
+
   const screenContent = project ? (
     <>
-      {youtubeEmbedUrl ? (
-        <iframe
-          src={youtubeEmbedUrl}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="h-full w-full"
-        />
-      ) : directVideoUrl ? (
-        <video
-          src={directVideoUrl}
-          className="h-full w-full object-cover object-top"
-          autoPlay
-          muted={!project.videoSound}
-          loop
-          playsInline
-          controls
-        />
-      ) : project.poster || project.image ? (
-        <img
-          src={project.poster ?? project.image ?? ""}
-          alt=""
-          className="h-full w-full object-cover"
-        />
+      {tvEmbedUrl ? (
+        embedFailed || embedTimedOut ? (
+          fallbackMedia
+        ) : (
+          <iframe
+            src={tvEmbedUrl}
+            title={project.title}
+            className="h-full w-full"
+            allow="fullscreen"
+            allowFullScreen
+            referrerPolicy="no-referrer"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            onLoad={() => {
+              setEmbedLoaded(true);
+              setEmbedTimedOut(false);
+            }}
+            onError={() => setEmbedFailed(true)}
+          />
+        )
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center p-12 text-center">
-          <span className="text-lg font-medium uppercase tracking-wider text-neutral-200 md:text-xl">
-            {project.title}
-          </span>
-          {project.tagline && (
-            <span className="mt-2 max-w-md text-sm text-neutral-500">
-              {project.tagline}
-            </span>
-          )}
-          {project.dateRange && (
-            <span className="mt-2 text-xs text-neutral-600">
-              {project.dateRange}
-            </span>
-          )}
-        </div>
+        fallbackMedia
       )}
     </>
   ) : (

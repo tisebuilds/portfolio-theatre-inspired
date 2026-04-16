@@ -197,7 +197,13 @@
 }
 
 .crt-static {
-  animation: crt-flicker 0.15s steps(3) forwards;
+  /* The static texture is a small noise tile; force dense tiling so it doesn't read as "scaled up". */
+  background-repeat: repeat;
+  background-size: 140px 140px;
+  background-position: 0 0;
+  animation:
+    crt-flicker 0.15s steps(3) forwards,
+    crt-noise-shift 0.35s steps(2) infinite;
 }
 
 @keyframes crt-flicker {
@@ -212,6 +218,15 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes crt-noise-shift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 140px -70px;
   }
 }
 

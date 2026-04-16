@@ -4,8 +4,9 @@
     "title": "Letterboxd website wall",
     "dateRange": "2026",
     "video": "/projects/letterboxd-website-wall-demo.mp4",
+    "tvEmbedUrl": "https://tisewatched.vercel.app/",
     "externalUrl": "https://tisewatched.vercel.app/",
-    "externalLinkLabel": "App"
+    "externalLinkLabel": "Play"
   },
   {
     "slug": "ipod-concert-diary",
@@ -13,6 +14,7 @@
     "dateRange": "2026",
     "video": "/projects/ipod-concert-diary-demo.mp4",
     "videoSound": true,
+    "tvEmbedUrl": "https://tiseconcertdiary.vercel.app/",
     "externalUrl": "https://tiseconcertdiary.vercel.app/",
     "externalLinkLabel": "Play"
   },

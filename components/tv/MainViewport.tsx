@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { RampCinemaCaseStudy } from "@/components/ramp/RampCinemaCaseStudy";
 import type { Project } from "@/app/types";
 import { CHANNELS, projectForChannel } from "@/lib/channels";
@@ -53,6 +53,27 @@ function episodeFromStandard(content: {
 }
 
 function DemoChannel({ project }: { project: Project }) {
+  const [embedLoaded, setEmbedLoaded] = useState(false);
+  const [embedFailed, setEmbedFailed] = useState(false);
+  const [embedTimedOut, setEmbedTimedOut] = useState(false);
+
+  const tvEmbedUrl = project.tvEmbedUrl ?? null;
+  useEffect(() => {
+    setEmbedLoaded(false);
+    setEmbedFailed(false);
+    setEmbedTimedOut(false);
+  }, [tvEmbedUrl]);
+
+  useEffect(() => {
+    if (!tvEmbedUrl) return;
+    if (embedLoaded || embedFailed) return;
+
+    const timer = window.setTimeout(() => {
+      setEmbedTimedOut(true);
+    }, 3000);
+    return () => window.clearTimeout(timer);
+  }, [tvEmbedUrl, embedLoaded, embedFailed]);
+
   const youtubeEmbedUrl = (() => {
     if (!project.video) return null;
     const m = project.video.match(
@@ -63,40 +84,63 @@ function DemoChannel({ project }: { project: Project }) {
   const directVideoUrl =
     project.video && !youtubeEmbedUrl ? project.video : null;
 
+  const fallbackMedia = youtubeEmbedUrl ? (
+    <iframe
+      title={project.title}
+      src={youtubeEmbedUrl}
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      className="h-full w-full"
+    />
+  ) : directVideoUrl ? (
+    <video
+      src={directVideoUrl}
+      className="h-full w-full object-cover object-top"
+      autoPlay
+      muted={!project.videoSound}
+      loop
+      playsInline
+      controls
+    />
+  ) : project.poster || project.image ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={project.poster ?? project.image ?? ""}
+      alt=""
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <div className="flex h-full flex-col items-center justify-center p-8 text-center text-tv-muted">
+      <p className="font-mono text-xs uppercase tracking-widest">
+        {project.title}
+      </p>
+    </div>
+  );
+
   return (
     <div className="relative flex h-full min-h-0 flex-1 flex-col bg-black">
       <div className="min-h-0 flex-1 overflow-hidden">
-        {youtubeEmbedUrl ? (
-          <iframe
-            title={project.title}
-            src={youtubeEmbedUrl}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="h-full w-full"
-          />
-        ) : directVideoUrl ? (
-          <video
-            src={directVideoUrl}
-            className="h-full w-full object-cover object-top"
-            autoPlay
-            muted={!project.videoSound}
-            loop
-            playsInline
-            controls
-          />
-        ) : project.poster || project.image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={project.poster ?? project.image ?? ""}
-            alt=""
-            className="h-full w-full object-cover"
-          />
+        {tvEmbedUrl ? (
+          embedFailed || embedTimedOut ? (
+            fallbackMedia
+          ) : (
+            <iframe
+              title={project.title}
+              src={tvEmbedUrl}
+              allow="fullscreen"
+              allowFullScreen
+              referrerPolicy="no-referrer"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+              className="h-full w-full"
+              onLoad={() => {
+                setEmbedLoaded(true);
+                setEmbedTimedOut(false);
+              }}
+              onError={() => setEmbedFailed(true)}
+            />
+          )
         ) : (
-          <div className="flex h-full flex-col items-center justify-center p-8 text-center text-tv-muted">
-            <p className="font-mono text-xs uppercase tracking-widest">
-              {project.title}
-            </p>
-          </div>
+          fallbackMedia
         )}
       </div>
       {project.externalUrl ? (

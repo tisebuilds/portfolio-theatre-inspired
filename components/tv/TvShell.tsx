@@ -265,7 +265,7 @@ export function TvShell({ projects }: TvShellProps) {
         pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
         return;
       }
-      /** Leaving `?view=about` while staying on the same channel index (e.g. default CH 01). */
+      /** Leaving `?view=about` or `?view=resume` while staying on the same channel index (e.g. default CH 01). */
       if (opts?.forceUrlSync && from === to && !signalLost) {
         clearTimers();
         setPhase("idle");
@@ -346,10 +346,11 @@ export function TvShell({ projects }: TvShellProps) {
         runTransition(channelIndex, to, { fromSignalLost: true });
         return;
       }
-      const aboutOpen = searchParams.get("view") === "about";
-      if (to === channelIndex && !aboutOpen) return;
+      const view = searchParams.get("view") ?? "";
+      const overlayOpen = view === "about" || view === "resume";
+      if (to === channelIndex && !overlayOpen) return;
       runTransition(channelIndex, to, {
-        forceUrlSync: aboutOpen && to === channelIndex,
+        forceUrlSync: overlayOpen && to === channelIndex,
       });
     },
     [channelIndex, runTransition, searchParams, signalLost],
@@ -393,7 +394,9 @@ export function TvShell({ projects }: TvShellProps) {
 
   const cursorClass = isMd && isTransitioning ? "cursor-none" : "";
 
-  const aboutActive = searchParams.get("view") === "about";
+  const viewParam = searchParams.get("view") ?? "";
+  const aboutActive = viewParam === "about";
+  const resumeActive = viewParam === "resume";
 
   const accentClass = signalLost ? "text-tv-muted" : "text-tv-pink";
 
@@ -431,6 +434,7 @@ export function TvShell({ projects }: TvShellProps) {
                 activeIndex={channelIndex}
                 signalLost={signalLost}
                 aboutActive={aboutActive}
+                resumeActive={resumeActive}
                 transitioning={isTransitioning}
                 onSelectChannel={selectChannel}
                 onPrimeAudio={primeAudioContext}
@@ -445,7 +449,9 @@ export function TvShell({ projects }: TvShellProps) {
                       ? "CH -- / 08"
                       : aboutActive
                         ? "About me"
-                        : `CH ${String(channelIndex + 1).padStart(2, "0")} / 08`
+                        : resumeActive
+                          ? "Resume"
+                          : `CH ${String(channelIndex + 1).padStart(2, "0")} / 08`
                   }
                   onUp={onPrev}
                   onDown={onNext}
@@ -455,6 +461,7 @@ export function TvShell({ projects }: TvShellProps) {
               <div className="px-2">
                 <SidebarIcons
                   aboutActive={aboutActive}
+                  resumeActive={resumeActive}
                   onPrimeAudio={primeAudioContext}
                 />
               </div>

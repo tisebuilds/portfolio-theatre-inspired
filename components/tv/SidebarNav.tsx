@@ -13,8 +13,9 @@ import { SITE_PROFILE_PHOTO } from "@/lib/site";
 type SidebarNavProps = {
   activeIndex: number;
   signalLost: boolean;
-  /** When true, no channel row is highlighted (About uses the footer profile icon instead). */
+  /** When true, no channel row is highlighted (About / Resume use the footer icons instead). */
   aboutActive: boolean;
+  resumeActive: boolean;
   transitioning: boolean;
   onSelectChannel: (ch: ChannelNumber) => void;
   onPrimeAudio: () => void;
@@ -24,6 +25,7 @@ export function SidebarNav({
   activeIndex,
   signalLost,
   aboutActive,
+  resumeActive,
   transitioning,
   onSelectChannel,
   onPrimeAudio,
@@ -99,7 +101,10 @@ export function SidebarNav({
 
   const row = (c: (typeof CHANNELS)[0]) => {
     const on =
-      !signalLost && !aboutActive && activeIndex === c.channel - 1;
+      !signalLost &&
+      !aboutActive &&
+      !resumeActive &&
+      activeIndex === c.channel - 1;
     return (
       <button
         key={c.channel}

@@ -5,7 +5,6 @@ import { FileText, Mail, User } from "lucide-react";
 import {
   SITE_EMAIL as EMAIL,
   SITE_LINKEDIN as LINKEDIN_URL,
-  SITE_RESUME as RESUME_URL,
   SITE_TWITTER as TWITTER_URL,
 } from "@/lib/site";
 
@@ -27,14 +26,19 @@ function XIcon({ className }: { className?: string }) {
 
 export function SidebarIcons({
   aboutActive,
+  resumeActive,
   onPrimeAudio,
 }: {
   aboutActive: boolean;
+  resumeActive: boolean;
   onPrimeAudio: () => void;
 }) {
   const baseIconClass =
     "inline-flex h-8 w-8 items-center justify-center rounded-lg text-tv-muted transition-colors hover:bg-white/10 hover:text-white active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30";
   const aboutIconClass = aboutActive
+    ? "inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-tv-pink transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+    : baseIconClass;
+  const resumeIconClass = resumeActive
     ? "inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-tv-pink transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
     : baseIconClass;
 
@@ -54,9 +58,15 @@ export function SidebarIcons({
       <a href={TWITTER_URL} className={baseIconClass} aria-label="X" target="_blank" rel="noopener noreferrer" onPointerDown={onPrimeAudio}>
         <XIcon className="h-4 w-4" />
       </a>
-      <a href={RESUME_URL} className={baseIconClass} aria-label="Resume" target="_blank" rel="noopener noreferrer" onPointerDown={onPrimeAudio}>
+      <Link
+        href="/?view=resume"
+        className={resumeIconClass}
+        aria-label="Resume"
+        aria-current={resumeActive ? "page" : undefined}
+        onPointerDown={onPrimeAudio}
+      >
         <FileText className="h-[18px] w-[18px]" aria-hidden />
-      </a>
+      </Link>
       <a
         href={`mailto:${EMAIL}?subject=${encodeURIComponent("Hi, coming from your portfolio.")}`}
         className={baseIconClass}

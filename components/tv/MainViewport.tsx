@@ -17,6 +17,7 @@ import { disneyCaseStudyContent } from "@/data/case-studies/disney";
 import { useSearchParams } from "next/navigation";
 import { RampChannelLanding } from "./RampChannelLanding";
 import { AboutViewport } from "./AboutViewport";
+import { ResumeViewport } from "./ResumeViewport";
 import { DinnerPartyGalleryCaseStudy } from "./DinnerPartyGalleryCaseStudy";
 import { DinnerPartyVideoLanding } from "./DinnerPartyVideoLanding";
 
@@ -208,6 +209,9 @@ export function MainViewport({
   const view = searchParams.get("view") ?? "";
 
   const inner = (() => {
+    if (view === "resume") {
+      return <ResumeViewport />;
+    }
     if (view === "about") {
       return <AboutViewport />;
     }

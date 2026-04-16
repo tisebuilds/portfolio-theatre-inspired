@@ -40,8 +40,8 @@ export function AboutHeading() {
   );
 
   return (
-    <h1
-      className="text-4xl md:text-5xl font-bold text-neutral-200 text-center relative cursor-default"
+    <h2
+      className="about-text-display relative flex min-w-0 flex-1 cursor-default flex-wrap items-center gap-x-3 gap-y-2 text-neutral-200"
       onMouseMove={handleMouseMove}
     >
       Hi! I&apos;m Tise
@@ -65,6 +65,6 @@ export function AboutHeading() {
           <path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" />
         </svg>
       ))}
-    </h1>
+    </h2>
   );
 }

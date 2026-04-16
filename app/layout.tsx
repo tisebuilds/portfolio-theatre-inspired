@@ -14,8 +14,8 @@ function siteUrl() {
 
 export const metadata: Metadata = {
   metadataBase: siteUrl(),
-  title: "Product design portfolio",
-  description: "Product design portfolio — work experiences & projects",
+  title: "Tise's Portfolio",
+  description: "Work experiences & side projects",
 };
 
 export default function RootLayout({

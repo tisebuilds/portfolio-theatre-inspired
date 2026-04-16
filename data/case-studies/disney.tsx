@@ -167,12 +167,13 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
   ),
   hero: {
     src: "/images/disney-streaming-cross-platform-hero.png",
-    alt: "Minimal illustration of a phone and TV, representing streaming across mobile and living-room screens.",
+    alt: "Living room scene with a wall-mounted TV showing a streaming home screen and a smartphone in the foreground open to a companion Greenroom tab with participants and chat actions.",
     caption:
       "UX design intern bringing people together through Disney streaming",
     priority: true,
   },
   learningsLayout: "stacked",
+  learningsBodyCopyTitleSeparator: ": ",
   overview: (
     <p>
       I designed a paired OTT and mobile user experience to enhance virtual
@@ -190,22 +191,24 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
   ),
   learnings: [
     {
-      title: "Visual Design",
+      title: <strong className="font-semibold">Visual Design</strong>,
       content:
         "My project was end to end, prioritizing the core experience for both sport and entertainment platforms. However, I wished I did more visual design ranging from final polishes, animated emoticons and even fullscreen reactions.",
     },
     {
-      title: "Proactivity",
+      title: <strong className="font-semibold">Proactivity</strong>,
       content:
         "Looking back, I wish I reached out to more interns, spoke up more in critique, asked for more projects and learned motion design from Anibal.",
     },
     {
-      title: "Visual Storytelling",
+      title: <strong className="font-semibold">Visual Storytelling</strong>,
       content:
         "Initially, I struggled with controlling the conversation when I started presenting during my internship. Regardless of whether I use a deck, I improved focus and pacing for presentations.",
     },
     {
-      title: "Coffee Chats >>>",
+      title: (
+        <strong className="font-semibold">Coffee Chats {">>>"}</strong>
+      ),
       content: (
         <>
           Week 1, I set a goal for 100 coffee chats. It&apos;s Week 12 and I

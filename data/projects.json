@@ -5,8 +5,7 @@
     "dateRange": "2026",
     "video": "/projects/letterboxd-website-wall-demo.mp4",
     "tvEmbedUrl": "https://tisewatched.vercel.app/",
-    "externalUrl": "https://tisewatched.vercel.app/",
-    "externalLinkLabel": "Play"
+    "externalUrl": "https://tisewatched.vercel.app/"
   },
   {
     "slug": "ipod-concert-diary",
@@ -15,8 +14,7 @@
     "video": "/projects/ipod-concert-diary-demo.mp4",
     "videoSound": true,
     "tvEmbedUrl": "https://tiseconcertdiary.vercel.app/",
-    "externalUrl": "https://tiseconcertdiary.vercel.app/",
-    "externalLinkLabel": "Play"
+    "externalUrl": "https://tiseconcertdiary.vercel.app/"
   },
   {
     "slug": "dinner-party-seating-chart",

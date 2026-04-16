@@ -58,6 +58,10 @@ function DemoChannel({ project }: { project: Project }) {
   const [embedTimedOut, setEmbedTimedOut] = useState(false);
 
   const tvEmbedUrl = project.tvEmbedUrl ?? null;
+  const externalFooterLabel =
+    tvEmbedUrl != null
+      ? "Open in a new tab"
+      : (project.externalLinkLabel ?? "Open in a new tab");
   useEffect(() => {
     setEmbedLoaded(false);
     setEmbedFailed(false);
@@ -149,9 +153,9 @@ function DemoChannel({ project }: { project: Project }) {
             href={project.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-tv-pink hover:underline"
+            className="inline-flex items-center gap-2 font-mono text-[10px] tracking-wider text-tv-pink hover:underline"
           >
-            {project.externalLinkLabel || "Open"}
+            {externalFooterLabel}
             <span aria-hidden>↗</span>
           </a>
         </div>

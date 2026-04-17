@@ -18,7 +18,10 @@ import {
   homeSearchParamsForChannel,
   parseChannelFromSearchParams,
 } from "@/lib/channels";
-import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
+import {
+  syncTvHistoryBeforeRouter,
+  tvLiveSearchParams,
+} from "@/lib/tv-live-search-params";
 import { playChannelFlipSound, primeAudioContext } from "@/lib/playChannelFlipSound";
 import { ChannelOsd } from "./ChannelOsd";
 import { MainViewport } from "./MainViewport";
@@ -269,12 +272,18 @@ export function TvShell({ projects }: TvShellProps) {
         }
         const kbd = tvLiveSearchParams(searchParams).get("kbd");
         if (kbd) q.set("kbd", kbd);
-        router.replace(`/?${q.toString()}`, { scroll: false });
+        const href = `/?${q.toString()}`;
+        syncTvHistoryBeforeRouter(href);
+        router.replace(href, { scroll: false });
+        syncShellToQuery();
         return;
       }
-      router.replace(`/?${p.toString()}`, { scroll: false });
+      const href = `/?${p.toString()}`;
+      syncTvHistoryBeforeRouter(href);
+      router.replace(href, { scroll: false });
+      syncShellToQuery();
     },
-    [router, searchParams],
+    [router, searchParams, syncShellToQuery],
   );
 
   const showChannelOsd = useCallback((chNum: ChannelNumber) => {

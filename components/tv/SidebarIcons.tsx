@@ -7,6 +7,7 @@ import {
   parseChannelFromSearchParams,
   SIGNAL_LOST_PARAM,
 } from "@/lib/channels";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 import {
   SITE_EMAIL as EMAIL,
   SITE_LINKEDIN as LINKEDIN_URL,
@@ -30,10 +31,10 @@ function XIcon({ className }: { className?: string }) {
 }
 
 function portfolioHrefWithView(
-  searchParams: URLSearchParams,
+  searchParams: { toString(): string },
   view: "about" | "resume",
 ) {
-  const q = new URLSearchParams(searchParams.toString());
+  const q = tvLiveSearchParams(searchParams);
   q.delete(SIGNAL_LOST_PARAM);
   q.set("view", view);
   q.delete("ep");

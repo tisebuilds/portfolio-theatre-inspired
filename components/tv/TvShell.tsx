@@ -8,8 +8,10 @@ import {
   SIGNAL_LOST_PARAM,
   type ChannelNumber,
   channelByNumber,
+  homeSearchParamsForChannel,
   parseChannelFromSearchParams,
 } from "@/lib/channels";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 import { playChannelFlipSound, primeAudioContext } from "@/lib/playChannelFlipSound";
 import { ChannelOsd } from "./ChannelOsd";
 import { MainViewport } from "./MainViewport";
@@ -32,19 +34,6 @@ import {
 import { channelIndexFromDigit, useTvKeyboard, wrapChannelIndex } from "./useTvKeyboard";
 
 type Phase = "idle" | "dissolve" | "static" | "fade";
-
-/**
- * Next `useSearchParams()` can lag `window.location` on the first client pass after
- * a direct load like `/?ch=2&view=episode`. Prefer the live location bar when available.
- */
-function tvLiveSearchParams(
-  routerSearchParams: { toString(): string },
-): URLSearchParams {
-  if (typeof window !== "undefined") {
-    return new URLSearchParams(window.location.search);
-  }
-  return new URLSearchParams(routerSearchParams.toString());
-}
 
 function useMinMd() {
   const [md, setMd] = useState(false);
@@ -255,30 +244,12 @@ export function TvShell({ projects }: TvShellProps) {
         p.delete("view");
         p.delete("ep");
       } else if (next.channel !== undefined) {
-        p.delete(SIGNAL_LOST_PARAM);
-        const prevParsed = parseChannelFromSearchParams(
-          new URLSearchParams(p.toString()),
-        );
-        const prevChNum =
-          prevParsed.mode === "channel" ? prevParsed.channel : undefined;
-        p.set("ch", String(next.channel));
         const chNum = next.channel;
-        if (chNum >= 1 && chNum <= 5) {
-          p.set("view", "episode");
-          const movedBetweenWorkRows =
-            prevChNum !== undefined &&
-            prevChNum >= 1 &&
-            prevChNum <= 5 &&
-            prevChNum !== chNum;
-          if (movedBetweenWorkRows) {
-            p.set("ep", "0");
-          } else if (!p.has("ep")) {
-            p.set("ep", "0");
-          }
-        } else {
-          p.delete("view");
-          p.delete("ep");
-        }
+        const q = homeSearchParamsForChannel(chNum);
+        const kbd = tvLiveSearchParams(searchParams).get("kbd");
+        if (kbd) q.set("kbd", kbd);
+        router.replace(`/?${q.toString()}`, { scroll: false });
+        return;
       }
       router.replace(`/?${p.toString()}`, { scroll: false });
     },
@@ -398,12 +369,16 @@ export function TvShell({ projects }: TvShellProps) {
         runTransition(channelIndex, to, { fromSignalLost: true });
         return;
       }
-      const view = searchParams.get("view") ?? "";
+      const live = tvLiveSearchParams(searchParams);
+      const parsed = parseChannelFromSearchParams(live);
+      const fromIdx =
+        parsed.mode === "channel" ? parsed.channel - 1 : channelIndex;
+      const view = live.get("view") ?? "";
       const overlayOpen =
         view === "about" || view === "resume" || view === "gallery";
-      if (to === channelIndex && !overlayOpen) return;
-      runTransition(channelIndex, to, {
-        forceUrlSync: overlayOpen && to === channelIndex,
+      if (to === fromIdx && !overlayOpen) return;
+      runTransition(fromIdx, to, {
+        forceUrlSync: overlayOpen && to === fromIdx,
       });
     },
     [channelIndex, runTransition, searchParams, signalLost],
@@ -417,9 +392,13 @@ export function TvShell({ projects }: TvShellProps) {
       });
       return;
     }
-    const to = wrapChannelIndex(channelIndex - 1);
-    runTransition(channelIndex, to);
-  }, [channelIndex, runTransition, signalLost]);
+    const live = tvLiveSearchParams(searchParams);
+    const parsed = parseChannelFromSearchParams(live);
+    const fromIdx =
+      parsed.mode === "channel" ? parsed.channel - 1 : channelIndex;
+    const to = wrapChannelIndex(fromIdx - 1);
+    runTransition(fromIdx, to);
+  }, [channelIndex, runTransition, searchParams, signalLost]);
 
   const onNext = useCallback(() => {
     primeAudioContext();
@@ -429,9 +408,13 @@ export function TvShell({ projects }: TvShellProps) {
       });
       return;
     }
-    const to = wrapChannelIndex(channelIndex + 1);
-    runTransition(channelIndex, to);
-  }, [channelIndex, runTransition, signalLost]);
+    const live = tvLiveSearchParams(searchParams);
+    const parsed = parseChannelFromSearchParams(live);
+    const fromIdx =
+      parsed.mode === "channel" ? parsed.channel - 1 : channelIndex;
+    const to = wrapChannelIndex(fromIdx + 1);
+    runTransition(fromIdx, to);
+  }, [channelIndex, runTransition, searchParams, signalLost]);
 
   useTvKeyboard({
     enabled: isMd,
@@ -463,9 +446,6 @@ export function TvShell({ projects }: TvShellProps) {
   return (
     <div
       className={`fixed inset-0 z-0 flex flex-col bg-tv-bg text-tv-text ${cursorClass}`}
-      style={{
-        pointerEvents: isMd && isTransitioning ? "none" : undefined,
-      }}
     >
       <TickerCrawl reducedMotion={reducedMotion} />
 
@@ -488,7 +468,6 @@ export function TvShell({ projects }: TvShellProps) {
                 signalLost={signalLost}
                 aboutActive={aboutActive}
                 resumeActive={resumeActive}
-                transitioning={isTransitioning}
                 onSelectChannel={selectChannel}
                 onPrimeAudio={primeAudioContext}
               />
@@ -524,6 +503,9 @@ export function TvShell({ projects }: TvShellProps) {
           <div
             id="main"
             className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-black"
+            style={{
+              pointerEvents: isMd && isTransitioning ? "none" : undefined,
+            }}
           >
             <div className="relative flex min-h-0 flex-1">
               <div

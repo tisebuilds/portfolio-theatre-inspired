@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { RampEpisode } from "@/data/case-studies/ramp-types";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 import { EpisodeTitleRailContext } from "./EpisodeTitleRailContext";
 
 type EpisodeRailProps = {
@@ -16,15 +17,17 @@ export function EpisodeRail({ episodes, channelParam }: EpisodeRailProps) {
   const titleRail = useContext(EpisodeTitleRailContext);
   const heroTitleInView = titleRail?.heroTitleInView ?? true;
   const visible = episodes.filter((e) => !e.hidden);
-  const epRaw = searchParams.get("ep");
+  const live = tvLiveSearchParams(searchParams);
+  const epRaw = live.get("ep");
   const parsed = epRaw !== null ? Number.parseInt(epRaw, 10) : 0;
   const active = Number.isFinite(parsed)
     ? Math.min(Math.max(parsed, 0), Math.max(0, visible.length - 1))
     : 0;
 
   const setEp = (idx: number) => {
-    const q = new URLSearchParams(searchParams.toString());
+    const q = tvLiveSearchParams(searchParams);
     q.set("ch", String(channelParam));
+    q.set("view", "episode");
     q.set("ep", String(idx));
     router.replace(`/?${q.toString()}`, { scroll: false });
   };

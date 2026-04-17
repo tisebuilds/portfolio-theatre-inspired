@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   ACCENT_WORK,
   CHANNELS,
+  homeHrefForChannel,
   type ChannelNumber,
   TV_MUTED,
   TV_TEXT,
@@ -16,7 +18,7 @@ type SidebarNavProps = {
   /** When true, no channel row is highlighted (About / Resume use the footer icons instead). */
   aboutActive: boolean;
   resumeActive: boolean;
-  transitioning: boolean;
+  /** Runs TV transition (static / dissolve); default click is intercepted so links still work for open-in-new-tab. */
   onSelectChannel: (ch: ChannelNumber) => void;
   onPrimeAudio: () => void;
 };
@@ -26,7 +28,6 @@ export function SidebarNav({
   signalLost,
   aboutActive,
   resumeActive,
-  transitioning,
   onSelectChannel,
   onPrimeAudio,
 }: SidebarNavProps) {
@@ -105,14 +106,20 @@ export function SidebarNav({
       !aboutActive &&
       !resumeActive &&
       activeIndex === c.channel - 1;
+    const href = homeHrefForChannel(c.channel as ChannelNumber);
     return (
-      <button
+      <Link
         key={c.channel}
-        type="button"
-        disabled={transitioning}
+        href={href}
+        scroll={false}
+        prefetch
         onPointerDown={onPrimeAudio}
-        onClick={() => onSelectChannel(c.channel)}
-        className={`nav-item ${on ? "active" : ""} disabled:cursor-not-allowed disabled:opacity-50`}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          onSelectChannel(c.channel as ChannelNumber);
+        }}
+        className={`nav-item ${on ? "active" : ""}`}
       >
         <span className="nav-ch" aria-hidden>
           {String(c.channel).padStart(2, "0")}
@@ -121,7 +128,7 @@ export function SidebarNav({
         <span className="nav-name">
           {c.navLabel}
         </span>
-      </button>
+      </Link>
     );
   };
 

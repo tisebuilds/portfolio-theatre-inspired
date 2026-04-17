@@ -196,6 +196,27 @@ export function parseChannelFromSearchParams(
   return { mode: "channel", channel: n as ChannelNumber };
 }
 
+/**
+ * Canonical home query for a channel — used by the sidebar link rail and `pushUrl`
+ * so navigation never drops `ch` / `view` by merging from a stale `useSearchParams()`
+ * snapshot.
+ */
+export function homeSearchParamsForChannel(
+  channel: ChannelNumber,
+): URLSearchParams {
+  const q = new URLSearchParams();
+  q.set("ch", String(channel));
+  if (channel >= 1 && channel <= 5) {
+    q.set("view", "episode");
+    q.set("ep", "0");
+  }
+  return q;
+}
+
+export function homeHrefForChannel(channel: ChannelNumber): string {
+  return `/?${homeSearchParamsForChannel(channel).toString()}`;
+}
+
 export function projectForChannel(
   ch: TvChannel,
   projects: Project[],

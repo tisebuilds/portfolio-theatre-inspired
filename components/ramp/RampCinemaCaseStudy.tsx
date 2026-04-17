@@ -17,6 +17,7 @@ import type {
 } from "@/data/case-studies/ramp-types";
 import styles from "./ramp-cinema.module.css";
 import { EpisodeTitleRailContext } from "@/components/tv/EpisodeTitleRailContext";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 
 type RampCinemaCaseStudyProps = {
   episodes: RampEpisode[];
@@ -947,7 +948,7 @@ function RampCinemaCaseStudyMulti({
   const setEpInUrl = useCallback(
     (idx: number) => {
       const next = clampEp(idx, maxEp);
-      const q = new URLSearchParams(searchParams.toString());
+      const q = tvLiveSearchParams(searchParams);
       q.set("ep", String(next));
       router.replace(`${pathname}?${q.toString()}`, { scroll: false });
     },
@@ -962,7 +963,7 @@ function RampCinemaCaseStudyMulti({
 
   useEffect(() => {
     if (rawEp !== activeEp) {
-      const q = new URLSearchParams(searchParams.toString());
+      const q = tvLiveSearchParams(searchParams);
       q.set("ep", String(activeEp));
       router.replace(`${pathname}?${q.toString()}`, { scroll: false });
     }

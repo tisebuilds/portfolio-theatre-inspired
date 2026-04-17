@@ -245,7 +245,16 @@ export function TvShell({ projects }: TvShellProps) {
   }, [isTransitioning, router, searchParams]);
 
   const pushUrl = useCallback(
-    (next: { signalLost: boolean; channel?: ChannelNumber }) => {
+    (
+      next:
+        | { signalLost: true }
+        | {
+            signalLost: false;
+            channel: ChannelNumber;
+            /** When set (e.g. sidebar episode), overrides default `ep=0` from `homeSearchParamsForChannel`. */
+            episodeIndex?: number;
+          },
+    ) => {
       const p = tvLiveSearchParams(searchParams);
       if (next.signalLost) {
         p.delete("ch");
@@ -255,6 +264,9 @@ export function TvShell({ projects }: TvShellProps) {
       } else if (next.channel !== undefined) {
         const chNum = next.channel;
         const q = homeSearchParamsForChannel(chNum);
+        if (next.episodeIndex !== undefined) {
+          q.set("ep", String(Math.max(0, next.episodeIndex)));
+        }
         const kbd = tvLiveSearchParams(searchParams).get("kbd");
         if (kbd) q.set("kbd", kbd);
         router.replace(`/?${q.toString()}`, { scroll: false });
@@ -287,11 +299,28 @@ export function TvShell({ projects }: TvShellProps) {
     (
       from: number,
       to: number,
-      opts?: { fromSignalLost?: boolean; forceUrlSync?: boolean },
+      opts?: {
+        fromSignalLost?: boolean;
+        forceUrlSync?: boolean;
+        /** Sidebar episode row: same or new channel with a specific `ep` (static burst matches channel flips). */
+        targetEpisodeIndex?: number;
+      },
     ) => {
+      const pushChannel = (ch: ChannelNumber) => {
+        if (opts?.targetEpisodeIndex !== undefined) {
+          pushUrl({
+            signalLost: false,
+            channel: ch,
+            episodeIndex: Math.max(0, opts.targetEpisodeIndex),
+          });
+        } else {
+          pushUrl({ signalLost: false, channel: ch });
+        }
+      };
+
       if (!isMd) {
         setSignalLost(false);
-        pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        pushChannel((to + 1) as ChannelNumber);
         const defer = window.setTimeout(() => {
           setChannelIndex(to);
           setDisplayIndex(to);
@@ -306,7 +335,7 @@ export function TvShell({ projects }: TvShellProps) {
         setPhase("idle");
         setScanOpacity(SCANLINE_REST);
         setSignalLost(false);
-        pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        pushChannel((to + 1) as ChannelNumber);
         const deferFs = window.setTimeout(() => {
           setChannelIndex(to);
           setDisplayIndex(to);
@@ -315,19 +344,43 @@ export function TvShell({ projects }: TvShellProps) {
         timersRef.current.push(deferFs);
         return;
       }
-      if (!opts?.fromSignalLost && !signalLost && from === to) return;
+
+      const live = tvLiveSearchParams(searchParams);
+      const epRaw = live.get("ep");
+      const parsedEp =
+        epRaw !== null && epRaw !== ""
+          ? Number.parseInt(epRaw, 10)
+          : 0;
+      const currentEp = Number.isFinite(parsedEp) ? Math.max(0, parsedEp) : 0;
+      const targetEp =
+        opts?.targetEpisodeIndex !== undefined
+          ? Math.max(0, opts.targetEpisodeIndex)
+          : undefined;
+      const episodeChanges =
+        targetEp !== undefined && targetEp !== currentEp;
+
+      if (
+        !opts?.fromSignalLost &&
+        !signalLost &&
+        from === to &&
+        !opts?.forceUrlSync &&
+        !episodeChanges
+      ) {
+        return;
+      }
 
       clearTimers();
       playChannelFlipSound({ reducedMotion, muted: !isMd });
 
       if (reducedMotion) {
         setSignalLost(false);
-        pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        pushChannel((to + 1) as ChannelNumber);
         const deferRm = window.setTimeout(() => {
           setChannelIndex(to);
           setDisplayIndex(to);
           setPhase("idle");
           showChannelOsd((to + 1) as ChannelNumber);
+          syncShellToQuery();
         }, 0);
         timersRef.current.push(deferRm);
         return;
@@ -338,13 +391,14 @@ export function TvShell({ projects }: TvShellProps) {
 
       const t1 = window.setTimeout(() => setPhase("static"), DISSOLVE_MS);
       const t2 = window.setTimeout(() => {
-        pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        pushChannel((to + 1) as ChannelNumber);
         // Macrotask: `router.replace` can leave `window.location` stale for one microtask tick (see MainViewport logs).
         const deferFade = window.setTimeout(() => {
           setDisplayIndex(to);
           setSignalLost(false);
           setPhase("fade");
           showChannelOsd((to + 1) as ChannelNumber);
+          syncShellToQuery();
         }, 0);
         timersRef.current.push(deferFade);
       }, DISSOLVE_MS + STATIC_HOLD_MS);
@@ -360,8 +414,10 @@ export function TvShell({ projects }: TvShellProps) {
       isMd,
       pushUrl,
       reducedMotion,
+      searchParams,
       showChannelOsd,
       signalLost,
+      syncShellToQuery,
     ],
   );
 
@@ -382,34 +438,26 @@ export function TvShell({ projects }: TvShellProps) {
 
   const navigateToCaseStudyEpisode = useCallback(
     (channel: ChannelNumber, episodeIndex: number) => {
+      if (isTransitioning) return;
       primeAudioContext();
-      clearTimers();
-      const idx = channel - 1;
-      const q = homeSearchParamsForChannel(channel);
-      if (channel >= 1 && channel <= 5) {
-        q.set("ep", String(Math.max(0, episodeIndex)));
-      }
-      const kbd = tvLiveSearchParams(searchParams).get("kbd");
-      if (kbd) q.set("kbd", kbd);
-      const href = `/?${q.toString()}`;
-      if (typeof window !== "undefined") {
-        const u = new URL(href, window.location.origin);
-        window.history.replaceState(
-          window.history.state,
-          "",
-          `${u.pathname}${u.search}`,
-        );
-      }
-      router.replace(href, { scroll: false });
-      setSignalLost(false);
-      setPhase("idle");
-      setScanOpacity(SCANLINE_REST);
-      setChannelIndex(idx);
-      setDisplayIndex(idx);
-      setOsd(null);
-      syncShellToQuery();
+      const live = tvLiveSearchParams(searchParams);
+      const parsed = parseChannelFromSearchParams(live);
+      if (parsed.mode === "signalLost") return;
+
+      const fromIdx = parsed.channel - 1;
+      const toIdx = channel - 1;
+      const ep = Math.max(0, episodeIndex);
+      const epRaw = live.get("ep");
+      const parsedEp =
+        epRaw !== null && epRaw !== ""
+          ? Number.parseInt(epRaw, 10)
+          : 0;
+      const currentEp = Number.isFinite(parsedEp) ? Math.max(0, parsedEp) : 0;
+      if (fromIdx === toIdx && ep === currentEp) return;
+
+      runTransition(fromIdx, toIdx, { targetEpisodeIndex: ep });
     },
-    [clearTimers, router, searchParams, syncShellToQuery],
+    [isTransitioning, primeAudioContext, runTransition, searchParams],
   );
 
   const selectChannel = useCallback(

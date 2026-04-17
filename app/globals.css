@@ -69,7 +69,7 @@
   border-radius: 10px;
   text-align: left;
   text-decoration: none;
-  transition: background 0.15s ease, border-radius 0.15s ease, color 0.15s ease;
+  transition: background 200ms ease, border-radius 200ms ease, color 200ms ease;
   color: var(--muted-light);
 }
 
@@ -83,6 +83,7 @@
   background: var(--accent);
   border-radius: 0;
   opacity: 0;
+  transition: opacity 200ms ease;
 }
 
 .tv-sidebar-nav .nav-item:hover {
@@ -102,6 +103,7 @@
   letter-spacing: 0.08em;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  transition: color 200ms ease;
 }
 
 .tv-sidebar-nav .nav-icon {
@@ -112,6 +114,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 200ms ease;
 }
 
 .tv-sidebar-nav .nav-icon .nav-logo {
@@ -136,7 +139,7 @@
   font-size: 13px;
   font-weight: 400;
   color: var(--muted-light);
-  transition: color 0.15s ease;
+  transition: color 200ms ease;
 }
 
 .tv-sidebar-nav .nav-item.active {
@@ -160,6 +163,24 @@
   color: var(--text);
 }
 
+/* Parent demoted when a nested case is the sole active affordance */
+.tv-sidebar-nav .nav-item.nav-chapter-main.active.nav-chapter-demotion {
+  background: transparent;
+}
+
+.tv-sidebar-nav .nav-item.nav-chapter-main.active.nav-chapter-demotion::before {
+  opacity: 0;
+}
+
+.tv-sidebar-nav .nav-item.nav-chapter-main.active.nav-chapter-demotion:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tv-sidebar-nav .nav-item.nav-chapter-main.active.nav-chapter-demotion .nav-icon {
+  opacity: 0.45;
+  transition: opacity 200ms ease;
+}
+
 .tv-sidebar-nav .nav-section-label {
   font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -179,19 +200,64 @@
   margin-bottom: 2px;
 }
 
+/* Smooth expand/collapse for multi-episode work rows (Ramp Spend / Treasury) */
+.tv-sidebar-nav .nav-case-list-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tv-sidebar-nav .nav-case-list-shell--open {
+  grid-template-rows: 1fr;
+}
+
+.tv-sidebar-nav .nav-case-list-shell-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tv-sidebar-nav .nav-case-list-shell .nav-case-list {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 180ms ease,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tv-sidebar-nav .nav-case-list-shell--open .nav-case-list {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 260ms ease 45ms,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-sidebar-nav .nav-case-list-shell {
+    transition-duration: 1ms;
+  }
+
+  .tv-sidebar-nav .nav-case-list-shell .nav-case-list,
+  .tv-sidebar-nav .nav-case-list-shell--open .nav-case-list {
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+    transform: none;
+  }
+}
+
 .tv-sidebar-nav .nav-case-list {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  padding: 2px 12px 6px 2.75rem;
+  padding: 2px 0 6px 2.75rem;
 }
 
 .tv-sidebar-nav .nav-item.nav-case {
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
-  padding: 6px 12px 6px 10px;
-  border-radius: 8px;
+  padding: 6px 20px 6px 10px;
+  border-radius: 0;
 }
 
 .tv-sidebar-nav .nav-item.nav-case .nav-case-label {
@@ -316,13 +382,8 @@
 }
 
 .sticker-hover-bob {
-  animation: none;
-  will-change: transform;
-}
-
-.sticker-hover-bob:hover,
-.sticker-hover-bob:focus-visible {
   animation: sticker-bob 3s ease-in-out infinite both;
+  will-change: transform;
 }
 
 @keyframes star-burst {

@@ -4,6 +4,7 @@
   },
   "toolIcons": {
     "figma": "/media/icons/figma-app-icon.png",
+    "googleDocs": "/media/icons/google-docs-app-icon.png",
     "figjam": "/media/icons/figjam-app-icon.png",
     "slack": "/media/icons/slack-app-icon.png",
     "notion": "/media/icons/notion-app-icon.png",

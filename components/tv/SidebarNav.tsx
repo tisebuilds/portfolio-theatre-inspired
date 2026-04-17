@@ -49,6 +49,7 @@ export function SidebarNav({
   onPrimeAudio,
 }: SidebarNavProps) {
   const searchParams = useSearchParams();
+
   const work = CHANNELS.filter((c) => c.group === "work");
   const side = CHANNELS.filter((c) => c.group === "side");
 
@@ -126,6 +127,56 @@ export function SidebarNav({
       !resumeActive &&
       activeIndex === c.channel - 1;
     const href = homeHrefForChannel(channelNum);
+
+    const episodes =
+      c.workSlug === "ramp-spend"
+        ? rampSpendEpisodes.filter((e) => !e.hidden)
+        : c.workSlug === "ramp-treasury"
+          ? rampTreasuryEpisodes.filter((e) => !e.hidden)
+          : [];
+
+    if (episodes.length <= 1) {
+      const mainRowSingle = (
+        <Link
+          href={href}
+          scroll={false}
+          prefetch
+          onPointerDown={onPrimeAudio}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            e.preventDefault();
+            onSelectChannel(channelNum);
+          }}
+          className={`nav-item ${channelOn ? "active" : ""}`}
+        >
+          <span className="nav-ch" aria-hidden>
+            {String(c.channel).padStart(2, "0")}
+          </span>
+          <span className="nav-icon">{iconFor(c)}</span>
+          <span className="nav-name">{c.navLabel}</span>
+        </Link>
+      );
+      return <div key={c.channel}>{mainRowSingle}</div>;
+    }
+
+    const live = tvLiveSearchParams(searchParams);
+    const view = episodeViewForChannel(live, channelNum);
+    const epRaw = live.get("ep");
+    const epParsed = epRaw !== null ? Number.parseInt(epRaw, 10) : 0;
+    const urlCh = live.get("ch");
+    const urlChannelMatches =
+      urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
+
+    const anyCaseActive =
+      channelOn &&
+      urlChannelMatches &&
+      view === "episode" &&
+      Number.isFinite(epParsed) &&
+      epParsed >= 0 &&
+      epParsed < episodes.length;
+
+    const demoteParent = channelOn && anyCaseActive;
+
     const mainRow = (
       <Link
         href={href}
@@ -137,7 +188,7 @@ export function SidebarNav({
           e.preventDefault();
           onSelectChannel(channelNum);
         }}
-        className={`nav-item ${channelOn ? "active" : ""}`}
+        className={`nav-item nav-chapter-main ${channelOn ? "active" : ""} ${demoteParent ? "nav-chapter-demotion" : ""}`}
       >
         <span className="nav-ch" aria-hidden>
           {String(c.channel).padStart(2, "0")}
@@ -147,57 +198,44 @@ export function SidebarNav({
       </Link>
     );
 
-    const episodes =
-      c.workSlug === "ramp-spend"
-        ? rampSpendEpisodes.filter((e) => !e.hidden)
-        : c.workSlug === "ramp-treasury"
-          ? rampTreasuryEpisodes.filter((e) => !e.hidden)
-          : [];
-
-    if (episodes.length <= 1) {
-      return <div key={c.channel}>{mainRow}</div>;
-    }
-
-    const live = tvLiveSearchParams(searchParams);
-    const view = episodeViewForChannel(live, channelNum);
-    const epRaw = live.get("ep");
-    const epParsed = epRaw !== null ? Number.parseInt(epRaw, 10) : 0;
-    const urlCh = live.get("ch");
-    const urlChannelMatches =
-      urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
-
     return (
       <div key={c.channel} className="nav-channel-block">
         {mainRow}
-        <div className="nav-case-list">
-          {episodes.map((ep, i) => {
-            const caseHref = portfolioCaseHref(channelNum, i);
-            const caseActive =
-              channelOn &&
-              urlChannelMatches &&
-              view === "episode" &&
-              Number.isFinite(epParsed) &&
-              epParsed === i;
-            return (
-              <Link
-                key={`${c.channel}-case-${i}`}
-                href={caseHref}
-                scroll={false}
-                prefetch
-                onPointerDown={onPrimeAudio}
-                onClick={(e) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                  e.preventDefault();
-                  onNavigateToCaseStudyEpisode(channelNum, i);
-                }}
-                className={`nav-item nav-case ${caseActive ? "active" : ""}`}
-                aria-current={caseActive ? "true" : undefined}
-              >
-                <span className="nav-case-label">Case {i + 1}</span>
-                <span className="nav-case-title">{ep.title}</span>
-              </Link>
-            );
-          })}
+        <div
+          className={`nav-case-list-shell${channelOn ? " nav-case-list-shell--open" : ""}`}
+          inert={channelOn ? undefined : true}
+        >
+          <div className="nav-case-list-shell-inner">
+            <div className="nav-case-list" id={`nav-cases-${c.channel}`}>
+              {episodes.map((ep, i) => {
+                const caseHref = portfolioCaseHref(channelNum, i);
+                const caseActive =
+                  urlChannelMatches &&
+                  view === "episode" &&
+                  Number.isFinite(epParsed) &&
+                  epParsed === i;
+                return (
+                  <Link
+                    key={`${c.channel}-case-${i}`}
+                    href={caseHref}
+                    scroll={false}
+                    prefetch
+                    onPointerDown={onPrimeAudio}
+                    onClick={(e) => {
+                      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                      e.preventDefault();
+                      onNavigateToCaseStudyEpisode(channelNum, i);
+                    }}
+                    className={`nav-item nav-case ${caseActive ? "active" : ""}`}
+                    aria-current={caseActive ? "true" : undefined}
+                  >
+                    <span className="nav-case-label">Episode {i + 1}</span>
+                    <span className="nav-case-title">{ep.title}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     );

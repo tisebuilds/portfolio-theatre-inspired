@@ -200,7 +200,7 @@ export function AboutViewport() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Open ${org.name} in a new tab`}
-                    className="sticker-hover-bob inline-flex h-9 items-center justify-center rounded-sm bg-transparent px-1.5 drop-shadow-[0_16px_22px_rgba(0,0,0,0.45)] transition-transform hover:-translate-y-0.5 hover:drop-shadow-[0_18px_26px_rgba(0,0,0,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tv-pink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    className="sticker-hover-bob inline-flex h-9 items-center justify-center rounded-sm bg-transparent px-1.5 drop-shadow-[0_16px_22px_rgba(0,0,0,0.45)] transition-[filter] hover:drop-shadow-[0_18px_26px_rgba(0,0,0,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tv-pink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                     style={
                       {
                         "--sticker-r": `${org.rotate}deg`,
@@ -227,14 +227,33 @@ export function AboutViewport() {
                     className="flex min-w-0 flex-1 flex-col items-start"
                   >
                     {award.image ? (
-                      <Image
-                        src={award.image}
-                        alt={award.name}
-                        width={176}
-                        height={400}
-                        sizes="(max-width: 640px) 22vw, (max-width: 1024px) 18vw, 200px"
-                        className="h-auto w-full max-w-full object-contain"
-                      />
+                      award.href ? (
+                        <a
+                          href={award.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full max-w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tv-pink/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                          aria-label={`Open ${award.name} article in a new tab`}
+                        >
+                          <Image
+                            src={award.image}
+                            alt={award.name}
+                            width={176}
+                            height={400}
+                            sizes="(max-width: 640px) 22vw, (max-width: 1024px) 18vw, 200px"
+                            className="h-auto w-full max-w-full object-contain"
+                          />
+                        </a>
+                      ) : (
+                        <Image
+                          src={award.image}
+                          alt={award.name}
+                          width={176}
+                          height={400}
+                          sizes="(max-width: 640px) 22vw, (max-width: 1024px) 18vw, 200px"
+                          className="h-auto w-full max-w-full object-contain"
+                        />
+                      )
                     ) : (
                       <div className="flex aspect-[7/16] w-full max-w-full min-w-0 items-start justify-start border border-neutral-800 bg-neutral-900 p-2 sm:p-3">
                         <span className="about-text-body px-3 text-neutral-500">
@@ -436,25 +455,26 @@ export function AboutViewport() {
               const mentorRows = [
                 [
                   "Femi",
-                  "Miah",
                   "Cindy",
-                  "Ry",
+                  "Tolu",
                   "Esuvat",
-                  "Dr. Roberts",
+                  "Miah",
                   "Natalie",
-                  "Eileen",
                   "Yanlam",
+                  "Samantha",
+                  "Chris",
                 ],
                 [
-                  "Zain",
-                  "Catherine",
-                  "Chris",
-                  "Samantha",
-                  "Jason",
-                  "Logan",
                   "Sam",
-                  "Tolu",
                   "Olivia",
+                  "Zain",
+                  "Jason",
+                  "Catherine",
+                  "Eileen",
+                  "Logan",
+                  "George",
+                  "Ry",
+                  "Dr. Roberts",
                 ],
               ];
 
@@ -469,11 +489,20 @@ export function AboutViewport() {
                 )
                 .filter((row) => row.length > 0);
 
+              /** Fixed “design” width for the collage; scaled down on narrow viewports via container + transform. */
+              const MENTOR_COLLAGE_W = 860;
+              const MENTOR_ROW_H = 240;
+              const MENTOR_ROW_GAP = 20;
+              const MENTOR_COLLAGE_H = MENTOR_ROW_H * 2 + MENTOR_ROW_GAP;
+              const POLAROID_W = 108;
+
               const buildLayouts = (count: number, row: 1 | 2) => {
                 if (count === 0) return [];
 
                 const minLeft = 2;
-                const maxLeft = 86;
+                /** Keep the right edge of the polaroid (fixed px width) inside the row width. */
+                const maxLeft =
+                  ((MENTOR_COLLAGE_W - POLAROID_W) / MENTOR_COLLAGE_W) * 100;
                 const step = count === 1 ? 0 : (maxLeft - minLeft) / (count - 1);
                 const rotatePattern =
                   row === 1
@@ -491,13 +520,6 @@ export function AboutViewport() {
                   z: i === Math.floor(count / 2) ? 6 : 4,
                 }));
               };
-
-              /** Fixed “design” width for the collage; scaled down on narrow viewports via container + transform. */
-              const MENTOR_COLLAGE_W = 860;
-              const MENTOR_ROW_H = 240;
-              const MENTOR_ROW_GAP = 20;
-              const MENTOR_COLLAGE_H = MENTOR_ROW_H * 2 + MENTOR_ROW_GAP;
-              const POLAROID_W = 150;
 
               const renderRow = (
                 mentors: typeof about.mentors,
@@ -538,9 +560,9 @@ export function AboutViewport() {
                             <Image
                               src={src}
                               alt={`${mentor.name}${mentor.role ? `, ${mentor.role}` : ""}`}
-                              width={340}
-                              height={400}
-                              sizes="(max-width: 480px) 25vw, 150px"
+                              width={245}
+                              height={288}
+                              sizes="(max-width: 480px) 18vw, 108px"
                               className="h-auto w-full"
                             />
                           ) : (

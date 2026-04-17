@@ -105,6 +105,8 @@ export type Award = {
   issuer: string;
   year: string;
   image?: string;
+  /** Optional external article or official page */
+  href?: string;
 };
 
 export type Pin = {

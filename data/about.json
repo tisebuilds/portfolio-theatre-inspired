@@ -1,6 +1,6 @@
 {
   "awards": [
-    { "name": "Merrill Presidential Scholars", "issuer": "Cornell Bowers CIS", "year": "2024", "image": "/media/awards/merrill.png" },
+    { "name": "Merrill Presidential Scholars", "issuer": "Cornell Bowers CIS", "year": "2024", "image": "/media/awards/merrill.png", "href": "https://news.cornell.edu/stories/2023/05/merrill-scholars-honor-mentors-35th-annual-ceremony" },
     { "name": "Undergraduate Commitment to Diversity", "issuer": "Cornell Engineering", "year": "2024", "image": "/media/awards/dpe.png" },
     { "name": "Most Impactful Student", "issuer": "WICC · Cornell Bowers CIS", "year": "2023", "image": "/media/awards/wicc.png" },
     { "name": "Diversity, Equity, Inclusion, and Belonging", "issuer": "Cornell Bowers CIS", "year": "2023", "image": "/media/awards/deib.png" }
@@ -30,6 +30,7 @@
     { "name": "Sam", "image": "/media/mentors/sam.png" },
     { "name": "Olivia", "image": "/media/mentors/olivia.png" },
     { "name": "Dr. Roberts", "image": "/media/mentors/dr-roberts.png" },
-    { "name": "Natalie", "image": "/media/mentors/natalie.png" }
+    { "name": "Natalie", "image": "/media/mentors/natalie.png" },
+    { "name": "George", "image": "/media/mentors/george.png" }
   ]
 }

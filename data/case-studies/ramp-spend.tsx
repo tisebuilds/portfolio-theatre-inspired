@@ -324,28 +324,28 @@ export const rampSpendEpisodes: RampEpisode[] = [
       layout: "mg2",
       cells: [
         {
-          aspect: "r9-16",
+          aspect: "r16-9",
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-primary.mp4",
           alt: "Akuma tooling — primary web view",
           placeholderLabel: "WEB — Primary view",
         },
         {
-          aspect: "r9-16",
+          aspect: "r16-9",
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-web-detail.mp4",
           alt: "Akuma tooling — web detail",
           placeholderLabel: "Web detail",
         },
         {
-          aspect: "r9-16",
+          aspect: "r16-9",
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-mobile.mp4",
           alt: "Akuma tooling — mobile web",
           placeholderLabel: "Mobile web",
         },
         {
-          aspect: "r9-16",
+          aspect: "r16-9",
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-screen-detail.mp4",
           alt: "Akuma tooling — screen detail",

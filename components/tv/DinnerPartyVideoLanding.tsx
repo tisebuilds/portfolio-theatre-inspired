@@ -1,16 +1,23 @@
 "use client";
 
 import type { Project } from "@/app/types";
+import {
+  syncTvHistoryBeforeRouter,
+  tvLiveSearchParams,
+} from "@/lib/tv-live-search-params";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type DinnerPartyVideoLandingProps = {
   project: Project;
   channelNumber: number;
+  /** After `router.replace`, bump TV shell so `MainViewport` re-reads the URL (Next `useSearchParams` can lag). */
+  onAfterQueryReplace?: () => void;
 };
 
 export function DinnerPartyVideoLanding({
   project,
   channelNumber,
+  onAfterQueryReplace,
 }: DinnerPartyVideoLandingProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,11 +33,14 @@ export function DinnerPartyVideoLanding({
     project.video && !youtubeEmbedUrl ? project.video : null;
 
   const openGallery = () => {
-    const next = new URLSearchParams(searchParams.toString());
+    const next = new URLSearchParams(tvLiveSearchParams(searchParams).toString());
     next.set("ch", String(channelNumber));
     next.set("view", "gallery");
     next.delete("ep");
-    router.replace(`/?${next.toString()}`, { scroll: false });
+    const href = `/?${next.toString()}`;
+    syncTvHistoryBeforeRouter(href);
+    router.replace(href, { scroll: false });
+    onAfterQueryReplace?.();
   };
 
   return (

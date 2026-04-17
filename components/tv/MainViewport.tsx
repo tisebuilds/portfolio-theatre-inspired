@@ -194,6 +194,8 @@ type MainViewportProps = {
   /** Opacity for the case-study body during TV dissolve/fade. */
   contentOpacity?: number;
   contentTransition?: string;
+  /** Same-document query updates: re-render shell when `router.replace` does not tick `useSearchParams` reliably. */
+  onAfterQueryReplace?: () => void;
 };
 
 export function MainViewport({
@@ -203,6 +205,7 @@ export function MainViewport({
   interactionLocked = false,
   contentOpacity = 1,
   contentTransition,
+  onAfterQueryReplace,
 }: MainViewportProps) {
   const searchParams = useSearchParams();
   const ch = CHANNELS[channelIndex];
@@ -236,12 +239,18 @@ export function MainViewport({
       if (!proj) return null;
       if (ch.projectSlug === "dinner-party-seating-chart") {
         if (view === "gallery") {
-          return <DinnerPartyGalleryCaseStudy channelNumber={ch.channel} />;
+          return (
+            <DinnerPartyGalleryCaseStudy
+              channelNumber={ch.channel}
+              onAfterQueryReplace={onAfterQueryReplace}
+            />
+          );
         }
         return (
           <DinnerPartyVideoLanding
             project={proj}
             channelNumber={ch.channel}
+            onAfterQueryReplace={onAfterQueryReplace}
           />
         );
       }

@@ -11,3 +11,18 @@ export function tvLiveSearchParams(routerSearchParams: {
   }
   return new URLSearchParams(routerSearchParams.toString());
 }
+
+/**
+ * Same-document: set `window.location` via `history.replaceState` before
+ * `router.replace` so the next read from `tvLiveSearchParams` matches the
+ * intended query (Next can apply the soft URL a tick later).
+ */
+export function syncTvHistoryBeforeRouter(href: string) {
+  if (typeof window === "undefined") return;
+  const u = new URL(href, window.location.origin);
+  window.history.replaceState(
+    window.history.state,
+    "",
+    `${u.pathname}${u.search}`,
+  );
+}

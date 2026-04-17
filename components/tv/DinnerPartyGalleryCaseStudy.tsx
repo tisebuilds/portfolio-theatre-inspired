@@ -1,6 +1,10 @@
 "use client";
 
 import { Suspense } from "react";
+import {
+  syncTvHistoryBeforeRouter,
+  tvLiveSearchParams,
+} from "@/lib/tv-live-search-params";
 import { useRouter, useSearchParams } from "next/navigation";
 import { RampCinemaCaseStudy } from "@/components/ramp/RampCinemaCaseStudy";
 import { LearningsFromStandard } from "@/components/LearningsFromStandard";
@@ -42,20 +46,26 @@ const dinnerPartyEpisode: RampEpisode = {
 
 type DinnerPartyGalleryCaseStudyProps = {
   channelNumber: number;
+  /** After `router.replace`, bump TV shell so `MainViewport` re-reads the URL (Next `useSearchParams` can lag). */
+  onAfterQueryReplace?: () => void;
 };
 
 export function DinnerPartyGalleryCaseStudy({
   channelNumber,
+  onAfterQueryReplace,
 }: DinnerPartyGalleryCaseStudyProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const backToDemo = () => {
-    const next = new URLSearchParams(searchParams.toString());
+    const next = new URLSearchParams(tvLiveSearchParams(searchParams).toString());
     next.set("ch", String(channelNumber));
     next.delete("view");
     next.delete("ep");
-    router.replace(`/?${next.toString()}`, { scroll: false });
+    const href = `/?${next.toString()}`;
+    syncTvHistoryBeforeRouter(href);
+    router.replace(href, { scroll: false });
+    onAfterQueryReplace?.();
   };
 
   return (

@@ -623,6 +623,7 @@ export function TvShell({ projects }: TvShellProps) {
                   interactionLocked={isMd && isTransitioning}
                   contentOpacity={mainOpacity}
                   contentTransition={mainTransition}
+                  onAfterQueryReplace={syncShellToQuery}
                 />
               </div>
 

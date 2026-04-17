@@ -7,7 +7,10 @@ import {
   parseChannelFromSearchParams,
   SIGNAL_LOST_PARAM,
 } from "@/lib/channels";
-import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
+import {
+  syncTvHistoryBeforeRouter,
+  tvLiveSearchParams,
+} from "@/lib/tv-live-search-params";
 import {
   SITE_EMAIL as EMAIL,
   SITE_LINKEDIN as LINKEDIN_URL,
@@ -45,13 +48,6 @@ function portfolioHrefWithView(
   return `/?${q.toString()}`;
 }
 
-/** Same-document: `router.replace` can lag `window.location`; TV UI reads the live URL. */
-function syncHistoryBeforeRouter(href: string) {
-  if (typeof window === "undefined") return;
-  const u = new URL(href, window.location.origin);
-  window.history.replaceState(window.history.state, "", `${u.pathname}${u.search}`);
-}
-
 export function SidebarIcons({
   aboutActive,
   resumeActive,
@@ -87,7 +83,7 @@ export function SidebarIcons({
         onClick={(e) => {
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
           e.preventDefault();
-          syncHistoryBeforeRouter(aboutHref);
+          syncTvHistoryBeforeRouter(aboutHref);
           router.replace(aboutHref, { scroll: false });
           onAfterPortfolioQueryNav?.();
         }}
@@ -109,7 +105,7 @@ export function SidebarIcons({
         onClick={(e) => {
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
           e.preventDefault();
-          syncHistoryBeforeRouter(resumeHref);
+          syncTvHistoryBeforeRouter(resumeHref);
           router.replace(resumeHref, { scroll: false });
           onAfterPortfolioQueryNav?.();
         }}

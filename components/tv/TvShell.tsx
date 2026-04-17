@@ -33,9 +33,22 @@ import { channelIndexFromDigit, useTvKeyboard, wrapChannelIndex } from "./useTvK
 
 type Phase = "idle" | "dissolve" | "static" | "fade";
 
+/**
+ * Next `useSearchParams()` can lag `window.location` on the first client pass after
+ * a direct load like `/?ch=2&view=episode`. Prefer the live location bar when available.
+ */
+function tvLiveSearchParams(
+  routerSearchParams: { toString(): string },
+): URLSearchParams {
+  if (typeof window !== "undefined") {
+    return new URLSearchParams(window.location.search);
+  }
+  return new URLSearchParams(routerSearchParams.toString());
+}
+
 function useMinMd() {
   const [md, setMd] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const fn = () => setMd(mq.matches);
     fn();
@@ -113,6 +126,29 @@ export function TvShell({ projects }: TvShellProps) {
 
   const isTransitioning = phase !== "idle";
 
+  /** Align TV state with the real URL before paint (fixes direct loads / hydration lag). */
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const p = parseChannelFromSearchParams(params);
+    if (p.mode === "signalLost") {
+      setSignalLost(true);
+      setChannelIndex(0);
+      setDisplayIndex(0);
+      setOsd({
+        lines: ["NO SIGNAL", "CH --"],
+        variant: "signal",
+        persistent: true,
+      });
+      return;
+    }
+    setSignalLost(false);
+    const idx = p.channel - 1;
+    setChannelIndex(idx);
+    setDisplayIndex(idx);
+    setOsd(null);
+  }, []);
+
   useEffect(() => {
     return () => clearTimers();
   }, [clearTimers]);
@@ -172,7 +208,8 @@ export function TvShell({ projects }: TvShellProps) {
 
   useEffect(() => {
     if (isTransitioning) return;
-    const p = parseChannelFromSearchParams(searchParams);
+    const live = tvLiveSearchParams(searchParams);
+    const p = parseChannelFromSearchParams(live);
     if (p.mode === "signalLost") {
       setSignalLost(true);
       setOsd({
@@ -191,17 +228,18 @@ export function TvShell({ projects }: TvShellProps) {
 
   useEffect(() => {
     if (isTransitioning) return;
-    const parsed = parseChannelFromSearchParams(searchParams);
+    const live = tvLiveSearchParams(searchParams);
+    const parsed = parseChannelFromSearchParams(live);
     if (parsed.mode !== "channel") return;
     const chNum = parsed.channel;
     /** Work channels with a single episode: default to episode view (same as Ramp 1–2). */
     const singleEpisodeChannels: ChannelNumber[] = [1, 2, 3, 4, 5];
     if (!singleEpisodeChannels.includes(chNum)) return;
 
-    const view = searchParams.get("view") ?? "";
+    const view = live.get("view") ?? "";
     if (view !== "") return;
 
-    const next = new URLSearchParams(searchParams.toString());
+    const next = new URLSearchParams(live.toString());
     next.set("ch", String(chNum));
     next.set("view", "episode");
     if (!next.has("ep")) next.set("ep", "0");
@@ -210,7 +248,7 @@ export function TvShell({ projects }: TvShellProps) {
 
   const pushUrl = useCallback(
     (next: { signalLost: boolean; channel?: ChannelNumber }) => {
-      const p = new URLSearchParams(searchParams.toString());
+      const p = tvLiveSearchParams(searchParams);
       if (next.signalLost) {
         p.delete("ch");
         p.set(SIGNAL_LOST_PARAM, "lost");
@@ -219,7 +257,7 @@ export function TvShell({ projects }: TvShellProps) {
       } else if (next.channel !== undefined) {
         p.delete(SIGNAL_LOST_PARAM);
         const prevParsed = parseChannelFromSearchParams(
-          new URLSearchParams(searchParams.toString()),
+          new URLSearchParams(p.toString()),
         );
         const prevChNum =
           prevParsed.mode === "channel" ? prevParsed.channel : undefined;

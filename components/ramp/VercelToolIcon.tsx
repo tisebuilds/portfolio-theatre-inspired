@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 export function VercelToolIcon() {
   return (
@@ -7,7 +8,7 @@ export function VercelToolIcon() {
       title="Vercel"
     >
       <Image
-        src="/images/vercel-app-icon.png"
+        src={SITE_MEDIA.toolIcons.vercel}
         alt=""
         width={20}
         height={20}

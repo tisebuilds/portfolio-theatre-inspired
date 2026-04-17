@@ -175,6 +175,54 @@
   margin-top: 18px;
 }
 
+.tv-sidebar-nav .nav-channel-block {
+  margin-bottom: 2px;
+}
+
+.tv-sidebar-nav .nav-case-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 2px 12px 6px 2.75rem;
+}
+
+.tv-sidebar-nav .nav-item.nav-case {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 8px;
+}
+
+.tv-sidebar-nav .nav-item.nav-case .nav-case-label {
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tv-sidebar-nav .nav-item.nav-case .nav-case-title {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--muted-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.tv-sidebar-nav .nav-item.nav-case.active .nav-case-label {
+  color: var(--accent);
+}
+
+.tv-sidebar-nav .nav-item.nav-case.active .nav-case-title {
+  color: var(--text);
+}
+
 @layer utilities {
   .word-glow {
     transition: text-shadow 0.2s ease, color 0.15s ease;

@@ -3,77 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ExternalLinkIcon } from "@/components/case-study-icons";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 const journalUrl =
   "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=12";
 
-type ColorstackInstagramPost = {
-  href: string;
-  /** Square preview in /public — avoids broken Instagram thumbnails when logged out */
-  previewSrc?: string;
-  previewAlt?: string;
-  /** When false, no caption overlay on the preview (previewAlt still used for aria-label) */
-  showPreviewCaption?: boolean;
-};
+type ColorstackInstagramPost =
+  (typeof SITE_MEDIA.colorstackInstagramPosts)[number];
 
-const colorstackInstagramPosts: ColorstackInstagramPost[] = [
-  {
-    href: "https://www.instagram.com/p/CPEkBGXLmG7/",
-    previewSrc: "/images/colorstack-instagram/cpekbgxlmg7.png",
-    previewAlt:
-      'Member spotlight: Meet Nnamdi — “ColorStack is where I found my tribe”',
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/COd8HRooOLX/",
-    previewSrc: "/images/colorstack-instagram/cod8hrooolx.png",
-    previewAlt:
-      'Member spotlight: Meet Yesenia — “I have found my direction with ColorStack”',
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/CMlI1K_q6Dz/",
-    previewSrc: "/images/colorstack-instagram/cmli1kq6dz.png",
-    previewAlt:
-      "ColorStack Fireside Chat with Kaya Thomas — March 19, 5 PM EST on Zoom",
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/CMZved3rXfR/",
-    previewSrc: "/images/colorstack-instagram/cmzved3rxfR.png",
-    previewAlt:
-      "Kickback event graphic with date March 20, 3 PM EST, on Remo",
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/CMXSAkxLQ35/",
-    previewSrc: "/images/colorstack-instagram/cmxsakxlq35.png",
-    previewAlt:
-      "Introduction to MongoDB with Joe Karlsson — March 18, 6 PM EST on Zoom",
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/CMVvW0WLNGK/",
-    previewSrc: "/images/colorstack-instagram/cmvvw0wlngk.png",
-    previewAlt:
-      "Introduction to cloud with Datadog — March 17, 6 PM EST on Zoom",
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/CKxGOGXl4zu/",
-    previewSrc: "/images/colorstack-instagram/ckxgogxl4zu.png",
-    previewAlt:
-      "History in the Making with Sherrell Dorsey — Feb. 4, 6 PM EST on Zoom",
-    showPreviewCaption: false,
-  },
-  {
-    href: "https://www.instagram.com/p/COLZ7zrldE6/?img_index=2",
-    previewSrc: "/images/colorstack-instagram/colz7zrlde6.png",
-    previewAlt:
-      "Conversation with Ali Partovi, CEO of Neo — April 30, 2 PM EST on Zoom",
-    showPreviewCaption: false,
-  },
-];
+const colorstackInstagramPosts: typeof SITE_MEDIA.colorstackInstagramPosts =
+  SITE_MEDIA.colorstackInstagramPosts;
 
 function instagramShortcode(href: string): string {
   const m = href.match(/instagram\.com\/p\/([^/?]+)/);
@@ -222,7 +161,7 @@ function SlackMessageShowcase() {
             >
               <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded sm:h-10 sm:w-10">
                 <Image
-                  src="/images/jehron-petty-headshot.png"
+                  src={SITE_MEDIA.people.jehronPettyHeadshot}
                   alt=""
                   fill
                   sizes="40px"

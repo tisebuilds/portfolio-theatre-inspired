@@ -1,0 +1,79 @@
+{
+  "site": {
+    "profilePhoto": "/media/profile/tise-alatise.png"
+  },
+  "toolIcons": {
+    "figma": "/media/icons/figma-app-icon.png",
+    "figjam": "/media/icons/figjam-app-icon.png",
+    "slack": "/media/icons/slack-app-icon.png",
+    "notion": "/media/icons/notion-app-icon.png",
+    "keynote": "/media/icons/keynote-app-icon.png",
+    "vercel": "/media/icons/vercel-app-icon.png",
+    "cursor": "/media/icons/cursor-app-icon.png",
+    "magicPatterns": "/media/icons/magic-patterns-app-icon.png"
+  },
+  "caseStudyHeroes": {
+    "metaInternship": "/media/heroes/meta-internship-case-study-hero.png",
+    "disneyStreamingCrossPlatform": "/media/heroes/disney-streaming-cross-platform-hero.png",
+    "figmaCaseStudy": "/media/heroes/figma-case-study-hero.png"
+  },
+  "colorstackInstagramPosts": [
+    {
+      "href": "https://www.instagram.com/p/CPEkBGXLmG7/",
+      "previewSrc": "/media/colorstack-instagram/cpekbgxlmg7.png",
+      "previewAlt": "Member spotlight: Meet Nnamdi — “ColorStack is where I found my tribe”",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/COd8HRooOLX/",
+      "previewSrc": "/media/colorstack-instagram/cod8hrooolx.png",
+      "previewAlt": "Member spotlight: Meet Yesenia — “I have found my direction with ColorStack”",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/CMlI1K_q6Dz/",
+      "previewSrc": "/media/colorstack-instagram/cmli1kq6dz.png",
+      "previewAlt": "ColorStack Fireside Chat with Kaya Thomas — March 19, 5 PM EST on Zoom",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/CMZved3rXfR/",
+      "previewSrc": "/media/colorstack-instagram/cmzved3rxfR.png",
+      "previewAlt": "Kickback event graphic with date March 20, 3 PM EST, on Remo",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/CMXSAkxLQ35/",
+      "previewSrc": "/media/colorstack-instagram/cmxsakxlq35.png",
+      "previewAlt": "Introduction to MongoDB with Joe Karlsson — March 18, 6 PM EST on Zoom",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/CMVvW0WLNGK/",
+      "previewSrc": "/media/colorstack-instagram/cmvvw0wlngk.png",
+      "previewAlt": "Introduction to cloud with Datadog — March 17, 6 PM EST on Zoom",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/CKxGOGXl4zu/",
+      "previewSrc": "/media/colorstack-instagram/ckxgogxl4zu.png",
+      "previewAlt": "History in the Making with Sherrell Dorsey — Feb. 4, 6 PM EST on Zoom",
+      "showPreviewCaption": false
+    },
+    {
+      "href": "https://www.instagram.com/p/COLZ7zrldE6/?img_index=2",
+      "previewSrc": "/media/colorstack-instagram/colz7zrlde6.png",
+      "previewAlt": "Conversation with Ali Partovi, CEO of Neo — April 30, 2 PM EST on Zoom",
+      "showPreviewCaption": false
+    }
+  ],
+  "people": {
+    "jehronPettyHeadshot": "/media/people/jehron-petty-headshot.png"
+  },
+  "appDev": {
+    "volumeAppIcon": "/media/icons/app-icon-volume.png",
+    "coursegrabAppIcon": "/media/icons/app-icon-coursegrab.png",
+    "iphonePinkWallpaper": "/media/device/iphone-16-pink-wallpaper.png",
+    "iphonePlusPinkBack": "/media/device/iphone-16-plus-pink-back.png"
+  }
+}

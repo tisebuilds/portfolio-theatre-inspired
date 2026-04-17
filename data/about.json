@@ -1,9 +1,9 @@
 {
   "awards": [
-    { "name": "Merrill Presidential Scholars", "issuer": "Cornell Bowers CIS", "year": "2024", "image": "/awards/merrill.png" },
-    { "name": "Undergraduate Commitment to Diversity", "issuer": "Cornell Engineering", "year": "2024", "image": "/awards/dpe.png" },
-    { "name": "Most Impactful Student", "issuer": "WICC · Cornell Bowers CIS", "year": "2023", "image": "/awards/wicc.png" },
-    { "name": "Diversity, Equity, Inclusion, and Belonging", "issuer": "Cornell Bowers CIS", "year": "2023", "image": "/awards/deib.png" }
+    { "name": "Merrill Presidential Scholars", "issuer": "Cornell Bowers CIS", "year": "2024", "image": "/media/awards/merrill.png" },
+    { "name": "Undergraduate Commitment to Diversity", "issuer": "Cornell Engineering", "year": "2024", "image": "/media/awards/dpe.png" },
+    { "name": "Most Impactful Student", "issuer": "WICC · Cornell Bowers CIS", "year": "2023", "image": "/media/awards/wicc.png" },
+    { "name": "Diversity, Equity, Inclusion, and Belonging", "issuer": "Cornell Bowers CIS", "year": "2023", "image": "/media/awards/deib.png" }
   ],
   "pins": [
     { "label": "K-pop" },
@@ -13,23 +13,23 @@
   ],
   "credits": "Thank you to my mentors and peers who shaped my practice—especially those who gave feedback on early work and pushed me to ship.",
   "mentors": [
-    { "name": "Femi", "role": "Leadership", "image": "/mentors/femi.png" },
-    { "name": "Tolu", "role": "Engineering", "image": "/mentors/tolu.png" },
-    { "name": "Zain", "role": "Advisor", "image": "/mentors/zain.png" },
-    { "name": "Catherine", "image": "/mentors/catherine.png" },
-    { "name": "Jason", "image": "/mentors/jason.png" },
-    { "name": "Cindy", "role": "Design", "image": "/mentors/cindy.png" },
-    { "name": "Miah", "role": "Research", "image": "/mentors/miah.png" },
-    { "name": "Ry", "role": "Product", "image": "/mentors/ry.png" },
-    { "name": "Esuvat", "role": "Advisor", "image": "/mentors/esuvat.png" },
-    { "name": "Logan", "image": "/mentors/logan.png" },
-    { "name": "Eileen", "image": "/mentors/eileen.png" },
-    { "name": "Chris", "image": "/mentors/chris.png" },
-    { "name": "Samantha", "image": "/mentors/samantha.png" },
-    { "name": "Yanlam", "image": "/mentors/yanlam.png" },
-    { "name": "Sam", "image": "/mentors/sam.png" },
-    { "name": "Olivia", "image": "/mentors/olivia.png" },
-    { "name": "Dr. Roberts", "image": "/mentors/dr-roberts.png" },
-    { "name": "Natalie", "image": "/mentors/natalie.png" }
+    { "name": "Femi", "role": "Leadership", "image": "/media/mentors/femi.png" },
+    { "name": "Tolu", "role": "Engineering", "image": "/media/mentors/tolu.png" },
+    { "name": "Zain", "role": "Advisor", "image": "/media/mentors/zain.png" },
+    { "name": "Catherine", "image": "/media/mentors/catherine.png" },
+    { "name": "Jason", "image": "/media/mentors/jason.png" },
+    { "name": "Cindy", "role": "Design", "image": "/media/mentors/cindy.png" },
+    { "name": "Miah", "role": "Research", "image": "/media/mentors/miah.png" },
+    { "name": "Ry", "role": "Product", "image": "/media/mentors/ry.png" },
+    { "name": "Esuvat", "role": "Advisor", "image": "/media/mentors/esuvat.png" },
+    { "name": "Logan", "image": "/media/mentors/logan.png" },
+    { "name": "Eileen", "image": "/media/mentors/eileen.png" },
+    { "name": "Chris", "image": "/media/mentors/chris.png" },
+    { "name": "Samantha", "image": "/media/mentors/samantha.png" },
+    { "name": "Yanlam", "image": "/media/mentors/yanlam.png" },
+    { "name": "Sam", "image": "/media/mentors/sam.png" },
+    { "name": "Olivia", "image": "/media/mentors/olivia.png" },
+    { "name": "Dr. Roberts", "image": "/media/mentors/dr-roberts.png" },
+    { "name": "Natalie", "image": "/media/mentors/natalie.png" }
   ]
 }

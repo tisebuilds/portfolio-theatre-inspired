@@ -27,10 +27,10 @@ export const rampSpendEpisodes: RampEpisode[] = [
     externalLabel: "ramp.com",
     logline:
       "A lesson in doing something just for the sake of making people smile",
-    onePagerHref: "/ramp/spend/cardholder-creation-one-pager.pdf",
+    onePagerHref: "/media/ramp/spend/cardholder-creation-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/ramp/spend/cardholder-creation-hero.png",
+      src: "/media/ramp/spend/cardholder-creation-hero.png",
       alt:
         "Jobs-to-be-done hero: employee at a desk with floating Gmail, Okta, and Slack-style UI around Ramp onboarding",
     },
@@ -68,8 +68,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
       cells: [
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-creation-invite-email-before.png",
-          srcAfter: "/ramp/spend/cardholder-creation-invite-email-after.png",
+          src: "/media/ramp/spend/cardholder-creation-invite-email-before.png",
+          srcAfter: "/media/ramp/spend/cardholder-creation-invite-email-after.png",
           alt: "Gmail inbox showing the previous employee invite email from Ramp QA",
           altAfter:
             "Gmail inbox showing the redesigned employee invite email: Set up your Ramp account with updated copy and CTA",
@@ -77,8 +77,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-02-create-account.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-02-create-account.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-02-create-account.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-02-create-account.png",
           alt: "Before: employee account creation with Google sign-in, testimonial card, and legal footer",
           altAfter:
             "After: streamlined invite copy, Continue with Google, and co-branded card visual",
@@ -86,8 +86,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-03-welcome.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-03-spend-overview.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-03-welcome.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-03-spend-overview.png",
           alt: "Before: welcome step with numbered tips and lifestyle imagery",
           altAfter:
             "After: spend overview with stipends, virtual cards, and Ramp card mockup",
@@ -95,8 +95,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-04-expense-policy.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-04-expense-policy.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-04-expense-policy.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-04-expense-policy.png",
           alt: "Before: read and sign company expense policy with document viewer",
           altAfter:
             "After: review and sign with legal name field and inline policy preview",
@@ -104,8 +104,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-05-mailing-address.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-05-mail-card.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-05-mailing-address.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-05-mail-card.png",
           alt: "Before: add mailing address for physical card delivery",
           altAfter:
             "After: mail your Ramp card with live address preview on envelope graphic",
@@ -113,8 +113,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-07-verify-phone.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-07-verify-phone.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-07-verify-phone.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-07-verify-phone.png",
           alt: "Before: verify phone with SMS option and phone mockup",
           altAfter:
             "After: verify phone number with refined copy and richer SMS thread mockup",
@@ -122,8 +122,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-08-authenticator.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-08-authenticator.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-08-authenticator.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-08-authenticator.png",
           alt: "Before: set up authenticator app step with phone mockup",
           altAfter:
             "After: authenticator setup with laptop dashboard graphic and Okta-style overlay",
@@ -131,8 +131,8 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
-          src: "/ramp/spend/cardholder-onboarding-before-09-setup-guide.png",
-          srcAfter: "/ramp/spend/cardholder-onboarding-after-09-mobile-wallet.png",
+          src: "/media/ramp/spend/cardholder-onboarding-before-09-setup-guide.png",
+          srcAfter: "/media/ramp/spend/cardholder-onboarding-after-09-mobile-wallet.png",
           alt: "Before: in-app setup guide checklist and search hint toast",
           altAfter:
             "After: add card to mobile wallet with QR, store links, and phone mockup",
@@ -180,12 +180,12 @@ export const rampSpendEpisodes: RampEpisode[] = [
     externalHref: "https://ramp.com",
     externalLabel: "ramp.com",
     logline: "A lesson in caring ruthlessly about the details",
-    onePagerHref: "/ramp/spend/unified-wallet-one-pager.pdf",
+    onePagerHref: "/media/ramp/spend/unified-wallet-one-pager.pdf",
     hideLearnings: true,
     hero: {
       aspect: "web",
       media: "video",
-      src: "/ramp/spend/wallet-drawer-demo.mp4",
+      src: "/media/ramp/spend/wallet-drawer-demo.mp4",
       alt: "Wallet Drawer demo: unified wallet drawer interaction",
     },
     outcomeRich: (
@@ -206,40 +206,40 @@ export const rampSpendEpisodes: RampEpisode[] = [
       cells: [
         {
           aspect: "intrinsic",
-          src: "/ramp/spend/unified-wallet-before-primary.png",
+          src: "/media/ramp/spend/unified-wallet-before-primary.png",
           alt:
             "My funds drawer (before): virtual card with show details, lock, and replace; search and fund list with progress bars",
-          srcAfter: "/ramp/spend/unified-wallet-after-primary.png",
+          srcAfter: "/media/ramp/spend/unified-wallet-after-primary.png",
           altAfter:
             "Unified Wallet drawer on the Funds tab (after): grouped limits, virtual cards, and reimbursement-only funds",
           placeholderLabel: "WEB — Primary view",
         },
         {
           aspect: "intrinsic",
-          src: "/ramp/spend/unified-wallet-before-web-detail.png",
+          src: "/media/ramp/spend/unified-wallet-before-web-detail.png",
           alt:
             "My Ramp Card Overview (before): card details, Spending from with Switch, and Other available funds list",
-          srcAfter: "/ramp/spend/unified-wallet-after-web-detail.png",
+          srcAfter: "/media/ramp/spend/unified-wallet-after-web-detail.png",
           altAfter:
             "My wallet Ramp Card tab (after): card actions, expanded Design tooling fund with progress, and transactions",
           placeholderLabel: "Web detail",
         },
         {
           aspect: "intrinsic",
-          src: "/ramp/spend/unified-wallet-before-mobile.png",
+          src: "/media/ramp/spend/unified-wallet-before-mobile.png",
           alt:
             "Wallet drawer on mobile web (before): My Ramp Card overview with card details, auto-match funds callout, and funds on this card",
-          srcAfter: "/ramp/spend/unified-wallet-after-mobile.png",
+          srcAfter: "/media/ramp/spend/unified-wallet-after-mobile.png",
           altAfter:
             "Wallet drawer on mobile web (after): unified layout, Ramp Card, auto-matching, and empty transactions state",
           placeholderLabel: "Mobile web",
         },
         {
           aspect: "intrinsic",
-          src: "/ramp/spend/unified-wallet-before-screen-detail.png",
+          src: "/media/ramp/spend/unified-wallet-before-screen-detail.png",
           alt:
             "Switch funds: auto-match funds unselected, manual fund selected (Vercel V0), and disabled save",
-          srcAfter: "/ramp/spend/unified-wallet-after-screen-detail.png",
+          srcAfter: "/media/ramp/spend/unified-wallet-after-screen-detail.png",
           altAfter:
             "My wallet Ramp Card: Auto-matching expanded with auto-match funds selected, manual fund options, and save changes",
           placeholderLabel: "Screen detail",
@@ -301,10 +301,10 @@ export const rampSpendEpisodes: RampEpisode[] = [
     externalHref: "https://ramp.com",
     externalLabel: "ramp.com",
     logline: "",
-    onePagerHref: "/ramp/spend/akuma-updates-one-pager.pdf",
+    onePagerHref: "/media/ramp/spend/akuma-updates-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/ramp/spend/akuma-updates-hero.png",
+      src: "/media/ramp/spend/akuma-updates-hero.png",
       alt:
         "Akuma tooling: email preview, template analytics, communication templates list, and visual search for similar templates",
     },
@@ -326,28 +326,28 @@ export const rampSpendEpisodes: RampEpisode[] = [
         {
           aspect: "r9-16",
           media: "video",
-          src: "/ramp/spend/akuma-updates-video-primary.mp4",
+          src: "/media/ramp/spend/akuma-updates-video-primary.mp4",
           alt: "Akuma tooling — primary web view",
           placeholderLabel: "WEB — Primary view",
         },
         {
           aspect: "r9-16",
           media: "video",
-          src: "/ramp/spend/akuma-updates-video-web-detail.mp4",
+          src: "/media/ramp/spend/akuma-updates-video-web-detail.mp4",
           alt: "Akuma tooling — web detail",
           placeholderLabel: "Web detail",
         },
         {
           aspect: "r9-16",
           media: "video",
-          src: "/ramp/spend/akuma-updates-video-mobile.mp4",
+          src: "/media/ramp/spend/akuma-updates-video-mobile.mp4",
           alt: "Akuma tooling — mobile web",
           placeholderLabel: "Mobile web",
         },
         {
           aspect: "r9-16",
           media: "video",
-          src: "/ramp/spend/akuma-updates-video-screen-detail.mp4",
+          src: "/media/ramp/spend/akuma-updates-video-screen-detail.mp4",
           alt: "Akuma tooling — screen detail",
           placeholderLabel: "Screen detail",
         },

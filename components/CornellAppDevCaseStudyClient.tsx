@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { AppDevPhoneMockup } from "@/components/appdev/AppDevPhoneMockup";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 import { RampCinemaCaseStudy } from "@/components/ramp/RampCinemaCaseStudy";
@@ -19,7 +20,7 @@ const appdevEpisode: RampEpisode = {
       <MetaDot />
       <span className="inline-flex items-center gap-[5px]">
         <Image
-          src="/images/figma-app-icon.png"
+          src={SITE_MEDIA.toolIcons.figma}
           alt="Figma"
           width={20}
           height={20}
@@ -27,7 +28,7 @@ const appdevEpisode: RampEpisode = {
           sizes="20px"
         />
         <Image
-          src="/images/notion-app-icon.png"
+          src={SITE_MEDIA.toolIcons.notion}
           alt="Notion"
           width={20}
           height={20}

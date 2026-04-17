@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { SVGProps } from "react";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 /** Logos from Simple Icons (CC0) — compact row for case study meta. */
 const iconClass = "h-4 w-4 shrink-0 text-white/45";
@@ -152,7 +153,7 @@ export function DinnerPartyCaseStudyToolLogoStrip() {
         <AnthropicToolLogoMeta />
       </span>
       <Image
-        src="/images/figma-app-icon.png"
+        src={SITE_MEDIA.toolIcons.figma}
         alt=""
         width={20}
         height={20}
@@ -172,7 +173,7 @@ export function FigmaCaseStudyToolLogoStrip() {
       aria-label="Figma, FigJam, Dropbox Paper, Slack, Loom"
     >
       <Image
-        src="/images/figma-app-icon.png"
+        src={SITE_MEDIA.toolIcons.figma}
         alt=""
         width={20}
         height={20}
@@ -180,7 +181,7 @@ export function FigmaCaseStudyToolLogoStrip() {
         sizes="20px"
       />
       <Image
-        src="/images/figjam-app-icon.png"
+        src={SITE_MEDIA.toolIcons.figjam}
         alt=""
         width={20}
         height={20}
@@ -191,7 +192,7 @@ export function FigmaCaseStudyToolLogoStrip() {
         <DropboxToolLogoMeta />
       </span>
       <Image
-        src="/images/slack-app-icon.png"
+        src={SITE_MEDIA.toolIcons.slack}
         alt=""
         width={20}
         height={20}

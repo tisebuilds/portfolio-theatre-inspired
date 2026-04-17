@@ -2,15 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   ACCENT_WORK,
   CHANNELS,
   homeHrefForChannel,
+  portfolioCaseHref,
   type ChannelNumber,
   TV_MUTED,
   TV_TEXT,
 } from "@/lib/channels";
 import { SITE_PROFILE_PHOTO } from "@/lib/site";
+import { rampSpendEpisodes } from "@/data/case-studies/ramp-spend";
+import { rampTreasuryEpisodes } from "@/data/case-studies/ramp-treasury";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 
 type SidebarNavProps = {
   activeIndex: number;
@@ -20,8 +25,19 @@ type SidebarNavProps = {
   resumeActive: boolean;
   /** Runs TV transition (static / dissolve); default click is intercepted so links still work for open-in-new-tab. */
   onSelectChannel: (ch: ChannelNumber) => void;
+  /** Jump to a multi-case study episode (Ramp Spend / Treasury) without the old pill rail. */
+  onNavigateToCaseStudyEpisode: (ch: ChannelNumber, episodeIndex: number) => void;
   onPrimeAudio: () => void;
 };
+
+function episodeViewForChannel(
+  live: URLSearchParams,
+  channel: ChannelNumber,
+): string {
+  const raw = live.get("view") ?? "";
+  if (raw === "" && (channel === 1 || channel === 2)) return "episode";
+  return raw;
+}
 
 export function SidebarNav({
   activeIndex,
@@ -29,8 +45,10 @@ export function SidebarNav({
   aboutActive,
   resumeActive,
   onSelectChannel,
+  onNavigateToCaseStudyEpisode,
   onPrimeAudio,
 }: SidebarNavProps) {
+  const searchParams = useSearchParams();
   const work = CHANNELS.filter((c) => c.group === "work");
   const side = CHANNELS.filter((c) => c.group === "side");
 
@@ -40,7 +58,7 @@ export function SidebarNav({
       if (c.workSlug?.startsWith("ramp")) {
         return (
           <Image
-            src="/logos/white/Ramp.png"
+            src="/media/logos/white/Ramp.png"
             alt=""
             width={20}
             height={20}
@@ -52,7 +70,7 @@ export function SidebarNav({
       if (c.workSlug === "figma") {
         return (
           <Image
-            src="/logos/white/Figma.png"
+            src="/media/logos/white/Figma.png"
             alt=""
             width={20}
             height={20}
@@ -64,7 +82,7 @@ export function SidebarNav({
       if (c.workSlug === "meta") {
         return (
           <Image
-            src="/logos/white/Meta.png"
+            src="/media/logos/white/Meta.png"
             alt=""
             width={20}
             height={20}
@@ -76,7 +94,7 @@ export function SidebarNav({
       if (c.workSlug === "disney") {
         return (
           <Image
-            src="/logos/white/Disney.png"
+            src="/media/logos/white/Disney.png"
             alt=""
             width={20}
             height={20}
@@ -100,16 +118,16 @@ export function SidebarNav({
     );
   };
 
-  const row = (c: (typeof CHANNELS)[0]) => {
-    const on =
+  const channelBlock = (c: (typeof CHANNELS)[0]) => {
+    const channelNum = c.channel as ChannelNumber;
+    const channelOn =
       !signalLost &&
       !aboutActive &&
       !resumeActive &&
       activeIndex === c.channel - 1;
-    const href = homeHrefForChannel(c.channel as ChannelNumber);
-    return (
+    const href = homeHrefForChannel(channelNum);
+    const mainRow = (
       <Link
-        key={c.channel}
         href={href}
         scroll={false}
         prefetch
@@ -117,18 +135,71 @@ export function SidebarNav({
         onClick={(e) => {
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
           e.preventDefault();
-          onSelectChannel(c.channel as ChannelNumber);
+          onSelectChannel(channelNum);
         }}
-        className={`nav-item ${on ? "active" : ""}`}
+        className={`nav-item ${channelOn ? "active" : ""}`}
       >
         <span className="nav-ch" aria-hidden>
           {String(c.channel).padStart(2, "0")}
         </span>
         <span className="nav-icon">{iconFor(c)}</span>
-        <span className="nav-name">
-          {c.navLabel}
-        </span>
+        <span className="nav-name">{c.navLabel}</span>
       </Link>
+    );
+
+    const episodes =
+      c.workSlug === "ramp-spend"
+        ? rampSpendEpisodes.filter((e) => !e.hidden)
+        : c.workSlug === "ramp-treasury"
+          ? rampTreasuryEpisodes.filter((e) => !e.hidden)
+          : [];
+
+    if (episodes.length <= 1) {
+      return <div key={c.channel}>{mainRow}</div>;
+    }
+
+    const live = tvLiveSearchParams(searchParams);
+    const view = episodeViewForChannel(live, channelNum);
+    const epRaw = live.get("ep");
+    const epParsed = epRaw !== null ? Number.parseInt(epRaw, 10) : 0;
+    const urlCh = live.get("ch");
+    const urlChannelMatches =
+      urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
+
+    return (
+      <div key={c.channel} className="nav-channel-block">
+        {mainRow}
+        <div className="nav-case-list">
+          {episodes.map((ep, i) => {
+            const caseHref = portfolioCaseHref(channelNum, i);
+            const caseActive =
+              channelOn &&
+              urlChannelMatches &&
+              view === "episode" &&
+              Number.isFinite(epParsed) &&
+              epParsed === i;
+            return (
+              <Link
+                key={`${c.channel}-case-${i}`}
+                href={caseHref}
+                scroll={false}
+                prefetch
+                onPointerDown={onPrimeAudio}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                  e.preventDefault();
+                  onNavigateToCaseStudyEpisode(channelNum, i);
+                }}
+                className={`nav-item nav-case ${caseActive ? "active" : ""}`}
+                aria-current={caseActive ? "true" : undefined}
+              >
+                <span className="nav-case-label">Case {i + 1}</span>
+                <span className="nav-case-title">{ep.title}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     );
   };
 
@@ -165,14 +236,10 @@ export function SidebarNav({
       <div className="mb-4 h-px bg-white/[0.06]" aria-hidden />
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="nav-section-label">
-          Work experience
-        </div>
-        <nav className="mb-4">{work.map(row)}</nav>
-        <div className="nav-section-label spaced">
-          Side Projects
-        </div>
-        <nav>{side.map(row)}</nav>
+        <div className="nav-section-label">Work experience</div>
+        <nav className="mb-4">{work.map(channelBlock)}</nav>
+        <div className="nav-section-label spaced">Side Projects</div>
+        <nav>{side.map(channelBlock)}</nav>
       </div>
     </div>
   );

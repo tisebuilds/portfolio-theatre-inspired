@@ -60,7 +60,7 @@ function rowShowsLargeScreenTvHint(ch: TvChannel): boolean {
 
 const TV_EXPERIENCE_HINT = "Open website on larger screen to view case studies.";
 
-/** Grey marks live under `public/logo/grey` (symlink → `public/logos/grey`). */
+/** Grey marks live under `public/logo/grey` (symlink → `public/media/logos/grey`). */
 const MOBILE_RESUME_GREY_LOGO_BASE = "/logo/grey";
 
 function mobileResumeGreyLogoSrc(workSlug?: string): string | undefined {

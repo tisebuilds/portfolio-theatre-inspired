@@ -3,7 +3,7 @@
     "slug": "letterboxd-website-wall",
     "title": "Letterboxd website wall",
     "dateRange": "2026",
-    "video": "/projects/letterboxd-website-wall-demo.mp4",
+    "video": "/media/projects/letterboxd-website-wall-demo.mp4",
     "tvEmbedUrl": "https://tisewatched.vercel.app/",
     "externalUrl": "https://tisewatched.vercel.app/"
   },
@@ -11,7 +11,7 @@
     "slug": "ipod-concert-diary",
     "title": "iPod Concert Diary",
     "dateRange": "2026",
-    "video": "/projects/ipod-concert-diary-demo.mp4",
+    "video": "/media/projects/ipod-concert-diary-demo.mp4",
     "videoSound": true,
     "tvEmbedUrl": "https://tiseconcertdiary.vercel.app/",
     "externalUrl": "https://tiseconcertdiary.vercel.app/"
@@ -21,7 +21,7 @@
     "title": "Dinner Party Seating Chart (Made with Claude Co-Work)",
     "tagline": "A playful way to plan who sits where.",
     "dateRange": "2026",
-    "video": "/projects/dinner-party-seating-chart-demo-1.mp4"
+    "video": "/media/projects/dinner-party-seating-chart-demo-1.mp4"
   },
   {
     "slug": "format-mode",
@@ -38,6 +38,6 @@
     "externalUrl": "https://docs.google.com/document/d/1bymvK891woAEUb7ftTYT2m_uFJ85pARJfDI1s9oAWlQ/edit?tab=t.0",
     "externalLinkLabel": "Final Report",
     "dateRange": "2023",
-    "poster": "/projects/htr.png"
+    "poster": "/media/projects/htr.png"
   }
 ]

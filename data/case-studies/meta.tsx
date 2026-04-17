@@ -2,6 +2,7 @@ import {
   secondaryLinkClass,
   type StandardWorkCaseStudyProps,
 } from "@/components/StandardWorkCaseStudy";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
@@ -133,7 +134,7 @@ export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
     </>
   ),
   hero: {
-    src: "/images/meta-internship-case-study-hero.png",
+    src: SITE_MEDIA.caseStudyHeroes.metaInternship,
     alt: "Meta internship — hero visual from work poster.",
     caption:
       "Product design intern streamlining workflows for Ads Manager",

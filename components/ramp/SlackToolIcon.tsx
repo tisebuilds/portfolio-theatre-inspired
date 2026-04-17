@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 export function SlackToolIcon() {
   return (
@@ -7,7 +8,7 @@ export function SlackToolIcon() {
       title="Slack"
     >
       <Image
-        src="/images/slack-app-icon.png"
+        src={SITE_MEDIA.toolIcons.slack}
         alt=""
         width={20}
         height={20}

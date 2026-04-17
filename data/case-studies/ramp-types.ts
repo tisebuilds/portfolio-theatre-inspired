@@ -28,7 +28,7 @@ export type RampScreenAspect =
 
 export type RampScreenCell = {
   aspect: RampScreenAspect;
-  /** Public path e.g. `/ramp/treasury/move-money-screen-a.png` */
+  /** Public path e.g. `/media/ramp/treasury/move-money-screen-a.png` */
   src?: string;
   alt?: string;
   /**

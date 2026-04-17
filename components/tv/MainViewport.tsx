@@ -4,7 +4,6 @@ import { Suspense, useEffect, useState } from "react";
 import { RampCinemaCaseStudy } from "@/components/ramp/RampCinemaCaseStudy";
 import type { Project } from "@/app/types";
 import { CHANNELS, projectForChannel } from "@/lib/channels";
-import { EpisodeRail } from "./EpisodeRail";
 import { EpisodeTitleRailProvider } from "./EpisodeTitleRailContext";
 import { rampSpendEpisodes } from "@/data/case-studies/ramp-spend";
 import { rampTreasuryEpisodes } from "@/data/case-studies/ramp-treasury";
@@ -15,6 +14,7 @@ import { figmaCaseStudyContent } from "@/data/case-studies/figma";
 import { metaCaseStudyContent } from "@/data/case-studies/meta";
 import { disneyCaseStudyContent } from "@/data/case-studies/disney";
 import { useSearchParams } from "next/navigation";
+import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 import { RampChannelLanding } from "./RampChannelLanding";
 import { AboutViewport } from "./AboutViewport";
 import { ResumeViewport } from "./ResumeViewport";
@@ -189,14 +189,23 @@ type MainViewportProps = {
   channelIndex: number;
   signalLost: boolean;
   projects: Project[];
+  /** When true, block clicks on the case-study pane during TV channel transitions. */
+  interactionLocked?: boolean;
+  /** Opacity for the case-study body during TV dissolve/fade. */
+  contentOpacity?: number;
+  contentTransition?: string;
 };
 
 export function MainViewport({
   channelIndex,
   signalLost,
   projects,
+  interactionLocked = false,
+  contentOpacity = 1,
+  contentTransition,
 }: MainViewportProps) {
   const searchParams = useSearchParams();
+  const ch = CHANNELS[channelIndex];
   if (signalLost) {
     return (
       <div className="h-full min-h-0 flex-1 bg-black" aria-hidden>
@@ -205,10 +214,15 @@ export function MainViewport({
     );
   }
 
-  const ch = CHANNELS[channelIndex];
   if (!ch) return null;
 
-  const view = searchParams.get("view") ?? "";
+  const rawView = tvLiveSearchParams(searchParams).get("view") ?? "";
+  /** Multi-episode Ramp rows default to episode when `view` is omitted (matches auto URL effect). */
+  const view =
+    rawView === "" &&
+    (ch.workSlug === "ramp-spend" || ch.workSlug === "ramp-treasury")
+      ? "episode"
+      : rawView;
 
   const inner = (() => {
     if (view === "resume") {
@@ -253,6 +267,7 @@ export function MainViewport({
               keyboardMode="tvShell"
               showPlayer={false}
               layoutMode="embedded"
+              embeddedChannelNumber={ch.channel}
             />
           </Suspense>
         );
@@ -275,6 +290,7 @@ export function MainViewport({
               keyboardMode="tvShell"
               showPlayer={false}
               layoutMode="embedded"
+              embeddedChannelNumber={ch.channel}
             />
           </Suspense>
         );
@@ -297,6 +313,7 @@ export function MainViewport({
               keyboardMode="tvShell"
               showPlayer={false}
               layoutMode="embedded"
+              embeddedChannelNumber={ch.channel}
             />
           </Suspense>
         );
@@ -319,6 +336,7 @@ export function MainViewport({
               keyboardMode="tvShell"
               showPlayer={false}
               layoutMode="embedded"
+              embeddedChannelNumber={ch.channel}
             />
           </Suspense>
         );
@@ -341,6 +359,7 @@ export function MainViewport({
               keyboardMode="tvShell"
               showPlayer={false}
               layoutMode="embedded"
+              embeddedChannelNumber={ch.channel}
             />
           </Suspense>
         );
@@ -349,21 +368,19 @@ export function MainViewport({
     }
   })();
 
-  const showEpisodeRail =
-    ch.workSlug === "ramp-spend" || ch.workSlug === "ramp-treasury";
-  const episodes =
-    ch.workSlug === "ramp-spend" ? rampSpendEpisodes : rampTreasuryEpisodes;
-
   return (
     <EpisodeTitleRailProvider>
       <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
-        {showEpisodeRail && view === "episode" ? (
-          <EpisodeRail
-            episodes={episodes}
-            channelParam={ch.channel}
-          />
-        ) : null}
-        <div className="relative min-h-0 flex-1 overflow-hidden">{inner}</div>
+        <div
+          className="relative min-h-0 flex-1 overflow-hidden"
+          style={{
+            opacity: contentOpacity,
+            transition: contentTransition,
+            pointerEvents: interactionLocked ? "none" : undefined,
+          }}
+        >
+          {inner}
+        </div>
       </div>
     </EpisodeTitleRailProvider>
   );

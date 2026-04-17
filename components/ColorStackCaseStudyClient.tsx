@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { ColorStackShowcase } from "@/components/colorstack/ColorStackShowcase";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 import { RampCinemaCaseStudy } from "@/components/ramp/RampCinemaCaseStudy";
@@ -19,7 +20,7 @@ const colorstackEpisode: RampEpisode = {
       <MetaDot />
       <span className="inline-flex items-center gap-1.5">
         <Image
-          src="/images/figma-app-icon.png"
+          src={SITE_MEDIA.toolIcons.figma}
           alt="Figma"
           width={20}
           height={20}
@@ -27,7 +28,7 @@ const colorstackEpisode: RampEpisode = {
           sizes="20px"
         />
         <Image
-          src="/images/keynote-app-icon.png"
+          src={SITE_MEDIA.toolIcons.keynote}
           alt="Keynote"
           width={16}
           height={16}

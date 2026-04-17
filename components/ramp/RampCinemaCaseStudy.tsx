@@ -30,6 +30,11 @@ type RampCinemaCaseStudyProps = {
   keyboardMode?: "cinemaLegacy" | "tvShell";
   /** `embedded` keeps layout within parent (for TvShell player). */
   layoutMode?: "fullscreen" | "embedded";
+  /**
+   * TV shell `?ch=` digit (1–8). When set with `layoutMode="embedded"`, URL writes also set `ch`/`view=episode`
+   * so episode clamp / in-player navigation cannot leave a stale channel in the query (see TvShell sync).
+   */
+  embeddedChannelNumber?: number;
 };
 
 const CHAPTER_SEGMENTS = [
@@ -904,17 +909,20 @@ function RampCinemaCaseStudyMulti({
   keyboardMode = "cinemaLegacy",
   showPlayer = true,
   layoutMode = "fullscreen",
+  embeddedChannelNumber,
 }: {
   episodes: RampEpisode[];
   keyboardMode?: "cinemaLegacy" | "tvShell";
   showPlayer?: boolean;
   layoutMode?: "fullscreen" | "embedded";
+  embeddedChannelNumber?: number;
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const liveQuery = tvLiveSearchParams(searchParams);
   const showKbdHintUi =
-    searchParams.get("kbd") === "1" ||
+    liveQuery.get("kbd") === "1" ||
     process.env.NEXT_PUBLIC_SHOW_RAMP_KBD_HINT === "1";
   const scrollerRef = useRef<HTMLDivElement>(null);
   const chBarRef = useRef<HTMLDivElement>(null);
@@ -923,7 +931,7 @@ function RampCinemaCaseStudyMulti({
   const kbdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const maxEp = Math.max(0, episodes.length - 1);
-  const epQuery = searchParams.get("ep");
+  const epQuery = liveQuery.get("ep");
   const parsedEp = epQuery !== null ? parseInt(epQuery, 10) : 0;
   const rawEp = Number.isFinite(parsedEp) ? parsedEp : 0;
   const activeEp = clampEp(rawEp, maxEp);
@@ -950,9 +958,17 @@ function RampCinemaCaseStudyMulti({
       const next = clampEp(idx, maxEp);
       const q = tvLiveSearchParams(searchParams);
       q.set("ep", String(next));
-      router.replace(`${pathname}?${q.toString()}`, { scroll: false });
+      if (layoutMode === "embedded" && embeddedChannelNumber != null) {
+        q.set("ch", String(embeddedChannelNumber));
+        q.set("view", "episode");
+      }
+      const href =
+        layoutMode === "embedded"
+          ? `/?${q.toString()}`
+          : `${pathname}?${q.toString()}`;
+      router.replace(href, { scroll: false });
     },
-    [maxEp, pathname, router, searchParams],
+    [embeddedChannelNumber, layoutMode, maxEp, pathname, router, searchParams],
   );
 
   useEffect(() => {
@@ -965,9 +981,25 @@ function RampCinemaCaseStudyMulti({
     if (rawEp !== activeEp) {
       const q = tvLiveSearchParams(searchParams);
       q.set("ep", String(activeEp));
-      router.replace(`${pathname}?${q.toString()}`, { scroll: false });
+      if (layoutMode === "embedded" && embeddedChannelNumber != null) {
+        q.set("ch", String(embeddedChannelNumber));
+        q.set("view", "episode");
+      }
+      const href =
+        layoutMode === "embedded"
+          ? `/?${q.toString()}`
+          : `${pathname}?${q.toString()}`;
+      router.replace(href, { scroll: false });
     }
-  }, [activeEp, pathname, rawEp, router, searchParams]);
+  }, [
+    activeEp,
+    embeddedChannelNumber,
+    layoutMode,
+    pathname,
+    rawEp,
+    router,
+    searchParams,
+  ]);
 
   const stopPlay = useCallback(() => {
     setPlaying(false);
@@ -1880,6 +1912,7 @@ export function RampCinemaCaseStudy({
   showPlayer = true,
   keyboardMode = "cinemaLegacy",
   layoutMode = "fullscreen",
+  embeddedChannelNumber,
 }: RampCinemaCaseStudyProps) {
   const visibleEpisodes = episodes.filter((e) => !e.hidden);
   if (visibleEpisodes.length === 1 && showPlayer === false) {
@@ -1896,6 +1929,7 @@ export function RampCinemaCaseStudy({
       keyboardMode={keyboardMode}
       showPlayer={showPlayer}
       layoutMode={layoutMode}
+      embeddedChannelNumber={embeddedChannelNumber}
     />
   );
 }

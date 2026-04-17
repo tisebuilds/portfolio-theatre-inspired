@@ -3,8 +3,8 @@ import type { StandardWorkCaseStudyProps } from "@/components/StandardWorkCaseSt
 import { MetaDot } from "@/components/case-study-icons";
 import { DinnerPartyCaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
 
-const PHOTO_1 = "/projects/dinner-party-seating-chart-photo-1.png";
-const PHOTO_2 = "/projects/dinner-party-seating-chart-photo-2.png";
+const PHOTO_1 = "/media/projects/dinner-party-seating-chart-photo-1.png";
+const PHOTO_2 = "/media/projects/dinner-party-seating-chart-photo-2.png";
 
 const BODY_COPY =
   "I built a dinner seating tool for a 23-person alumni event, but the real challenge was staying within a $200 ColorStack budget without risking a declined Ramp charge. I started by thinking through a few basics: where people should sit, what they would eat, and how those choices affected total cost. From there, I built a UI that tracks per-table spend in real time while accounting for dietary needs and headcount. Working with Claude helped me rethink the problem and turn what looked like a simple seating chart into a budget-aware event planning tool. This project shows how I like to work: breaking complex problems into simple questions, streamlining manual tasks with AI, and my bias toward action.";
@@ -13,7 +13,7 @@ const demosGrid = (
   <div className="grid max-w-full grid-cols-1 gap-4 lg:grid-cols-2">
     <div className="overflow-hidden rounded-md border border-white/[0.08] bg-black/40 p-2">
       <video
-        src="/projects/dinner-party-seating-chart-demo-1.mp4"
+        src="/media/projects/dinner-party-seating-chart-demo-1.mp4"
         controls
         playsInline
         className="h-auto w-full"
@@ -25,7 +25,7 @@ const demosGrid = (
     </div>
     <div className="overflow-hidden rounded-md border border-white/[0.08] bg-black/40 p-2">
       <video
-        src="/projects/dinner-party-seating-chart-demo-2.mp4"
+        src="/media/projects/dinner-party-seating-chart-demo-2.mp4"
         controls
         playsInline
         className="h-auto w-full"

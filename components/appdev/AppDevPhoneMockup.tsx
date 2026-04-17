@@ -2,19 +2,20 @@
 
 import Image from "next/image";
 import { type CSSProperties } from "react";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 const storeApps = [
   {
     name: "Volume",
     storeUrl:
       "https://play.google.com/store/apps/details?id=com.cornellappdev.android.volume&pli=1",
-    iconSrc: "/images/app-icon-volume.png",
+    iconSrc: SITE_MEDIA.appDev.volumeAppIcon,
     storeLabel: "Google Play",
   },
   {
     name: "CourseGrab",
     storeUrl: "https://apps.apple.com/us/app/coursegrab/id1510823691",
-    iconSrc: "/images/app-icon-coursegrab.png",
+    iconSrc: SITE_MEDIA.appDev.coursegrabAppIcon,
     storeLabel: "App Store",
   },
 ] as const;
@@ -185,7 +186,7 @@ const phoneChassisStyle: CSSProperties = {
 
 const screenWallpaperStyle: CSSProperties = {
   backgroundColor: "#6d0d40",
-  backgroundImage: "url(/images/iphone-16-pink-wallpaper.png)",
+  backgroundImage: `url(${SITE_MEDIA.appDev.iphonePinkWallpaper})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
@@ -195,7 +196,7 @@ const PHONE_MOCKUP_SCALE = 1.52;
 const PHONE_BASE_W = 260;
 const PHONE_BASE_H = 530;
 
-const phoneBackSrc = "/images/iphone-16-plus-pink-back.png";
+const phoneBackSrc = SITE_MEDIA.appDev.iphonePlusPinkBack;
 
 const sideButtonMetal: CSSProperties = {
   background: `linear-gradient(

@@ -131,10 +131,10 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     externalLabel: "ramp.com",
     logline: "A lesson in operating on intuition",
     hideLearnings: true,
-    onePagerHref: "/ramp/treasury/move-money-one-pager.pdf",
+    onePagerHref: "/media/ramp/treasury/move-money-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/ramp/treasury/move-money-drawer.mp4",
+      src: "/media/ramp/treasury/move-money-drawer.mp4",
       alt: "Move money drawer hero",
       media: "video",
     },
@@ -170,28 +170,28 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       cells: [
         {
           aspect: "r9-16",
-          src: "/ramp/treasury/move-money-arrival-date.mp4",
+          src: "/media/ramp/treasury/move-money-arrival-date.mp4",
           alt: "Arrival date — primary web view",
           placeholderLabel: "Primary web view",
           media: "video",
         },
         {
           aspect: "r9-16",
-          src: "/ramp/treasury/move-money-check-deposits.mp4",
+          src: "/media/ramp/treasury/move-money-check-deposits.mp4",
           alt: "Check deposits",
           placeholderLabel: "Check deposits",
           media: "video",
         },
         {
           aspect: "r9-16",
-          src: "/ramp/treasury/move-money-send-money-1.mp4",
+          src: "/media/ramp/treasury/move-money-send-money-1.mp4",
           alt: "Send money — web",
           placeholderLabel: "Send money",
           media: "video",
         },
         {
           aspect: "r9-16",
-          src: "/ramp/treasury/move-money-send-money-2-mobile.mp4",
+          src: "/media/ramp/treasury/move-money-send-money-2-mobile.mp4",
           alt: "Send money — mobile",
           placeholderLabel: "Send money — mobile",
           media: "video",
@@ -216,7 +216,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     externalHref: "https://ramp.com/treasury",
     externalLabel: "ramp.com",
     logline: "A lesson in starting from the solution first",
-    onePagerHref: "/ramp/treasury/rba-cashback-one-pager.pdf",
+    onePagerHref: "/media/ramp/treasury/rba-cashback-one-pager.pdf",
     hero: {
       aspect: "web",
       alt: "RBA cashback redemption — new vs existing customer",
@@ -224,11 +224,11 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       videoVariants: [
         {
           label: "New customer",
-          src: "/ramp/treasury/rba-cashback-new-customer.mp4",
+          src: "/media/ramp/treasury/rba-cashback-new-customer.mp4",
         },
         {
           label: "Existing customer",
-          src: "/ramp/treasury/rba-cashback-existing-customer.mp4",
+          src: "/media/ramp/treasury/rba-cashback-existing-customer.mp4",
         },
       ],
     },
@@ -274,10 +274,10 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     externalHref: "https://ramp.com/treasury",
     externalLabel: "ramp.com",
     logline: "A lesson in skipping steps and making them up",
-    onePagerHref: "/ramp/treasury/qol-updates-one-pager.pdf",
+    onePagerHref: "/media/ramp/treasury/qol-updates-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/ramp/treasury/qol-updates-hero.png",
+      src: "/media/ramp/treasury/qol-updates-hero.png",
       alt: "Quality of life updates hero",
     },
     outcome: {
@@ -302,12 +302,12 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
         { aspect: "r1-1", placeholderLabel: "Primary web view" },
         {
           aspect: "r1-1",
-          src: "/ramp/treasury/qol-updates-screen-a.png",
+          src: "/media/ramp/treasury/qol-updates-screen-a.png",
           placeholderLabel: "Screen A",
         },
         {
           aspect: "r1-1",
-          src: "/ramp/treasury/qol-updates-screen-b.png",
+          src: "/media/ramp/treasury/qol-updates-screen-b.png",
           placeholderLabel: "Screen B",
         },
         { aspect: "r1-1", placeholderLabel: "Screen C" },

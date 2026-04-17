@@ -96,7 +96,7 @@ Each case study page (`/work/[slug]` and `/projects/[slug]`) uses the same layou
 | `/`                | **Work experiences** (homepage): toggle (Theatre / List) + theatre view (marquee + 11 poster cards) or resume-style list (11 rows). Optional header/footer (name, "Product designer", contact). |
 | `/work/[slug]`     | Work experience case study: **poster**, **what shipped**, **lessons**, **cast** (supporting cast / co-workers), plus title/description.                                                         |
 | `/projects`        | **Projects** page: 7 case study projects from college; grid or list of cards linking to each project case study. Same sharp/minimal style.                                                      |
-| `/projects/[slug]` | Project case study: **poster**, **what shipped**, **lessons**, **cast** (supporting cast / co-workers), plus narrative/images/links.                                                            |
+| `/projects/[slug]` | Project case study: **poster**, **what shipped**, **lessons**, **cast** (supporting cast / co-workers), plus narrative/media/icons/links.                                                            |
 | `/about`           | **About** page: 4 awards (list or grid) and a small credit section thanking mentors. Same sharp/minimal style.                                                                                  |
 
 ## File structure (suggested)

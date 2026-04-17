@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 export function MagicPatternsToolIcon() {
   return (
@@ -7,7 +8,7 @@ export function MagicPatternsToolIcon() {
       title="Magic Patterns"
     >
       <Image
-        src="/images/magic-patterns-app-icon.png"
+        src={SITE_MEDIA.toolIcons.magicPatterns}
         alt=""
         width={20}
         height={20}

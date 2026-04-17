@@ -3,7 +3,7 @@ import type { ChannelNumber } from "@/lib/channels";
 export type AboutPhilosophyBackLink = {
   label: string;
   channel: ChannelNumber;
-  /** Visible episode index (matches EpisodeRail after filtering hidden). */
+  /** Visible episode index (matches sidebar case list after filtering hidden). */
   episodeIndex: number;
 };
 

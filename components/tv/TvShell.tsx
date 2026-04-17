@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Project } from "@/app/types";
 import {
@@ -66,6 +73,8 @@ type TvShellProps = {
 export function TvShell({ projects }: TvShellProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  /** Bumps a no-op render so children re-read `tvLiveSearchParams` when the URL changed without a reliable `useSearchParams` tick. */
+  const [, syncShellToQuery] = useReducer((x: number) => x + 1, 0);
   const isMd = useMinMd();
   const reducedMotion = useReducedMotion();
 
@@ -282,10 +291,13 @@ export function TvShell({ projects }: TvShellProps) {
     ) => {
       if (!isMd) {
         setSignalLost(false);
-        setChannelIndex(to);
-        setDisplayIndex(to);
-        setPhase("idle");
         pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        const defer = window.setTimeout(() => {
+          setChannelIndex(to);
+          setDisplayIndex(to);
+          setPhase("idle");
+        }, 0);
+        timersRef.current.push(defer);
         return;
       }
       /** Leaving `?view=about` or `?view=resume` while staying on the same channel index (e.g. default CH 01). */
@@ -294,10 +306,13 @@ export function TvShell({ projects }: TvShellProps) {
         setPhase("idle");
         setScanOpacity(SCANLINE_REST);
         setSignalLost(false);
-        setChannelIndex(to);
-        setDisplayIndex(to);
-        showChannelOsd((to + 1) as ChannelNumber);
         pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        const deferFs = window.setTimeout(() => {
+          setChannelIndex(to);
+          setDisplayIndex(to);
+          showChannelOsd((to + 1) as ChannelNumber);
+        }, 0);
+        timersRef.current.push(deferFs);
         return;
       }
       if (!opts?.fromSignalLost && !signalLost && from === to) return;
@@ -307,11 +322,14 @@ export function TvShell({ projects }: TvShellProps) {
 
       if (reducedMotion) {
         setSignalLost(false);
-        setChannelIndex(to);
-        setDisplayIndex(to);
-        setPhase("idle");
-        showChannelOsd((to + 1) as ChannelNumber);
         pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        const deferRm = window.setTimeout(() => {
+          setChannelIndex(to);
+          setDisplayIndex(to);
+          setPhase("idle");
+          showChannelOsd((to + 1) as ChannelNumber);
+        }, 0);
+        timersRef.current.push(deferRm);
         return;
       }
 
@@ -320,13 +338,15 @@ export function TvShell({ projects }: TvShellProps) {
 
       const t1 = window.setTimeout(() => setPhase("static"), DISSOLVE_MS);
       const t2 = window.setTimeout(() => {
-        setDisplayIndex(to);
-        setSignalLost(false);
-        setPhase("fade");
-        showChannelOsd((to + 1) as ChannelNumber);
-        // Keep `view`/`ep` in sync with the displayed channel during fade-in.
-        // Otherwise `MainViewport` can briefly render the new channel using the old URL view state.
         pushUrl({ signalLost: false, channel: (to + 1) as ChannelNumber });
+        // Macrotask: `router.replace` can leave `window.location` stale for one microtask tick (see MainViewport logs).
+        const deferFade = window.setTimeout(() => {
+          setDisplayIndex(to);
+          setSignalLost(false);
+          setPhase("fade");
+          showChannelOsd((to + 1) as ChannelNumber);
+        }, 0);
+        timersRef.current.push(deferFade);
       }, DISSOLVE_MS + STATIC_HOLD_MS);
       const t3 = window.setTimeout(() => {
         setPhase("idle");
@@ -360,6 +380,38 @@ export function TvShell({ projects }: TvShellProps) {
     pushUrl({ signalLost: true });
   }, [channelIndex, clearTimers, isMd, pushUrl, reducedMotion]);
 
+  const navigateToCaseStudyEpisode = useCallback(
+    (channel: ChannelNumber, episodeIndex: number) => {
+      primeAudioContext();
+      clearTimers();
+      const idx = channel - 1;
+      const q = homeSearchParamsForChannel(channel);
+      if (channel >= 1 && channel <= 5) {
+        q.set("ep", String(Math.max(0, episodeIndex)));
+      }
+      const kbd = tvLiveSearchParams(searchParams).get("kbd");
+      if (kbd) q.set("kbd", kbd);
+      const href = `/?${q.toString()}`;
+      if (typeof window !== "undefined") {
+        const u = new URL(href, window.location.origin);
+        window.history.replaceState(
+          window.history.state,
+          "",
+          `${u.pathname}${u.search}`,
+        );
+      }
+      router.replace(href, { scroll: false });
+      setSignalLost(false);
+      setPhase("idle");
+      setScanOpacity(SCANLINE_REST);
+      setChannelIndex(idx);
+      setDisplayIndex(idx);
+      setOsd(null);
+      syncShellToQuery();
+    },
+    [clearTimers, router, searchParams, syncShellToQuery],
+  );
+
   const selectChannel = useCallback(
     (ch: ChannelNumber) => {
       primeAudioContext();
@@ -376,9 +428,17 @@ export function TvShell({ projects }: TvShellProps) {
       const view = live.get("view") ?? "";
       const overlayOpen =
         view === "about" || view === "resume" || view === "gallery";
-      if (to === fromIdx && !overlayOpen) return;
+      /** CH 01–05 must land on `view=episode`; same-channel click was no-op when URL omitted `view`. */
+      const needsEpisodeCanonical =
+        !overlayOpen &&
+        fromIdx >= 0 &&
+        fromIdx <= 4 &&
+        view !== "episode";
+      if (to === fromIdx && !overlayOpen && !needsEpisodeCanonical) return;
       runTransition(fromIdx, to, {
-        forceUrlSync: overlayOpen && to === fromIdx,
+        forceUrlSync:
+          (overlayOpen && to === fromIdx) ||
+          (needsEpisodeCanonical && to === fromIdx),
       });
     },
     [channelIndex, runTransition, searchParams, signalLost],
@@ -430,7 +490,7 @@ export function TvShell({ projects }: TvShellProps) {
 
   const cursorClass = isMd && isTransitioning ? "cursor-none" : "";
 
-  const viewParam = searchParams.get("view") ?? "";
+  const viewParam = tvLiveSearchParams(searchParams).get("view") ?? "";
   const aboutActive = viewParam === "about";
   const resumeActive = viewParam === "resume";
 
@@ -469,6 +529,7 @@ export function TvShell({ projects }: TvShellProps) {
                 aboutActive={aboutActive}
                 resumeActive={resumeActive}
                 onSelectChannel={selectChannel}
+                onNavigateToCaseStudyEpisode={navigateToCaseStudyEpisode}
                 onPrimeAudio={primeAudioContext}
               />
             </div>
@@ -495,6 +556,7 @@ export function TvShell({ projects }: TvShellProps) {
                   aboutActive={aboutActive}
                   resumeActive={resumeActive}
                   onPrimeAudio={primeAudioContext}
+                  onAfterPortfolioQueryNav={syncShellToQuery}
                 />
               </div>
             </div>
@@ -503,22 +565,16 @@ export function TvShell({ projects }: TvShellProps) {
           <div
             id="main"
             className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-black"
-            style={{
-              pointerEvents: isMd && isTransitioning ? "none" : undefined,
-            }}
           >
             <div className="relative flex min-h-0 flex-1">
-              <div
-                className="relative min-h-0 flex-1"
-                style={{
-                  opacity: signalLost ? 0 : mainOpacity,
-                  transition: signalLost ? undefined : mainTransition,
-                }}
-              >
+              <div className="relative min-h-0 flex-1">
                 <MainViewport
                   channelIndex={displayIndex}
-                  signalLost={false}
+                  signalLost={signalLost}
                   projects={projects}
+                  interactionLocked={isMd && isTransitioning}
+                  contentOpacity={mainOpacity}
+                  contentTransition={mainTransition}
                 />
               </div>
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FileText, Mail, User } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   parseChannelFromSearchParams,
   SIGNAL_LOST_PARAM,
@@ -45,15 +45,25 @@ function portfolioHrefWithView(
   return `/?${q.toString()}`;
 }
 
+/** Same-document: `router.replace` can lag `window.location`; TV UI reads the live URL. */
+function syncHistoryBeforeRouter(href: string) {
+  if (typeof window === "undefined") return;
+  const u = new URL(href, window.location.origin);
+  window.history.replaceState(window.history.state, "", `${u.pathname}${u.search}`);
+}
+
 export function SidebarIcons({
   aboutActive,
   resumeActive,
   onPrimeAudio,
+  onAfterPortfolioQueryNav,
 }: {
   aboutActive: boolean;
   resumeActive: boolean;
   onPrimeAudio: () => void;
+  onAfterPortfolioQueryNav?: () => void;
 }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const aboutHref = portfolioHrefWithView(searchParams, "about");
   const resumeHref = portfolioHrefWithView(searchParams, "resume");
@@ -74,6 +84,13 @@ export function SidebarIcons({
         className={aboutIconClass}
         aria-label="About"
         onPointerDown={onPrimeAudio}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          syncHistoryBeforeRouter(aboutHref);
+          router.replace(aboutHref, { scroll: false });
+          onAfterPortfolioQueryNav?.();
+        }}
       >
         <User className="h-[18px] w-[18px]" aria-hidden />
       </Link>
@@ -89,6 +106,13 @@ export function SidebarIcons({
         aria-label="Resume"
         aria-current={resumeActive ? "page" : undefined}
         onPointerDown={onPrimeAudio}
+        onClick={(e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          syncHistoryBeforeRouter(resumeHref);
+          router.replace(resumeHref, { scroll: false });
+          onAfterPortfolioQueryNav?.();
+        }}
       >
         <FileText className="h-[18px] w-[18px]" aria-hidden />
       </Link>

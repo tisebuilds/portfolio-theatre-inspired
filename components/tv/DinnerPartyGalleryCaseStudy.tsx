@@ -76,6 +76,7 @@ export function DinnerPartyGalleryCaseStudy({
             keyboardMode="tvShell"
             showPlayer={false}
             layoutMode="embedded"
+            embeddedChannelNumber={channelNumber}
           />
         </Suspense>
       </div>

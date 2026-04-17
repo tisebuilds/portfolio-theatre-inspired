@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 export function FigmaToolIcon() {
   return (
@@ -7,7 +8,7 @@ export function FigmaToolIcon() {
       title="Figma"
     >
       <Image
-        src="/images/figma-app-icon.png"
+        src={SITE_MEDIA.toolIcons.figma}
         alt=""
         width={20}
         height={20}

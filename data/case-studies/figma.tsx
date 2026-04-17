@@ -2,6 +2,7 @@ import {
   secondaryLinkClass,
   type StandardWorkCaseStudyProps,
 } from "@/components/StandardWorkCaseStudy";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
 import workData from "@/data/work.json";
 import type { WorkExperience } from "@/app/types";
@@ -113,7 +114,7 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
     </>
   ),
   hero: {
-    src: "/posters/figma-case-study-hero.png",
+    src: SITE_MEDIA.caseStudyHeroes.figmaCaseStudy,
     alt: "Isometric illustration of layered Figma-style editor windows on a mint background.",
     caption: "Growth design intern driving upgrades for Figma products",
     priority: true,

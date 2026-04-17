@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SITE_MEDIA } from "@/lib/site-media";
 
 export function CursorToolIcon() {
   return (
@@ -7,7 +8,7 @@ export function CursorToolIcon() {
       title="Cursor"
     >
       <Image
-        src="/images/cursor-app-icon.png"
+        src={SITE_MEDIA.toolIcons.cursor}
         alt=""
         width={20}
         height={20}

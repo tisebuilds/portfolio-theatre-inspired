@@ -3,6 +3,7 @@ import {
   secondaryLinkClass,
   type StandardWorkCaseStudyProps,
 } from "@/components/StandardWorkCaseStudy";
+import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
@@ -113,7 +114,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
         aria-label="Figma, FigJam, Notion, Slack, Keynote"
       >
         <Image
-          src="/images/figma-app-icon.png"
+          src={SITE_MEDIA.toolIcons.figma}
           alt=""
           width={20}
           height={20}
@@ -121,7 +122,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
           sizes="20px"
         />
         <Image
-          src="/images/figjam-app-icon.png"
+          src={SITE_MEDIA.toolIcons.figjam}
           alt=""
           width={20}
           height={20}
@@ -129,7 +130,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
           sizes="20px"
         />
         <Image
-          src="/images/notion-app-icon.png"
+          src={SITE_MEDIA.toolIcons.notion}
           alt=""
           width={20}
           height={20}
@@ -137,7 +138,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
           sizes="20px"
         />
         <Image
-          src="/images/slack-app-icon.png"
+          src={SITE_MEDIA.toolIcons.slack}
           alt=""
           width={20}
           height={20}
@@ -145,7 +146,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
           sizes="20px"
         />
         <Image
-          src="/images/keynote-app-icon.png"
+          src={SITE_MEDIA.toolIcons.keynote}
           alt=""
           width={20}
           height={20}
@@ -166,7 +167,7 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
     </>
   ),
   hero: {
-    src: "/images/disney-streaming-cross-platform-hero.png",
+    src: SITE_MEDIA.caseStudyHeroes.disneyStreamingCrossPlatform,
     alt: "Living room scene with a wall-mounted TV showing a streaming home screen and a smartphone in the foreground open to a companion Greenroom tab with participants and chat actions.",
     caption:
       "UX design intern bringing people together through Disney streaming",

@@ -6,29 +6,21 @@ import Image from "next/image";
 import { AboutHeading } from "@/components/AboutHeading";
 import { ExternalLinkIcon } from "@/components/case-study-icons";
 import aboutData from "@/data/about.json";
+import aboutPageAssets from "@/data/about-page-assets.json";
 import { ABOUT_PHILOSOPHY_NAV } from "@/data/about-philosophy-nav";
 import type { AboutData } from "@/app/types";
 import { PhilosophyNavCard } from "@/components/tv/PhilosophyNavCard";
+import { PUBLIC_MENTOR_IMAGE_BASE } from "@/lib/public-media";
 
 const about = aboutData as AboutData;
+const { favoriteFilms, awardRecognitionStickers, interestPinStickers } =
+  aboutPageAssets;
 const letterboxdHref = "https://letterboxd.com/teeshay24/diary/";
 
 export function AboutViewport() {
   const mentorCollageViewportRef = useRef<HTMLDivElement | null>(null);
   const [mentorScale, setMentorScale] = useState(1);
   const [activePin, setActivePin] = useState<string>("");
-  const favoriteFilms = [
-    { title: "Spirited Away", posterSrc: "/posters/spirited-away.png" },
-    { title: "Sinners", posterSrc: "/posters/sinners.png" },
-    {
-      title: "Devil Wears Prada",
-      posterSrc: "/posters/devil-wears-prada.png",
-    },
-    {
-      title: "Legally Blonde",
-      posterSrc: "/posters/legally-blonde.png",
-    },
-  ] as const;
 
   const [cursorPos, setCursorPos] = useState<{ x: number; y: number } | null>(
     null,
@@ -201,43 +193,7 @@ export function AboutViewport() {
               </h2>
 
               <div className="flex flex-wrap items-center gap-0.5 sm:shrink-0 sm:justify-end">
-                {[
-                  {
-                    name: "WICC",
-                    href: "https://www.flipsnack.com/FFC8EDCC5A8/wicc/full-view.html?p=1",
-                    rotate: -8,
-                    image: "/stickers/wicc.png",
-                    imageClassName: "h-[22px] w-[38px] object-contain",
-                  },
-                  {
-                    name: "URMC",
-                    href: "https://www.flipsnack.com/FFC8EDCC5A8/urmc/full-view.html?p=1",
-                    rotate: 5,
-                    image: "/stickers/urmc.png",
-                    imageClassName: "h-[22px] w-[40px] object-contain",
-                  },
-                  {
-                    name: "AppDev",
-                    href: "https://www.flipsnack.com/FFC8EDCC5A8/appdev/full-view.html?p=1",
-                    rotate: -3,
-                    image: "/logos/black/appdev-logo.png",
-                    imageClassName: "h-[20px] w-[64px] object-contain",
-                  },
-                  {
-                    name: "CuXD",
-                    href: "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=8",
-                    rotate: 6,
-                    image: "/stickers/cuxd.png",
-                    imageClassName: "h-[20px] w-[34px] object-contain",
-                  },
-                  {
-                    name: "ColorStack",
-                    href: "https://www.flipsnack.com/FFC8EDCC5A8/single-page-books/full-view.html?p=12",
-                    rotate: -4,
-                    image: "/stickers/colorstack.png",
-                    imageClassName: "h-[20px] w-[56px] object-contain",
-                  },
-                ].map((org) => (
+                {awardRecognitionStickers.map((org) => (
                   <a
                     key={org.name}
                     href={org.href}
@@ -256,7 +212,7 @@ export function AboutViewport() {
                       alt={org.name}
                       width={110}
                       height={48}
-                      className={org.imageClassName}
+                      className="h-[18px] w-[40px] object-contain"
                     />
                   </a>
                 ))}
@@ -368,87 +324,7 @@ export function AboutViewport() {
               />
             </svg>
 
-            {[
-              {
-                label: "K-pop",
-                style: { top: "8%", right: "12%", width: 72, height: 72 },
-                rotate: -10,
-                delay: "0s",
-                shape: "rounded-2xl",
-                image: "/stickers/wonder-girls.png",
-                imageClassName:
-                  "h-[108%] w-[108%] object-contain drop-shadow-[0_0_10px_rgba(244,114,182,0.25)]",
-              },
-              {
-                label: "Disney",
-                style: { top: "22%", right: "9%", width: 64, height: 64 },
-                rotate: 5,
-                delay: "0.35s",
-                shape: "rounded-full",
-                image: "/stickers/disney.png",
-                imageClassName:
-                  "h-[108%] w-[108%] object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.25)]",
-              },
-              {
-                label: "K-pop",
-                style: { top: "38%", right: "16%", width: 52, height: 52 },
-                rotate: 8,
-                delay: "0.7s",
-                shape: "rounded-full",
-                image: "/stickers/new-vegas.png",
-                imageClassName:
-                  "h-[108%] w-[108%] object-contain drop-shadow-[0_0_10px_rgba(244,114,182,0.2)]",
-              },
-              {
-                label: "Disney",
-                style: { top: "52%", right: "10%", width: 48, height: 48 },
-                rotate: -6,
-                delay: "1.05s",
-                shape: "rounded-xl",
-                image: "/stickers/monsters-hat.png",
-                imageClassName:
-                  "h-[108%] w-[108%] object-contain drop-shadow-[0_0_10px_rgba(56,189,248,0.22)]",
-              },
-              {
-                label: "Film",
-                style: { top: "64%", right: "18%", width: 76, height: 76 },
-                rotate: 4,
-                delay: "0.2s",
-                shape: "rounded-full",
-                image: "/stickers/keep-moving-forward.png",
-                imageClassName:
-                  "h-[112%] w-[112%] object-contain drop-shadow-[0_0_12px_rgba(251,191,36,0.22)]",
-              },
-              {
-                label: "Comics",
-                style: { top: "14%", right: "18%", width: 56, height: 56 },
-                rotate: -8,
-                delay: "0.5s",
-                shape: "rounded-2xl",
-                image: "/stickers/comics-character.png",
-                imageClassName:
-                  "h-[114%] w-[114%] object-contain drop-shadow-[0_0_10px_rgba(167,243,208,0.25)]",
-              },
-              {
-                label: "Comics",
-                style: { top: "76%", right: "11%", width: 68, height: 68 },
-                rotate: 12,
-                delay: "1.2s",
-                shape: "rounded-full",
-                image: "/stickers/webtoon.png",
-                imageClassName:
-                  "h-[108%] w-[108%] object-contain drop-shadow-[0_0_10px_rgba(16,185,129,0.25)]",
-              },
-              {
-                label: "Film",
-                style: { bottom: "6%", right: "14%", width: 60, height: 60 },
-                rotate: -10,
-                delay: "0.85s",
-                shape: "rounded-2xl",
-                image: "/stickers/flo-logo.png",
-                imageClassName: "h-[108%] w-[108%] object-contain",
-              },
-            ].map((s, i) => (
+            {interestPinStickers.map((s, i) => (
               <div
                 key={i}
                 className={`sticker pointer-events-none absolute flex items-center justify-center border-0 bg-transparent text-transparent transition-opacity duration-200 ease-out ${s.shape} ${
@@ -553,7 +429,7 @@ export function AboutViewport() {
                   .toLowerCase()
                   .replace(/[^a-z0-9]+/g, "-")
                   .replace(/^-+|-+$/g, "");
-                return `/mentors/${slug}.png`;
+                return `${PUBLIC_MENTOR_IMAGE_BASE}/${slug}.png`;
               };
 
               // Edit these arrays to control desktop arrangement order per row.

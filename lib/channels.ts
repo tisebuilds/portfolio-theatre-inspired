@@ -217,6 +217,18 @@ export function homeHrefForChannel(channel: ChannelNumber): string {
   return `/?${homeSearchParamsForChannel(channel).toString()}`;
 }
 
+/** Portfolio TV: deep link to a case index (`ep`) on a work channel (1–5). */
+export function portfolioCaseHref(
+  channel: ChannelNumber,
+  episodeIndex: number,
+): string {
+  const q = homeSearchParamsForChannel(channel);
+  if (channel >= 1 && channel <= 5) {
+    q.set("ep", String(Math.max(0, episodeIndex)));
+  }
+  return `/?${q.toString()}`;
+}
+
 export function projectForChannel(
   ch: TvChannel,
   projects: Project[],

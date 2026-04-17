@@ -2,6 +2,11 @@
 
 import Link from "next/link";
 import { FileText, Mail, User } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import {
+  parseChannelFromSearchParams,
+  SIGNAL_LOST_PARAM,
+} from "@/lib/channels";
 import {
   SITE_EMAIL as EMAIL,
   SITE_LINKEDIN as LINKEDIN_URL,
@@ -24,6 +29,21 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
+function portfolioHrefWithView(
+  searchParams: URLSearchParams,
+  view: "about" | "resume",
+) {
+  const q = new URLSearchParams(searchParams.toString());
+  q.delete(SIGNAL_LOST_PARAM);
+  q.set("view", view);
+  q.delete("ep");
+  const parsed = parseChannelFromSearchParams(q);
+  if (parsed.mode === "channel") {
+    q.set("ch", String(parsed.channel));
+  }
+  return `/?${q.toString()}`;
+}
+
 export function SidebarIcons({
   aboutActive,
   resumeActive,
@@ -33,6 +53,10 @@ export function SidebarIcons({
   resumeActive: boolean;
   onPrimeAudio: () => void;
 }) {
+  const searchParams = useSearchParams();
+  const aboutHref = portfolioHrefWithView(searchParams, "about");
+  const resumeHref = portfolioHrefWithView(searchParams, "resume");
+
   const baseIconClass =
     "inline-flex h-8 w-8 items-center justify-center rounded-lg text-tv-muted transition-colors hover:bg-white/10 hover:text-white active:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30";
   const aboutIconClass = aboutActive
@@ -45,7 +69,7 @@ export function SidebarIcons({
   return (
     <div className="flex justify-center gap-3 px-1 pt-1">
       <Link
-        href="/?view=about"
+        href={aboutHref}
         className={aboutIconClass}
         aria-label="About"
         onPointerDown={onPrimeAudio}
@@ -59,7 +83,7 @@ export function SidebarIcons({
         <XIcon className="h-4 w-4" />
       </a>
       <Link
-        href="/?view=resume"
+        href={resumeHref}
         className={resumeIconClass}
         aria-label="Resume"
         aria-current={resumeActive ? "page" : undefined}

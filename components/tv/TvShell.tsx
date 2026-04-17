@@ -218,11 +218,25 @@ export function TvShell({ projects }: TvShellProps) {
         p.delete("ep");
       } else if (next.channel !== undefined) {
         p.delete(SIGNAL_LOST_PARAM);
+        const prevParsed = parseChannelFromSearchParams(
+          new URLSearchParams(searchParams.toString()),
+        );
+        const prevChNum =
+          prevParsed.mode === "channel" ? prevParsed.channel : undefined;
         p.set("ch", String(next.channel));
         const chNum = next.channel;
         if (chNum >= 1 && chNum <= 5) {
           p.set("view", "episode");
-          if (!p.has("ep")) p.set("ep", "0");
+          const movedBetweenWorkRows =
+            prevChNum !== undefined &&
+            prevChNum >= 1 &&
+            prevChNum <= 5 &&
+            prevChNum !== chNum;
+          if (movedBetweenWorkRows) {
+            p.set("ep", "0");
+          } else if (!p.has("ep")) {
+            p.set("ep", "0");
+          }
         } else {
           p.delete("view");
           p.delete("ep");
@@ -347,7 +361,8 @@ export function TvShell({ projects }: TvShellProps) {
         return;
       }
       const view = searchParams.get("view") ?? "";
-      const overlayOpen = view === "about" || view === "resume";
+      const overlayOpen =
+        view === "about" || view === "resume" || view === "gallery";
       if (to === channelIndex && !overlayOpen) return;
       runTransition(channelIndex, to, {
         forceUrlSync: overlayOpen && to === channelIndex,
@@ -431,7 +446,7 @@ export function TvShell({ projects }: TvShellProps) {
           >
             <div className="min-h-0 flex-1 overflow-hidden">
               <SidebarNav
-                activeIndex={channelIndex}
+                activeIndex={displayIndex}
                 signalLost={signalLost}
                 aboutActive={aboutActive}
                 resumeActive={resumeActive}

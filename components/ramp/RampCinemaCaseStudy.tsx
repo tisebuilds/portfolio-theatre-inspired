@@ -15,6 +15,7 @@ import type {
   RampEpisodeLearning,
   RampScreenCell,
 } from "@/data/case-studies/ramp-types";
+import { ExternalLinkIcon } from "@/components/case-study-icons";
 import styles from "./ramp-cinema.module.css";
 import { EpisodeTitleRailContext } from "@/components/tv/EpisodeTitleRailContext";
 import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
@@ -719,16 +720,8 @@ function RampCinemaCaseStudySingle({
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {episode.externalLabel}{" "}
-                        <svg
-                          viewBox="0 0 10 10"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          aria-hidden
-                        >
-                          <path d="M2 8L8 2M3 2h5v5" />
-                        </svg>
+                        {episode.externalLabel}
+                        <ExternalLinkIcon className={styles.metaLinkIcon} />
                       </a>
                     </span>
                   </>
@@ -1557,16 +1550,8 @@ function RampCinemaCaseStudyMulti({
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {episode.externalLabel}{" "}
-                            <svg
-                              viewBox="0 0 10 10"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              aria-hidden
-                            >
-                              <path d="M2 8L8 2M3 2h5v5" />
-                            </svg>
+                            {episode.externalLabel}
+                            <ExternalLinkIcon className={styles.metaLinkIcon} />
                           </a>
                         </span>
                       </>

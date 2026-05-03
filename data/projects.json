@@ -24,6 +24,15 @@
     "video": "/media/projects/dinner-party-seating-chart-demo-1.mp4"
   },
   {
+    "slug": "flo-tinydesk-fan-tribute",
+    "title": "Flo Tiny Desk fan tribute",
+    "dateRange": "2026",
+    "videoSound": true,
+    "tvEmbedUrl": "https://flo-tinydesk-fan-tribute.vercel.app/",
+    "externalUrl": "https://flo-tinydesk-fan-tribute.vercel.app/",
+    "externalLinkLabel": "Visit fan page"
+  },
+  {
     "slug": "format-mode",
     "title": "Format Mode",
     "tagline": "Editing on the Go",

@@ -13,6 +13,7 @@ import type { Project } from "@/app/types";
 import {
   CHANNELS,
   SIGNAL_LOST_PARAM,
+  TV_CHANNEL_COUNT,
   type ChannelNumber,
   channelByNumber,
   homeSearchParamsForChannel,
@@ -596,12 +597,12 @@ export function TvShell({ projects }: TvShellProps) {
                   accentClass={accentClass}
                   channelDisplay={
                     signalLost
-                      ? "CH -- / 08"
+                      ? `CH -- / ${String(TV_CHANNEL_COUNT).padStart(2, "0")}`
                       : aboutActive
                         ? "About me"
                         : resumeActive
                           ? "Resume"
-                          : `CH ${String(channelIndex + 1).padStart(2, "0")} / 08`
+                          : `CH ${String(channelIndex + 1).padStart(2, "0")} / ${String(TV_CHANNEL_COUNT).padStart(2, "0")}`
                   }
                   onUp={onPrev}
                   onDown={onNext}

@@ -32,7 +32,7 @@ type RampCinemaCaseStudyProps = {
   /** `embedded` keeps layout within parent (for TvShell player). */
   layoutMode?: "fullscreen" | "embedded";
   /**
-   * TV shell `?ch=` digit (1–8). When set with `layoutMode="embedded"`, URL writes also set `ch`/`view=episode`
+   * TV shell `?ch=` digit (1–9). When set with `layoutMode="embedded"`, URL writes also set `ch`/`view=episode`
    * so episode clamp / in-player navigation cannot leave a stale channel in the query (see TvShell sync).
    */
   embeddedChannelNumber?: number;

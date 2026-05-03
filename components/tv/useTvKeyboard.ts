@@ -52,11 +52,6 @@ export function useTvKeyboard({
           e.stopPropagation();
           onSignalLost();
           break;
-        case "Digit9":
-          e.preventDefault();
-          e.stopPropagation();
-          onSignalLost();
-          break;
         case "Digit1":
         case "Digit2":
         case "Digit3":
@@ -64,7 +59,8 @@ export function useTvKeyboard({
         case "Digit5":
         case "Digit6":
         case "Digit7":
-        case "Digit8": {
+        case "Digit8":
+        case "Digit9": {
           const n = Number(e.code.replace("Digit", "")) as ChannelNumber;
           if (isValidChannelDigit(n)) {
             e.preventDefault();

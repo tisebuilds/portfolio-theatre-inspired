@@ -1,7 +1,7 @@
 import type { Project } from "@/app/types";
 
-/** 1-based channel number as shown in UI (CH 01 … CH 08) */
-export type ChannelNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+/** 1-based channel number as shown in UI (CH 01 … CH 09) */
+export type ChannelNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type ChannelGroup = "work" | "side";
 
@@ -34,7 +34,7 @@ export type TvChannel = {
   mobileResume?: MobileResumeRow;
 };
 
-export const TV_CHANNEL_COUNT = 8;
+export const TV_CHANNEL_COUNT = 9;
 
 export const ACCENT_WORK = "#E299C0";
 /** Same as work — single pink accent across the TV UI. */
@@ -45,7 +45,7 @@ export const TV_MUTED = "#888888";
 
 /**
  * URL `?signal=lost` shows NO SIGNAL (Easter egg). Invalid `?ch=` also routes there.
- * Keyboard: Digit0 / Digit9 enters signal lost from TvShell.
+ * Keyboard: Digit0 enters signal lost from TvShell.
  */
 export const SIGNAL_LOST_PARAM = "signal";
 
@@ -164,6 +164,17 @@ export const CHANNELS: TvChannel[] = [
     yearRange: "2026",
     hasEpisodes: false,
   },
+  {
+    channel: 9,
+    group: "side",
+    kind: "side-project",
+    navLabel: "Flo Tiny Desk Fan page",
+    osdShort: "FLO TINYDESK FAN PAGE",
+    projectSlug: "flo-tinydesk-fan-tribute",
+    role: "",
+    yearRange: "2026",
+    hasEpisodes: false,
+  },
 ];
 
 export function channelByNumber(n: ChannelNumber): TvChannel {
@@ -171,12 +182,12 @@ export function channelByNumber(n: ChannelNumber): TvChannel {
 }
 
 export function channelFromIndex(i: number): TvChannel | undefined {
-  if (i < 0 || i > 7) return undefined;
+  if (i < 0 || i >= TV_CHANNEL_COUNT) return undefined;
   return CHANNELS[i];
 }
 
 export function isValidChannelDigit(n: number): n is ChannelNumber {
-  return n >= 1 && n <= 8;
+  return n >= 1 && n <= TV_CHANNEL_COUNT;
 }
 
 export function parseChannelFromSearchParams(
@@ -190,7 +201,7 @@ export function parseChannelFromSearchParams(
     return { mode: "channel", channel: 1 };
   }
   const n = Number.parseInt(raw, 10);
-  if (!Number.isFinite(n) || n < 1 || n > 8) {
+  if (!Number.isFinite(n) || n < 1 || n > TV_CHANNEL_COUNT) {
     return { mode: "signalLost" };
   }
   return { mode: "channel", channel: n as ChannelNumber };

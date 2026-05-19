@@ -32,7 +32,6 @@ import { ScanlineOverlay } from "./ScanlineOverlay";
 import { SidebarIcons } from "./SidebarIcons";
 import { SidebarNav } from "./SidebarNav";
 import { StaticNoiseCanvas } from "./StaticNoiseCanvas";
-import { TickerCrawl } from "./TickerCrawl";
 import {
   DISSOLVE_MS,
   FADE_IN_MS,
@@ -565,8 +564,6 @@ export function TvShell({ projects }: TvShellProps) {
     <div
       className={`fixed inset-0 z-0 flex flex-col bg-tv-bg text-tv-text ${cursorClass}`}
     >
-      <TickerCrawl reducedMotion={reducedMotion} />
-
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto md:flex-row md:overflow-hidden">
         <div className="md:hidden">
           <MobileResumeView projects={projects} />

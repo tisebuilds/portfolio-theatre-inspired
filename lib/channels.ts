@@ -49,9 +49,6 @@ export const TV_MUTED = "#888888";
  */
 export const SIGNAL_LOST_PARAM = "signal";
 
-export const TICKER_DEFAULT_TEXT =
-  "Open to work (full time or contracting)";
-
 export const CHANNELS: TvChannel[] = [
   {
     channel: 1,

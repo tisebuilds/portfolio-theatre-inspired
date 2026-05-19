@@ -38,27 +38,6 @@
   }
 }
 
-@keyframes tv-ticker-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.tv-ticker-track {
-  display: inline-block;
-  white-space: nowrap;
-  animation: tv-ticker-marquee 120s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tv-ticker-track {
-    animation: none;
-  }
-}
-
 .tv-sidebar-nav .nav-item {
   position: relative;
   display: flex;

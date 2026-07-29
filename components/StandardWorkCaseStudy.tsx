@@ -188,9 +188,9 @@ export function StandardWorkCaseStudy({
         </section>
 
         <section aria-labelledby={creditsId}>
-          <SectionLabel>Credits</SectionLabel>
+          <SectionLabel>Thank you</SectionLabel>
           <h3 id={creditsId} className="sr-only">
-            Credits
+            Thank you
           </h3>
           <div className={caseStudySpacing.labelToContent}>
             {creditsIntro.trim() ? (

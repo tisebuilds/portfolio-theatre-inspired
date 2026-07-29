@@ -42,7 +42,7 @@ const CHAPTER_SEGMENTS = [
   "OVERVIEW",
   "OUTCOME",
   "STUFF I WORKED ON",
-  "CREDITS",
+  "THANK YOU",
 ] as const;
 
 /** One-pager PDFs are not ready yet; flip to true when they ship. */
@@ -95,7 +95,7 @@ function hasLearnings(ep: RampEpisode): boolean {
 
 function chapterSegmentsForEpisode(ep: RampEpisode): readonly string[] {
   if (ep.hideStuffChapter && hasLearnings(ep)) {
-    return ["OVERVIEW", "OUTCOME", "THINGS I LEARNED", "CREDITS"];
+    return ["OVERVIEW", "OUTCOME", "THINGS I LEARNED", "THANK YOU"];
   }
   return CHAPTER_SEGMENTS;
 }
@@ -843,7 +843,7 @@ function RampCinemaCaseStudySingle({
                 <span className={styles.chAnchor} id="p0-ch3" />
               <div className={styles.credits}>
                 <div className={styles.chHeader}>
-                  <span className={styles.chName}>CREDITS</span>
+                  <span className={styles.chName}>Thank you</span>
                   <div className={styles.chLine} />
                 </div>
                 {episode.creditsIntro ? (
@@ -1670,7 +1670,7 @@ function RampCinemaCaseStudyMulti({
                 <span className={styles.chAnchor} id={`p${p}-ch3`} />
                 <div className={styles.credits}>
                   <div className={styles.chHeader}>
-                    <span className={styles.chName}>CREDITS</span>
+                    <span className={styles.chName}>Thank you</span>
                     <div className={styles.chLine} />
                   </div>
                   {episode.creditsIntro ? (

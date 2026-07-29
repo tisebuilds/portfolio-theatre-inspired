@@ -63,13 +63,15 @@ export function LearningsFromStandard({
               : "flex items-baseline gap-x-2 sm:gap-x-3"
           }
         >
-          <dt
-            className={`m-0 ${caseStudyType.learningTitle}${
-              learningsLayout === "split" ? " shrink-0" : ""
-            }`}
-          >
-            {item.title}
-          </dt>
+          {item.title ? (
+            <dt
+              className={`m-0 ${caseStudyType.learningTitle}${
+                learningsLayout === "split" ? " shrink-0" : ""
+              }`}
+            >
+              {item.title}
+            </dt>
+          ) : null}
           <dd
             className={`m-0 ${caseStudyType.learningBody}${
               learningsLayout === "split" ? " min-w-0 flex-1" : ""

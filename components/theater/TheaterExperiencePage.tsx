@@ -112,7 +112,7 @@ function buildDownloadContent(
     return {
       filename: `${exp.slug}-credits.txt`,
       content: [
-        "Credits",
+        "Thank you",
         "",
         ...(exp.cast ?? []).map(
           (m) => `${m.name}${m.role ? ` — ${m.role}` : ""}`,
@@ -273,7 +273,7 @@ function CreditsScene({ exp }: { exp: WorkExperience }) {
         className="text-lg font-serif tracking-wide"
         style={{ color: TEXT_BODY }}
       >
-        Credits
+        Thank you
       </h2>
 
       <div className="flex flex-col gap-3 max-w-md">
@@ -400,7 +400,7 @@ function InfoBar({
     const cast = exp.cast ?? [];
     content = (
       <>
-        <p className="text-[13px] text-neutral-200 font-semibold">Credits</p>
+        <p className="text-[13px] text-neutral-200 font-semibold">Thank you</p>
         <p className="text-[12px] text-neutral-400 leading-relaxed">
           {cast.map((m, i) => (
             <span key={i}>
@@ -699,7 +699,7 @@ export function TheaterExperiencePage({
       "OVERVIEW",
       ...shippedItems.map((item) => item.label),
       "LEARNINGS",
-      "CREDITS",
+      "THANK YOU",
     ],
     [shippedItems],
   );

@@ -6,12 +6,9 @@ import { DinnerPartyCaseStudyToolLogoStrip } from "@/components/case-study-tool-
 const PHOTO_1 = "/media/projects/dinner-party-seating-chart-photo-1.png";
 const PHOTO_2 = "/media/projects/dinner-party-seating-chart-photo-2.png";
 
-const BODY_COPY =
-  "I built a dinner seating tool for a 23-person alumni event, but the real challenge was staying within a $200 ColorStack budget without risking a declined Ramp charge. I started by thinking through a few basics: where people should sit, what they would eat, and how those choices affected total cost. From there, I built a UI that tracks per-table spend in real time while accounting for dietary needs and headcount. Working with Claude helped me rethink the problem and turn what looked like a simple seating chart into a budget-aware event planning tool. This project shows how I like to work: breaking complex problems into simple questions, streamlining manual tasks with AI, and my bias toward action.";
-
 const demosGrid = (
   <div className="grid max-w-full grid-cols-1 gap-4 lg:grid-cols-2">
-    <div className="overflow-hidden rounded-md border border-white/[0.08] bg-black/40 p-2">
+    <div className="overflow-hidden rounded-md bg-black/40 py-2">
       <video
         src="/media/projects/dinner-party-seating-chart-demo-1.mp4"
         controls
@@ -23,7 +20,7 @@ const demosGrid = (
         Demo 1
       </p>
     </div>
-    <div className="overflow-hidden rounded-md border border-white/[0.08] bg-black/40 p-2">
+    <div className="overflow-hidden rounded-md bg-black/40 py-2">
       <video
         src="/media/projects/dinner-party-seating-chart-demo-2.mp4"
         controls
@@ -88,10 +85,34 @@ export const dinnerPartySeatingCaseStudyContent: StandardWorkCaseStudyProps = {
     caption: "I don't wait for solutions; I build them.",
   },
   learningsLayout: "stacked",
-  overview: <p>{BODY_COPY}</p>,
+  overview: (
+    <>
+      <p>
+        I needed a dinner party seating chart for a 23-person alumni event to help
+        me stay in ColorStack&apos;s $200 budget. I started by breaking the
+        problem into a few simple questions:
+      </p>
+      <ol className="mt-4 list-none space-y-1 p-0">
+        <li>1. Where people should sit?</li>
+        <li>2. What can they eat?</li>
+        <li>3. How those decisions affected the total cost?</li>
+      </ol>
+      <p style={{ marginTop: 24 }}>
+        Building with Claude forced me to rethink the problem. I didn&apos;t
+        need a seating chart, I needed a budget-aware event planning tool. The
+        result, a tool that can track spend in real time while handling dietary
+        restrictions.
+      </p>
+      <p>The project reflects how I like to work:</p>
+      <ol className="mt-4 list-none space-y-1 p-0">
+        <li>1. Breaking complex problems into simple questions</li>
+        <li>2. Using AI to streamline tedious tasks</li>
+      </ol>
+    </>
+  ),
   learnings: [
-    { title: "Demos", content: demosGrid },
-    { title: "Event", content: photosGrid },
+    { title: "", content: demosGrid },
+    { title: "", content: photosGrid },
   ],
   creditsIntro: "",
   creditsColumns: [],

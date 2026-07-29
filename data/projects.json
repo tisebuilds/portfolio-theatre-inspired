@@ -17,6 +17,13 @@
     "externalUrl": "https://tiseconcertdiary.vercel.app/"
   },
   {
+    "slug": "colorstack-events",
+    "title": "ColorStack Events",
+    "dateRange": "2026",
+    "tvEmbedUrl": "https://tisebuildscommunity.vercel.app/",
+    "externalUrl": "https://tisebuildscommunity.vercel.app/"
+  },
+  {
     "slug": "dinner-party-seating-chart",
     "title": "Dinner Party Seating Chart (Made with Claude Co-Work)",
     "tagline": "A playful way to plan who sits where.",

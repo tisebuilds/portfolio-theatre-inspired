@@ -1,7 +1,7 @@
 import type { Project } from "@/app/types";
 
-/** 1-based channel number as shown in UI (CH 01 … CH 09) */
-export type ChannelNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+/** 1-based channel number as shown in UI (CH 01 … CH 10) */
+export type ChannelNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export type ChannelGroup = "work" | "side";
 
@@ -34,7 +34,7 @@ export type TvChannel = {
   mobileResume?: MobileResumeRow;
 };
 
-export const TV_CHANNEL_COUNT = 9;
+export const TV_CHANNEL_COUNT = 10;
 
 export const ACCENT_WORK = "#E299C0";
 /** Same as work — single pink accent across the TV UI. */
@@ -154,6 +154,17 @@ export const CHANNELS: TvChannel[] = [
     channel: 8,
     group: "side",
     kind: "side-project",
+    navLabel: "ColorStack Events",
+    osdShort: "COLORSTACK EVENTS",
+    projectSlug: "colorstack-events",
+    role: "",
+    yearRange: "2026",
+    hasEpisodes: false,
+  },
+  {
+    channel: 9,
+    group: "side",
+    kind: "side-project",
     navLabel: "Dinner Party Seating Chart",
     osdShort: "DINNER PARTY SEATING CHART",
     projectSlug: "dinner-party-seating-chart",
@@ -162,7 +173,7 @@ export const CHANNELS: TvChannel[] = [
     hasEpisodes: false,
   },
   {
-    channel: 9,
+    channel: 10,
     group: "side",
     kind: "side-project",
     navLabel: "Flo Tiny Desk Fan page",

@@ -65,14 +65,14 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
     [navigateTo, reducedMotion],
   );
 
-  const flipClass = `relative h-full min-h-[10.5rem] [transform-style:preserve-3d] ${
+  const flipClass = `relative h-full min-h-[14rem] [transform-style:preserve-3d] ${
     reducedMotion ? "" : "transition-transform duration-500 ease-out"
   } motion-reduce:transition-none ${
     flipped ? "[transform:rotateY(180deg)]" : ""
   }`;
 
   const shellClass =
-    "group h-full min-h-[11rem] w-full min-w-0 rounded-xl border border-neutral-800 bg-neutral-900/40 text-left transition-[border-color,box-shadow] hover:border-neutral-600";
+    "group flex h-full min-h-[14rem] w-full min-w-0 flex-col rounded-xl border border-neutral-800 bg-neutral-900/40 text-left transition-[border-color,box-shadow] hover:border-neutral-600";
 
   const frontAria = pickMode
     ? "Outcome-first — open card to choose a case study"
@@ -89,10 +89,11 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
         if (flipped) handleFlipBack();
       }}
     >
-      <div className="h-full min-h-[10.5rem] [perspective:1200px]">
+      <div className="flex h-full min-h-[14rem] flex-1 flex-col [perspective:1200px]">
         <div className={flipClass}>
+          {/* Front in flow so card height fits copy; back overlays for flip */}
           <div
-            className="absolute inset-0 flex min-h-[10.5rem] flex-col rounded-[11px] border border-transparent bg-neutral-900/40 px-5 py-4 [backface-visibility:hidden]"
+            className="relative flex h-full min-h-[14rem] flex-col rounded-[11px] border border-transparent bg-neutral-900/40 px-5 py-5 [backface-visibility:hidden]"
             inert={flipped}
           >
             <button
@@ -108,16 +109,16 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
               aria-expanded={flipped}
               aria-label={frontAria}
             >
-              <h3 className="font-mono text-[10px] uppercase tracking-wider text-neutral-200">
+              <h3 className="about-text-label text-neutral-200">
                 {item.philosophyTitle}
               </h3>
-              <p className="mt-2 flex-1 text-left text-sm leading-snug text-neutral-200">
+              <p className="about-text-body mt-2 flex-1 text-left text-neutral-200">
                 {item.body}
               </p>
             </button>
           </div>
           <div
-            className="absolute inset-0 flex min-h-[10.5rem] flex-col rounded-[11px] border border-neutral-700 bg-neutral-950/90 px-5 py-4 [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            className="absolute inset-0 flex flex-col overflow-y-auto rounded-[11px] border border-neutral-700 bg-neutral-950/90 px-5 py-5 [backface-visibility:hidden] [transform:rotateY(180deg)]"
             inert={!flipped}
           >
             {pickMode ? (
@@ -133,10 +134,12 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
                             e.stopPropagation();
                             openCaseStudy(link.channel, link.episodeIndex);
                           }}
-                          className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2.5 text-left font-mono text-xs normal-case text-neutral-100 transition-colors hover:border-tv-pink/50 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+                          className="w-full rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2.5 text-left transition-colors hover:border-tv-pink/50 hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                         >
-                          <span className="block truncate">{link.label}</span>
-                          <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-wider text-tv-muted">
+                          <span className="about-text-body block truncate text-neutral-100">
+                            {link.label}
+                          </span>
+                          <span className="about-text-caption mt-0.5 block">
                             {chLabel} · Case {link.episodeIndex + 1}
                           </span>
                         </button>
@@ -147,10 +150,10 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
               </>
             ) : (
               <>
-                <p className="font-mono text-xs normal-case text-neutral-100">
+                <p className="about-text-body text-neutral-100">
                   {item.episodeLabel}
                 </p>
-                <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-tv-muted">
+                <p className="about-text-caption mt-0.5">
                   {chLabelSingle} · Case {item.episodeIndex + 1}
                 </p>
                 <button
@@ -159,7 +162,7 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
                     e.stopPropagation();
                     openCaseStudy(item.channel, item.episodeIndex);
                   }}
-                  className="mt-4 w-full rounded-lg border border-tv-pink/40 bg-tv-pink/15 px-3 py-2.5 text-center font-mono text-[10px] uppercase tracking-wider text-neutral-100 transition-colors hover:border-tv-pink/70 hover:bg-tv-pink/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
+                  className="about-text-label mt-4 w-full rounded-lg border border-tv-pink/40 bg-tv-pink/15 px-3 py-2.5 text-center text-neutral-100 transition-colors hover:border-tv-pink/70 hover:bg-tv-pink/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                 >
                   Open case study
                 </button>

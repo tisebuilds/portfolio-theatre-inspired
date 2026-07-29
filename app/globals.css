@@ -29,12 +29,21 @@
 }
 
 @layer components {
+  /* About type scale — 4 styles max (display / body / label / caption) */
   .about-text-display {
     @apply text-left text-2xl font-bold leading-tight text-neutral-100 md:text-3xl;
   }
 
   .about-text-body {
     @apply text-left text-base leading-relaxed text-neutral-300 md:text-lg;
+  }
+
+  .about-text-label {
+    @apply font-mono text-[10px] font-normal uppercase tracking-wider leading-none;
+  }
+
+  .about-text-caption {
+    @apply font-mono text-[10px] font-normal uppercase tracking-wider leading-none text-tv-muted;
   }
 }
 

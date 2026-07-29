@@ -23,13 +23,29 @@
   --cs-ch-bullet-stack-gap: 14px;
   --cs-ch-bullet-item-inline-gap: 12px;
 
+  /* Content type scale — 4 styles max (display / body / label / caption) */
+  --type-display-size: 36px;
+  --type-display-weight: 600;
+  --type-display-tracking: -0.04em;
+  --type-display-leading: 1.05;
+  --type-body-size: 15px;
+  --type-body-weight: 400;
+  --type-body-leading: 1.7;
+  --type-label-size: 11px;
+  --type-label-weight: 600;
+  --type-label-tracking: 0.08em;
+  --type-label-leading: 1.35;
+  --type-caption-size: 12px;
+  --type-caption-weight: 400;
+  --type-caption-leading: 1.5;
+
   position: fixed;
   inset: 0;
   z-index: 40;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 14px;
+  font-size: var(--type-caption-size);
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -115,7 +131,9 @@
   row-gap: 4px;
   column-gap: 0;
   width: 100%;
-  font-size: 12px;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
   color: var(--text-muted);
 }
 
@@ -175,20 +193,21 @@
 }
 
 .title {
-  font-size: 44px;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  letter-spacing: var(--type-display-tracking);
+  line-height: var(--type-display-leading);
   margin: 0;
   min-width: 0;
 }
 
 .titleTimingBadge {
   flex-shrink: 0;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
   color: #ffffff;
   background: var(--border2);
   border: none;
@@ -237,9 +256,10 @@
   margin-top: 6px;
   padding: 0 12px;
   height: 32px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
   text-transform: uppercase;
   color: var(--text-muted);
   border: 1px solid var(--border2);
@@ -259,7 +279,7 @@
 }
 
 .journalBtnArr {
-  font-size: 12px;
+  font-size: var(--type-caption-size);
   line-height: 1;
   opacity: 0.75;
 }
@@ -273,7 +293,9 @@
 }
 
 .metaItem {
-  font-size: 12px;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
   color: var(--text-muted);
   display: flex;
   align-items: center;
@@ -321,7 +343,9 @@
   gap: 4px;
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 12px;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
   border-bottom: none;
   transition: color 0.15s;
 }
@@ -343,11 +367,11 @@
 }
 
 .logline {
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
+  font-style: normal;
   color: var(--text-muted);
-  font-weight: 300;
-  font-style: italic;
   max-width: 520px;
   margin: 0 0 36px;
   padding-left: 14px;
@@ -436,9 +460,11 @@
 }
 
 .mockPh p {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  font-weight: 600;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
   margin: 0;
 }
 
@@ -463,10 +489,12 @@
 }
 
 .chName {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.12em;
 }
 
 .chLine {
@@ -476,8 +504,9 @@
 }
 
 .chBody {
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
   color: var(--text-muted);
   max-width: 100%;
 }
@@ -517,17 +546,17 @@
   display: flex;
   gap: var(--cs-ch-bullet-item-inline-gap);
   align-items: flex-start;
-  font-size: 15px;
-  line-height: 1.65;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
   color: var(--text);
-  font-weight: 400;
 }
 
 .chBullets li::before {
   content: "·";
   color: var(--text-muted);
-  font-size: 18px;
-  line-height: 1.4;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
   flex-shrink: 0;
 }
 
@@ -546,15 +575,15 @@
   color: var(--text-muted);
   font-size: inherit;
   font-weight: inherit;
-  line-height: 1.65;
+  line-height: var(--type-body-leading);
   flex-shrink: unset;
   width: auto;
 }
 
 /* Learnings chapter only — match case-study lesson type scale */
 .chBulletsLessons li {
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
 }
 
 /* No middot; keep vertical stack gap from .chBullets */
@@ -580,13 +609,13 @@
 .chLessonTitle {
   font-weight: 500;
   color: var(--text);
-  line-height: 1.5;
+  line-height: var(--type-body-leading);
 }
 
 .chLessonDescription {
   color: var(--text-muted);
-  font-weight: 400;
-  line-height: 1.85;
+  font-weight: var(--type-body-weight);
+  line-height: var(--type-body-leading);
 }
 
 .metrics {
@@ -618,19 +647,20 @@
 }
 
 .metricVal {
-  font-size: 34px;
-  font-weight: 600;
-  letter-spacing: -0.04em;
+  font-size: var(--type-display-size);
+  font-weight: var(--type-display-weight);
+  letter-spacing: var(--type-display-tracking);
   color: var(--text);
   line-height: 1;
 }
 
 .metricValPill {
   flex-shrink: 0;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
   color: var(--text);
   background: transparent;
   border: 1px solid var(--text);
@@ -639,11 +669,12 @@
 }
 
 .metricLbl {
-  font-size: 11px;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.06em;
-  font-weight: 500;
-  line-height: 1.35;
 }
 
 .creditsIntro {
@@ -682,21 +713,21 @@
 
 .creditRole {
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
   text-transform: uppercase;
   color: var(--text-muted);
-  line-height: 1.35;
 }
 
 .creditVal {
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: clamp(15px, 2.4vw, 17px);
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: 0;
   color: var(--text);
-  line-height: 1.35;
+  line-height: var(--type-body-leading);
   min-width: 0;
 }
 
@@ -1532,7 +1563,7 @@ a.creditVal:focus-visible svg {
   }
 
   .title {
-    font-size: 32px;
+    font-size: 28px;
   }
 
   .mg3,
@@ -1611,9 +1642,10 @@ a.creditVal:focus-visible svg {
 
 .mcLightboxTitle {
   margin: 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: var(--type-label-size, 11px);
+  font-weight: var(--type-label-weight, 600);
+  letter-spacing: var(--type-label-tracking, 0.08em);
+  line-height: var(--type-label-leading, 1.35);
   text-transform: uppercase;
   color: var(--text-muted);
 }

@@ -140,11 +140,11 @@ export function AboutViewport() {
             <p className="about-text-body max-w-[60ch]">
               I move ideas from draft to production, using lessons from great{" "}
               {letterboxdHref ? (
-                <a
+                  <a
                   href={letterboxdHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-baseline gap-1 text-neutral-200 underline decoration-neutral-500 underline-offset-[0.2em] transition-colors hover:text-white hover:decoration-neutral-400"
+                  className="group inline-flex items-baseline gap-1 text-neutral-200 underline decoration-neutral-500 underline-offset-[0.2em] transition-colors hover:text-white hover:decoration-neutral-400 [font:inherit]"
                   aria-label="Letterboxd diary (opens in new tab)"
                 >
                   films
@@ -298,7 +298,7 @@ export function AboutViewport() {
               </div>
 
               <div className="md:col-span-7">
-                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+                <ul className="m-0 grid list-none items-stretch gap-3 p-0 sm:grid-cols-2">
                   {ABOUT_PHILOSOPHY_NAV.map((item, i) => (
                     <li
                       key={
@@ -306,7 +306,7 @@ export function AboutViewport() {
                           ? item.philosophyTitle
                           : `${item.episodeLabel}-${i}`
                       }
-                      className="min-w-0"
+                      className="min-w-0 h-full"
                     >
                       <PhilosophyNavCard item={item} />
                     </li>
@@ -385,7 +385,7 @@ export function AboutViewport() {
                         <button
                           type="button"
                           onClick={() => setActivePin(pin.label)}
-                          className={`group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 ${
+                          className={`about-text-label group inline-flex items-center gap-2 rounded-full border px-3 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 ${
                             selected || showAll
                               ? "border-white/25 bg-white/10 text-white"
                               : "border-white/10 bg-white/[0.03] text-neutral-200 hover:border-tv-pink/60 hover:bg-white/[0.06]"
@@ -406,7 +406,7 @@ export function AboutViewport() {
                             href={pin.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex items-center justify-center rounded-full border px-2 py-1.5 font-mono text-[10px] uppercase tracking-wider leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 ${
+                            className={`about-text-label inline-flex items-center justify-center rounded-full border px-2 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 ${
                               selected || showAll
                                 ? "border-white/25 bg-white/10 text-white/80 hover:text-white"
                                 : "border-white/10 bg-white/[0.03] text-tv-muted hover:border-tv-pink/60 hover:bg-white/[0.06] hover:text-neutral-200"

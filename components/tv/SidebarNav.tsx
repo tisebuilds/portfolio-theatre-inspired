@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, PanelLeftClose } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -14,7 +14,6 @@ import {
   TV_MUTED,
   TV_TEXT,
 } from "@/lib/channels";
-import { SITE_PROFILE_PHOTO } from "@/lib/site";
 import { rampSpendEpisodes } from "@/data/case-studies/ramp-spend";
 import { rampTreasuryEpisodes } from "@/data/case-studies/ramp-treasury";
 import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
@@ -30,7 +29,6 @@ type SidebarNavProps = {
   /** Jump to a multi-case study episode (Ramp Spend / Treasury) without the old pill rail. */
   onNavigateToCaseStudyEpisode: (ch: ChannelNumber, episodeIndex: number) => void;
   onPrimeAudio: () => void;
-  onHideSidebar: () => void;
   onPrevChannel: () => void;
   onNextChannel: () => void;
   channelChangeDisabled?: boolean;
@@ -94,7 +92,6 @@ export function SidebarNav({
   onSelectChannel,
   onNavigateToCaseStudyEpisode,
   onPrimeAudio,
-  onHideSidebar,
   onPrevChannel,
   onNextChannel,
   channelChangeDisabled,
@@ -107,6 +104,11 @@ export function SidebarNav({
     2: true,
   });
   const skipFlicker = useRef(true);
+  const channelLabel = aboutActive
+    ? "About"
+    : resumeActive
+      ? "Resume"
+      : `CH ${String(activeIndex + 1).padStart(2, "0")}`;
 
   useEffect(() => {
     if (skipFlicker.current) {
@@ -117,7 +119,7 @@ export function SidebarNav({
     setFlickerOn(true);
     const timer = window.setTimeout(() => setFlickerOn(false), 320);
     return () => window.clearTimeout(timer);
-  }, [activeIndex]);
+  }, [channelLabel]);
 
   const work = CHANNELS.filter((c) => c.group === "work");
   const side = CHANNELS.filter((c) => c.group === "side");
@@ -247,8 +249,6 @@ export function SidebarNav({
     );
   };
 
-  const channelLabel = `CH ${String(activeIndex + 1).padStart(2, "0")}`;
-
   return (
     <div
       className="tv-sidebar-nav flex h-full min-h-0 flex-col bg-transparent pb-3"
@@ -262,32 +262,61 @@ export function SidebarNav({
       <div className="shell-sidebar-head">
         <div className="shell-sidebar-top">
           <div className="shell-sidebar-id">
-            <div className="shell-sidebar-avatar">
-              <Image
-                src={SITE_PROFILE_PHOTO}
-                alt=""
-                width={28}
-                height={28}
-                sizes="28px"
-                className="h-full w-full object-cover"
-                priority
-              />
-            </div>
             <div className="shell-sidebar-id-text">
               <div className="shell-sidebar-name">Tise Alatise</div>
-              <div className="shell-sidebar-role">Product designer</div>
             </div>
           </div>
-          <button
-            type="button"
-            className="shell-sidebar-toggle"
-            aria-label="Hide sidebar"
-            onClick={onHideSidebar}
-          >
-            <PanelLeftClose className="h-4 w-4" aria-hidden />
-          </button>
         </div>
 
+      </div>
+
+      <div className="nav-lists">
+        <nav className="nav-work" aria-label="Work experience">
+          <div className="nav-section-label">Work experience</div>
+          {work.map(channelBlock)}
+        </nav>
+
+        <nav className="nav-side" aria-label="Side projects">
+          <div className="nav-section-label spaced">Side Projects</div>
+          {side.map((c) => {
+            const channelNum = c.channel as ChannelNumber;
+            const channelOn = channelOnFor(c.channel);
+            const href = homeHrefForChannel(channelNum);
+            const logo = c.projectSlug ? SIDE_PIN_LOGOS[c.projectSlug] : undefined;
+            return (
+              <Link
+                key={c.channel}
+                href={href}
+                scroll={false}
+                prefetch
+                onPointerDown={onPrimeAudio}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                  e.preventDefault();
+                  onSelectChannel(channelNum);
+                }}
+                className={`nav-tab${channelOn ? " active" : ""}`}
+                aria-current={channelOn ? "page" : undefined}
+              >
+                <span className="nav-tab-icon">
+                  {logo ? (
+                    <Image
+                      src={logo.src}
+                      alt=""
+                      width={64}
+                      height={64}
+                      className={`nav-tab-mark is-${logo.fit}`}
+                    />
+                  ) : null}
+                </span>
+                <span className="nav-tab-name">{c.navLabel}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className="shell-tune-dock">
         <div className="shell-tune" role="group" aria-label="Channel switcher">
           <button
             type="button"
@@ -314,51 +343,7 @@ export function SidebarNav({
             <UpTriangle />
           </button>
         </div>
-
-        <nav className="nav-pins" aria-label="Side projects">
-          {side.map((c) => {
-            const channelNum = c.channel as ChannelNumber;
-            const channelOn = channelOnFor(c.channel);
-            const href = homeHrefForChannel(channelNum);
-            const logo = c.projectSlug ? SIDE_PIN_LOGOS[c.projectSlug] : undefined;
-            return (
-              <Link
-                key={c.channel}
-                href={href}
-                scroll={false}
-                prefetch
-                onPointerDown={onPrimeAudio}
-                onClick={(e) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                  e.preventDefault();
-                  onSelectChannel(channelNum);
-                }}
-                className={`nav-pin${channelOn ? " active" : ""}`}
-                aria-label={c.navLabel}
-                aria-current={channelOn ? "page" : undefined}
-              >
-                {logo ? (
-                  <Image
-                    src={logo.src}
-                    alt=""
-                    width={160}
-                    height={120}
-                    sizes="48px"
-                    className={`nav-pin-logo is-${logo.fit}`}
-                  />
-                ) : null}
-                <span className="nav-pin-tip" aria-hidden>
-                  {c.navLabel}
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
       </div>
-
-      <nav className="nav-work" aria-label="Work experience">
-        {work.map(channelBlock)}
-      </nav>
     </div>
   );
 }

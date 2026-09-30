@@ -31,7 +31,6 @@ const config: Config = {
           "monospace",
         ],
         serif: ["Georgia", "Times New Roman", "serif"],
-        handwritten: ["var(--font-caveat)", "cursive"],
       },
       keyframes: {
         marquee: {

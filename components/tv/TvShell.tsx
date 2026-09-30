@@ -593,7 +593,6 @@ export function TvShell({ projects }: TvShellProps) {
                 onSelectChannel={selectChannel}
                 onNavigateToCaseStudyEpisode={navigateToCaseStudyEpisode}
                 onPrimeAudio={primeAudioContext}
-                onHideSidebar={() => setSidebarOpen(false)}
                 onPrevChannel={onPrev}
                 onNextChannel={onNext}
                 channelChangeDisabled={isTransitioning}

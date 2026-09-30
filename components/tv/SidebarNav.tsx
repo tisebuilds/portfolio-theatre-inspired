@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown, PanelLeftClose } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   ACCENT_WORK,
@@ -28,6 +30,51 @@ type SidebarNavProps = {
   /** Jump to a multi-case study episode (Ramp Spend / Treasury) without the old pill rail. */
   onNavigateToCaseStudyEpisode: (ch: ChannelNumber, episodeIndex: number) => void;
   onPrimeAudio: () => void;
+  onHideSidebar: () => void;
+  onPrevChannel: () => void;
+  onNextChannel: () => void;
+  channelChangeDisabled?: boolean;
+};
+
+function episodesForChannel(c: (typeof CHANNELS)[number]) {
+  if (c.workSlug === "ramp-spend") {
+    return rampSpendEpisodes.filter((episode) => !episode.hidden);
+  }
+  if (c.workSlug === "ramp-treasury") {
+    return rampTreasuryEpisodes.filter((episode) => !episode.hidden);
+  }
+  return [];
+}
+
+function DownTriangle() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden>
+      <path d="M5.5 8.6 1.2 3.2h8.6z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function UpTriangle() {
+  return (
+    <svg width="11" height="11" viewBox="0 0 11 11" aria-hidden>
+      <path d="M5.5 2.4 9.8 7.8H1.2z" fill="currentColor" />
+    </svg>
+  );
+}
+
+const SIDE_PIN_LOGOS: Record<string, { src: string; fit: string }> = {
+  "letterboxd-website-wall": { src: "/media/logos/letterboxd.png", fit: "letterboxd" },
+  "ipod-concert-diary": { src: "/media/logos/ipod.png", fit: "ipod" },
+  "dinner-party-seating-chart": { src: "/media/logos/dinner-party-mark.png", fit: "dinner" },
+  "colorstack-events": { src: "/media/logos/colorstack-icon.png", fit: "colorstack" },
+};
+
+const WORK_LOGOS: Record<string, string> = {
+  "ramp-spend": "/media/logos/white/Ramp.png",
+  "ramp-treasury": "/media/logos/white/Ramp.png",
+  figma: "/media/logos/white/Figma.png",
+  meta: "/media/logos/white/Meta.png",
+  disney: "/media/logos/white/Disney.png",
 };
 
 function episodeViewForChannel(
@@ -47,97 +94,48 @@ export function SidebarNav({
   onSelectChannel,
   onNavigateToCaseStudyEpisode,
   onPrimeAudio,
+  onHideSidebar,
+  onPrevChannel,
+  onNextChannel,
+  channelChangeDisabled,
 }: SidebarNavProps) {
   const searchParams = useSearchParams();
+  const [flickerKey, setFlickerKey] = useState(0);
+  const [flickerOn, setFlickerOn] = useState(false);
+  const [openFolders, setOpenFolders] = useState<Partial<Record<ChannelNumber, boolean>>>({
+    1: true,
+    2: true,
+  });
+  const skipFlicker = useRef(true);
+
+  useEffect(() => {
+    if (skipFlicker.current) {
+      skipFlicker.current = false;
+      return;
+    }
+    setFlickerKey((key) => key + 1);
+    setFlickerOn(true);
+    const timer = window.setTimeout(() => setFlickerOn(false), 320);
+    return () => window.clearTimeout(timer);
+  }, [activeIndex]);
 
   const work = CHANNELS.filter((c) => c.group === "work");
   const side = CHANNELS.filter((c) => c.group === "side");
 
-  const iconFor = (c: (typeof CHANNELS)[0]) => {
-    // Intentionally simple, consistent icons sized via `.nav-icon`.
-    if (c.group === "work") {
-      if (c.workSlug?.startsWith("ramp")) {
-        return (
-          <Image
-            src="/media/logos/white/Ramp.png"
-            alt=""
-            width={20}
-            height={20}
-            sizes="20px"
-            className="nav-logo"
-          />
-        );
-      }
-      if (c.workSlug === "figma") {
-        return (
-          <Image
-            src="/media/logos/white/Figma.png"
-            alt=""
-            width={20}
-            height={20}
-            sizes="20px"
-            className="nav-logo"
-          />
-        );
-      }
-      if (c.workSlug === "meta") {
-        return (
-          <Image
-            src="/media/logos/white/Meta.png"
-            alt=""
-            width={20}
-            height={20}
-            sizes="20px"
-            className="nav-logo"
-          />
-        );
-      }
-      if (c.workSlug === "disney") {
-        return (
-          <Image
-            src="/media/logos/white/Disney.png"
-            alt=""
-            width={20}
-            height={20}
-            sizes="20px"
-            className="nav-logo"
-          />
-        );
-      }
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
-          <path d="M9 6V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1" />
-          <path d="M4 8h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" />
-          <path d="M4 12h16" />
-        </svg>
-      );
-    }
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
-        <path d="M12 3l2.6 5.9 6.4.6-4.8 4.1 1.5 6.2L12 16.9 6.3 19.8l1.5-6.2L3 9.5l6.4-.6L12 3Z" />
-      </svg>
-    );
-  };
+  const channelOnFor = (channel: number) =>
+    !signalLost && !aboutActive && !resumeActive && activeIndex === channel - 1;
 
   const channelBlock = (c: (typeof CHANNELS)[0]) => {
     const channelNum = c.channel as ChannelNumber;
-    const channelOn =
-      !signalLost &&
-      !aboutActive &&
-      !resumeActive &&
-      activeIndex === c.channel - 1;
+    const channelOn = channelOnFor(c.channel);
     const href = homeHrefForChannel(channelNum);
-
-    const episodes =
-      c.workSlug === "ramp-spend"
-        ? rampSpendEpisodes.filter((e) => !e.hidden)
-        : c.workSlug === "ramp-treasury"
-          ? rampTreasuryEpisodes.filter((e) => !e.hidden)
-          : [];
+    const episodes = episodesForChannel(c);
+    const logoSrc = c.workSlug ? WORK_LOGOS[c.workSlug] : undefined;
 
     if (episodes.length <= 1) {
-      const mainRowSingle = (
+      return (
         <Link
+          key={c.channel}
           href={href}
           scroll={false}
           prefetch
@@ -147,16 +145,23 @@ export function SidebarNav({
             e.preventDefault();
             onSelectChannel(channelNum);
           }}
-          className={`nav-item ${channelOn ? "active" : ""}`}
+          className={`nav-tab${channelOn ? " active" : ""}`}
+          aria-current={channelOn ? "page" : undefined}
         >
-          <span className="nav-ch" aria-hidden>
-            {String(c.channel).padStart(2, "0")}
+          <span className="nav-tab-icon">
+            {logoSrc ? (
+              <span
+                className="nav-tab-logo"
+                style={{
+                  WebkitMaskImage: `url(${logoSrc})`,
+                  maskImage: `url(${logoSrc})`,
+                }}
+              />
+            ) : null}
           </span>
-          <span className="nav-icon">{iconFor(c)}</span>
-          <span className="nav-name">{c.navLabel}</span>
+          <span className="nav-tab-name">{c.navLabel}</span>
         </Link>
       );
-      return <div key={c.channel}>{mainRowSingle}</div>;
     }
 
     const live = tvLiveSearchParams(searchParams);
@@ -166,84 +171,87 @@ export function SidebarNav({
     const urlCh = live.get("ch");
     const urlChannelMatches =
       urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
-
-    const anyCaseActive =
+    const open = openFolders[channelNum] !== false;
+    const activeEpisodeIndex =
       channelOn &&
       urlChannelMatches &&
       view === "episode" &&
       Number.isFinite(epParsed) &&
       epParsed >= 0 &&
-      epParsed < episodes.length;
-
-    const demoteParent = channelOn && anyCaseActive;
-
-    const mainRow = (
-      <Link
-        href={href}
-        scroll={false}
-        prefetch
-        onPointerDown={onPrimeAudio}
-        onClick={(e) => {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-          e.preventDefault();
-          onSelectChannel(channelNum);
-        }}
-        className={`nav-item nav-chapter-main ${channelOn ? "active" : ""} ${demoteParent ? "nav-chapter-demotion" : ""}`}
-      >
-        <span className="nav-ch" aria-hidden>
-          {String(c.channel).padStart(2, "0")}
-        </span>
-        <span className="nav-icon">{iconFor(c)}</span>
-        <span className="nav-name">{c.navLabel}</span>
-      </Link>
-    );
+      epParsed < episodes.length
+        ? epParsed
+        : -1;
+    const folderActive = channelOn && (!open || activeEpisodeIndex < 0);
 
     return (
-      <div key={c.channel} className="nav-channel-block">
-        {mainRow}
-        <div
-          className={`nav-case-list-shell${channelOn ? " nav-case-list-shell--open" : ""}`}
-          inert={channelOn ? undefined : true}
+      <div key={c.channel} className="nav-folder">
+        <button
+          type="button"
+          className={`nav-tab${folderActive ? " active" : ""}`}
+          aria-expanded={open}
+          aria-current={folderActive ? "page" : undefined}
+          onClick={() => {
+            setOpenFolders((current) => ({
+              ...current,
+              [channelNum]: current[channelNum] === false,
+            }));
+          }}
         >
-          <div className="nav-case-list-shell-inner">
-            <div className="nav-case-list" id={`nav-cases-${c.channel}`}>
-              {episodes.map((ep, i) => {
-                const caseHref = portfolioCaseHref(channelNum, i);
-                const caseActive =
-                  urlChannelMatches &&
-                  view === "episode" &&
-                  Number.isFinite(epParsed) &&
-                  epParsed === i;
-                return (
-                  <Link
-                    key={`${c.channel}-case-${i}`}
-                    href={caseHref}
-                    scroll={false}
-                    prefetch
-                    onPointerDown={onPrimeAudio}
-                    onClick={(e) => {
-                      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                      e.preventDefault();
-                      onNavigateToCaseStudyEpisode(channelNum, i);
-                    }}
-                    className={`nav-item nav-case ${caseActive ? "active" : ""}`}
-                    aria-current={caseActive ? "true" : undefined}
-                  >
-                    <span className="nav-case-label">Episode {i + 1}</span>
-                    <span className="nav-case-title">{ep.title}</span>
-                  </Link>
-                );
-              })}
-            </div>
+          <span className="nav-tab-icon">
+            {logoSrc ? (
+              <span
+                className="nav-tab-logo"
+                style={{
+                  WebkitMaskImage: `url(${logoSrc})`,
+                  maskImage: `url(${logoSrc})`,
+                }}
+              />
+            ) : null}
+          </span>
+          <span className="nav-tab-name">{c.navLabel}</span>
+          <ChevronDown
+            className={`nav-tab-chevron${open ? "" : " is-closed"}`}
+            aria-hidden
+          />
+        </button>
+        {open ? (
+          <div className="nav-folder-episodes">
+            {episodes.map((ep, i) => {
+              const caseHref = portfolioCaseHref(channelNum, i);
+              const caseActive = activeEpisodeIndex === i;
+              return (
+                <Link
+                  key={`${c.channel}-case-${i}`}
+                  href={caseHref}
+                  scroll={false}
+                  prefetch
+                  onPointerDown={onPrimeAudio}
+                  onClick={(e) => {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    e.preventDefault();
+                    onNavigateToCaseStudyEpisode(channelNum, i);
+                  }}
+                  className={`nav-tab nav-tab-episode${caseActive ? " active" : ""}`}
+                  aria-current={caseActive ? "page" : undefined}
+                >
+                  <span className="nav-tab-icon nav-tab-ep" aria-hidden>
+                    E{i + 1}
+                  </span>
+                  <span className="nav-tab-name">{ep.title}</span>
+                </Link>
+              );
+            })}
           </div>
-        </div>
+        ) : null}
       </div>
     );
   };
 
+  const channelLabel = `CH ${String(activeIndex + 1).padStart(2, "0")}`;
+
   return (
     <div
-      className="tv-sidebar-nav flex h-full min-h-0 flex-col border-r border-white/[0.06] bg-black/40 pb-3 pt-4"
+      className="tv-sidebar-nav flex h-full min-h-0 flex-col bg-transparent pb-3"
       style={{
         ["--text" as string]: TV_TEXT,
         ["--muted" as string]: TV_MUTED,
@@ -251,34 +259,106 @@ export function SidebarNav({
         ["--accent" as string]: ACCENT_WORK,
       }}
     >
-      <div className="mb-4 flex h-10 items-center gap-2.5 overflow-hidden px-5">
-        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-white/10 ring-1 ring-white/10">
-          <Image
-            src={SITE_PROFILE_PHOTO}
-            alt="Tise Alatise"
-            width={40}
-            height={40}
-            sizes="40px"
-            className="h-full w-full object-cover"
-            priority
-          />
-        </div>
-        <div className="min-w-0 leading-tight">
-          <div className="truncate text-sm font-medium text-white">Tise Alatise</div>
-          <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-tv-muted">
-            Product Designer
+      <div className="shell-sidebar-head">
+        <div className="shell-sidebar-top">
+          <div className="shell-sidebar-id">
+            <div className="shell-sidebar-avatar">
+              <Image
+                src={SITE_PROFILE_PHOTO}
+                alt=""
+                width={28}
+                height={28}
+                sizes="28px"
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
+            <div className="shell-sidebar-id-text">
+              <div className="shell-sidebar-name">Tise Alatise</div>
+              <div className="shell-sidebar-role">Product designer</div>
+            </div>
           </div>
+          <button
+            type="button"
+            className="shell-sidebar-toggle"
+            aria-label="Hide sidebar"
+            onClick={onHideSidebar}
+          >
+            <PanelLeftClose className="h-4 w-4" aria-hidden />
+          </button>
         </div>
+
+        <div className="shell-tune" role="group" aria-label="Channel switcher">
+          <button
+            type="button"
+            className="shell-tune-step"
+            aria-label="Previous channel"
+            disabled={channelChangeDisabled}
+            onClick={onPrevChannel}
+          >
+            <DownTriangle />
+          </button>
+          <div
+            key={flickerKey}
+            className={`shell-tune-screen${flickerOn ? " is-flicker" : ""}`}
+          >
+            {channelLabel}
+          </div>
+          <button
+            type="button"
+            className="shell-tune-step"
+            aria-label="Next channel"
+            disabled={channelChangeDisabled}
+            onClick={onNextChannel}
+          >
+            <UpTriangle />
+          </button>
+        </div>
+
+        <nav className="nav-pins" aria-label="Side projects">
+          {side.map((c) => {
+            const channelNum = c.channel as ChannelNumber;
+            const channelOn = channelOnFor(c.channel);
+            const href = homeHrefForChannel(channelNum);
+            const logo = c.projectSlug ? SIDE_PIN_LOGOS[c.projectSlug] : undefined;
+            return (
+              <Link
+                key={c.channel}
+                href={href}
+                scroll={false}
+                prefetch
+                onPointerDown={onPrimeAudio}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                  e.preventDefault();
+                  onSelectChannel(channelNum);
+                }}
+                className={`nav-pin${channelOn ? " active" : ""}`}
+                aria-label={c.navLabel}
+                aria-current={channelOn ? "page" : undefined}
+              >
+                {logo ? (
+                  <Image
+                    src={logo.src}
+                    alt=""
+                    width={160}
+                    height={120}
+                    sizes="48px"
+                    className={`nav-pin-logo is-${logo.fit}`}
+                  />
+                ) : null}
+                <span className="nav-pin-tip" aria-hidden>
+                  {c.navLabel}
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
 
-      <div className="mb-4 h-px bg-white/[0.06]" aria-hidden />
-
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="nav-section-label">Work experience</div>
-        <nav className="mb-4">{work.map(channelBlock)}</nav>
-        <div className="nav-section-label spaced">Side Projects</div>
-        <nav>{side.map(channelBlock)}</nav>
-      </div>
+      <nav className="nav-work" aria-label="Work experience">
+        {work.map(channelBlock)}
+      </nav>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import type { MouseEvent } from "react";
 import Link from "next/link";
 import { FileText, Mail, User } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -33,9 +34,11 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-function portfolioHrefWithView(
+export type PortfolioIconView = "about" | "resume";
+
+export function portfolioHrefWithView(
   searchParams: { toString(): string },
-  view: "about" | "resume",
+  view: PortfolioIconView,
 ) {
   const q = tvLiveSearchParams(searchParams);
   q.delete(SIGNAL_LOST_PARAM);
@@ -73,6 +76,14 @@ export function SidebarIcons({
     ? "inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-tv-pink transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
     : baseIconClass;
 
+  const openInView = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    syncTvHistoryBeforeRouter(href);
+    router.replace(href, { scroll: false });
+    onAfterPortfolioQueryNav?.();
+  };
+
   return (
     <div className="flex justify-center gap-3 px-1 pt-1">
       <Link
@@ -80,38 +91,40 @@ export function SidebarIcons({
         className={aboutIconClass}
         aria-label="About"
         onPointerDown={onPrimeAudio}
-        onClick={(e) => {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-          e.preventDefault();
-          syncTvHistoryBeforeRouter(aboutHref);
-          router.replace(aboutHref, { scroll: false });
-          onAfterPortfolioQueryNav?.();
-        }}
+        onClick={(e) => openInView(e, aboutHref)}
       >
         <User className="h-[18px] w-[18px]" aria-hidden />
       </Link>
-      <a href={LINKEDIN_URL} className={baseIconClass} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer" onPointerDown={onPrimeAudio}>
-        <LinkedInIcon className="h-4 w-4" />
-      </a>
-      <a href={TWITTER_URL} className={baseIconClass} aria-label="X" target="_blank" rel="noopener noreferrer" onPointerDown={onPrimeAudio}>
-        <XIcon className="h-4 w-4" />
-      </a>
       <Link
         href={resumeHref}
         className={resumeIconClass}
         aria-label="Resume"
         aria-current={resumeActive ? "page" : undefined}
         onPointerDown={onPrimeAudio}
-        onClick={(e) => {
-          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-          e.preventDefault();
-          syncTvHistoryBeforeRouter(resumeHref);
-          router.replace(resumeHref, { scroll: false });
-          onAfterPortfolioQueryNav?.();
-        }}
+        onClick={(e) => openInView(e, resumeHref)}
       >
         <FileText className="h-[18px] w-[18px]" aria-hidden />
       </Link>
+      <a
+        href={TWITTER_URL}
+        className={baseIconClass}
+        aria-label="X"
+        target="_blank"
+        rel="noopener noreferrer"
+        onPointerDown={onPrimeAudio}
+      >
+        <XIcon className="h-4 w-4" />
+      </a>
+      <a
+        href={LINKEDIN_URL}
+        className={baseIconClass}
+        aria-label="LinkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
+        onPointerDown={onPrimeAudio}
+      >
+        <LinkedInIcon className="h-4 w-4" />
+      </a>
       <a
         href={`mailto:${EMAIL}?subject=${encodeURIComponent("Hi, coming from your portfolio.")}`}
         className={baseIconClass}

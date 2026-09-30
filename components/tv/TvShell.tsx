@@ -13,7 +13,6 @@ import type { Project } from "@/app/types";
 import {
   CHANNELS,
   SIGNAL_LOST_PARAM,
-  TV_CHANNEL_COUNT,
   type ChannelNumber,
   channelByNumber,
   homeSearchParamsForChannel,
@@ -27,7 +26,6 @@ import { playChannelFlipSound, primeAudioContext } from "@/lib/playChannelFlipSo
 import { ChannelOsd } from "./ChannelOsd";
 import { MainViewport } from "./MainViewport";
 import { MobileResumeView } from "./MobileResumeView";
-import { RemotePill } from "./RemotePill";
 import { ScanlineOverlay } from "./ScanlineOverlay";
 import { SidebarIcons } from "./SidebarIcons";
 import { SidebarNav } from "./SidebarNav";
@@ -42,19 +40,16 @@ import {
   TOTAL_TRANSITION_MS,
 } from "./tv-timing";
 import { channelIndexFromDigit, useTvKeyboard, wrapChannelIndex } from "./useTvKeyboard";
+import { useMinMd } from "./useMinMd";
 
 type Phase = "idle" | "dissolve" | "static" | "fade";
 
-function useMinMd() {
-  const [md, setMd] = useState(false);
-  useLayoutEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const fn = () => setMd(mq.matches);
-    fn();
-    mq.addEventListener("change", fn);
-    return () => mq.removeEventListener("change", fn);
-  }, []);
-  return md;
+function isShellOverlayView(view: string) {
+  return (
+    view === "about" ||
+    view === "resume" ||
+    view === "gallery"
+  );
 }
 
 function useReducedMotion() {
@@ -462,9 +457,17 @@ export function TvShell({ projects }: TvShellProps) {
           ? Number.parseInt(epRaw, 10)
           : 0;
       const currentEp = Number.isFinite(parsedEp) ? Math.max(0, parsedEp) : 0;
-      if (fromIdx === toIdx && ep === currentEp) return;
+      const view = live.get("view") ?? "";
+      const overlayOpen = isShellOverlayView(view);
+      /** About and Resume drop `ep`, so episode 1 looks like the current selection and the click no-ops. */
+      const alreadyOnEpisode =
+        fromIdx === toIdx && ep === currentEp && !overlayOpen;
+      if (alreadyOnEpisode) return;
 
-      runTransition(fromIdx, toIdx, { targetEpisodeIndex: ep });
+      runTransition(fromIdx, toIdx, {
+        targetEpisodeIndex: ep,
+        forceUrlSync: overlayOpen && fromIdx === toIdx && ep === currentEp,
+      });
     },
     [isTransitioning, primeAudioContext, runTransition, searchParams],
   );
@@ -483,8 +486,7 @@ export function TvShell({ projects }: TvShellProps) {
       const fromIdx =
         parsed.mode === "channel" ? parsed.channel - 1 : channelIndex;
       const view = live.get("view") ?? "";
-      const overlayOpen =
-        view === "about" || view === "resume" || view === "gallery";
+      const overlayOpen = isShellOverlayView(view);
       /** CH 01–05 must land on `view=episode`; same-channel click was no-op when URL omitted `view`. */
       const needsEpisodeCanonical =
         !overlayOpen &&
@@ -551,7 +553,7 @@ export function TvShell({ projects }: TvShellProps) {
   const aboutActive = viewParam === "about";
   const resumeActive = viewParam === "resume";
 
-  const accentClass = signalLost ? "text-tv-muted" : "text-tv-pink";
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const mainTransition =
     phase === "dissolve"
@@ -562,7 +564,7 @@ export function TvShell({ projects }: TvShellProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-0 flex flex-col bg-tv-bg text-tv-text ${cursorClass}`}
+      className={`shell-page fixed inset-0 z-0 flex flex-col text-tv-text ${cursorClass}`}
     >
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto md:flex-row md:overflow-hidden">
         <div className="md:hidden">
@@ -575,7 +577,12 @@ export function TvShell({ projects }: TvShellProps) {
         >
           <aside
             id="sidebar"
-            className="flex w-[min(100%,280px)] shrink-0 flex-col border-r border-white/[0.06]"
+            className={
+              sidebarOpen
+                ? "shell-sidebar flex min-h-0 flex-col"
+                : "hidden"
+            }
+            aria-hidden={!sidebarOpen}
           >
             <div className="min-h-0 flex-1 overflow-hidden">
               <SidebarNav
@@ -586,69 +593,66 @@ export function TvShell({ projects }: TvShellProps) {
                 onSelectChannel={selectChannel}
                 onNavigateToCaseStudyEpisode={navigateToCaseStudyEpisode}
                 onPrimeAudio={primeAudioContext}
+                onHideSidebar={() => setSidebarOpen(false)}
+                onPrevChannel={onPrev}
+                onNextChannel={onNext}
+                channelChangeDisabled={isTransitioning}
               />
             </div>
-            <div className="shrink-0 pb-2 flex flex-col gap-3">
-              <div className="px-6">
-                <RemotePill
-                  accentClass={accentClass}
-                  channelDisplay={
-                    signalLost
-                      ? `CH -- / ${String(TV_CHANNEL_COUNT).padStart(2, "0")}`
-                      : aboutActive
-                        ? "About me"
-                        : resumeActive
-                          ? "Resume"
-                          : `CH ${String(channelIndex + 1).padStart(2, "0")} / ${String(TV_CHANNEL_COUNT).padStart(2, "0")}`
-                  }
-                  onUp={onPrev}
-                  onDown={onNext}
-                  disabled={isTransitioning}
-                />
-              </div>
-              <div className="px-2">
-                <SidebarIcons
-                  aboutActive={aboutActive}
-                  resumeActive={resumeActive}
-                  onPrimeAudio={primeAudioContext}
-                  onAfterPortfolioQueryNav={syncShellToQuery}
-                />
-              </div>
+            <div className="shrink-0 px-2 pb-2">
+              <SidebarIcons
+                aboutActive={aboutActive}
+                resumeActive={resumeActive}
+                onPrimeAudio={primeAudioContext}
+                onAfterPortfolioQueryNav={syncShellToQuery}
+              />
             </div>
           </aside>
 
           <div
             id="main"
-            className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-black"
+            className={`shell-card ${sidebarOpen ? "" : "is-sidebar-hidden"}`}
           >
-            <div className="relative flex min-h-0 flex-1">
-              <div className="relative min-h-0 flex-1">
-                <MainViewport
-                  channelIndex={displayIndex}
-                  signalLost={signalLost}
-                  projects={projects}
-                  interactionLocked={isMd && isTransitioning}
-                  contentOpacity={mainOpacity}
-                  contentTransition={mainTransition}
-                  onAfterQueryReplace={syncShellToQuery}
-                />
+            {sidebarOpen ? null : (
+              <button
+                type="button"
+                className="shell-show-sidebar"
+                autoFocus
+                onClick={() => setSidebarOpen(true)}
+              >
+                Show sidebar
+              </button>
+            )}
+            <div className="shell-card-scroll relative flex min-h-0 flex-1 flex-col">
+              <div className="relative flex min-h-0 flex-1">
+                <div className="relative min-h-0 flex-1">
+                  <MainViewport
+                    channelIndex={displayIndex}
+                    signalLost={signalLost}
+                    projects={projects}
+                    interactionLocked={isMd && isTransitioning}
+                    contentOpacity={mainOpacity}
+                    contentTransition={mainTransition}
+                    onAfterQueryReplace={syncShellToQuery}
+                  />
+                </div>
+
+                {osd ? (
+                  <ChannelOsd
+                    lines={osd.lines}
+                    variant={osd.variant}
+                    visible
+                    persistent={osd.persistent}
+                  />
+                ) : null}
+
+                {isMd ? (
+                  <StaticNoiseCanvas
+                    active={staticHold && !reducedMotion}
+                    className="z-40"
+                  />
+                ) : null}
               </div>
-
-              {osd ? (
-                <ChannelOsd
-                  lines={osd.lines}
-                  variant={osd.variant}
-                  visible
-                  persistent={osd.persistent}
-                />
-              ) : null}
-
-              {isMd ? (
-                <StaticNoiseCanvas
-                  active={staticHold && !reducedMotion}
-                  className="z-40"
-                />
-              ) : null}
             </div>
           </div>
         </div>

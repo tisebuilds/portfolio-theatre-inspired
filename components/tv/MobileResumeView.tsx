@@ -314,14 +314,26 @@ export function MobileResumeView({ projects }: MobileResumeViewProps) {
       </section>
 
       <div className="mt-auto mb-6 flex flex-wrap justify-center gap-x-5 gap-y-3 px-1 pb-2 pt-2 sm:gap-x-6">
-        <a href={LINKEDIN_URL} className={baseIconClass} aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-          <LinkedInIcon className="h-5 w-5" />
-        </a>
-        <a href={TWITTER_URL} className={baseIconClass} aria-label="X" target="_blank" rel="noopener noreferrer">
-          <XIcon className="h-5 w-5" />
-        </a>
         <a href={RESUME_URL} className={baseIconClass} aria-label="Resume" target="_blank" rel="noopener noreferrer">
           <FileText className="h-5 w-5" aria-hidden />
+        </a>
+        <a
+          href={TWITTER_URL}
+          className={baseIconClass}
+          aria-label="X"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <XIcon className="h-5 w-5" />
+        </a>
+        <a
+          href={LINKEDIN_URL}
+          className={baseIconClass}
+          aria-label="LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <LinkedInIcon className="h-5 w-5" />
         </a>
         <a
           href={`mailto:${EMAIL}?subject=${encodeURIComponent("Hi, coming from your portfolio.")}`}

@@ -3,7 +3,10 @@
 import { useLayoutEffect, useState } from "react";
 
 export function useMinMd() {
-  const [md, setMd] = useState(false);
+  const [md, setMd] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 768px)").matches;
+  });
   useLayoutEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const fn = () => setMd(mq.matches);

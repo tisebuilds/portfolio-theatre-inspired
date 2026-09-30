@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -16,6 +15,7 @@ import {
 } from "@/lib/channels";
 import { rampSpendEpisodes } from "@/data/case-studies/ramp-spend";
 import { rampTreasuryEpisodes } from "@/data/case-studies/ramp-treasury";
+import { SITE_PROFILE_PHOTO } from "@/lib/site";
 import { tvLiveSearchParams } from "@/lib/tv-live-search-params";
 
 type SidebarNavProps = {
@@ -64,7 +64,7 @@ const SIDE_PIN_LOGOS: Record<string, { src: string; fit: string }> = {
   "letterboxd-website-wall": { src: "/media/logos/letterboxd.png", fit: "letterboxd" },
   "ipod-concert-diary": { src: "/media/logos/ipod.png", fit: "ipod" },
   "dinner-party-seating-chart": { src: "/media/logos/dinner-party-mark.png", fit: "dinner" },
-  "colorstack-events": { src: "/media/logos/colorstack-icon.png", fit: "colorstack" },
+  "colorstack-events": { src: "/media/logos/colorstack-events.png", fit: "colorstack" },
 };
 
 const WORK_LOGOS: Record<string, string> = {
@@ -84,6 +84,21 @@ function episodeViewForChannel(
   return raw;
 }
 
+function rampFoldersOnLoad(
+  activeIndex: number,
+  signalLost: boolean,
+  aboutActive: boolean,
+  resumeActive: boolean,
+): Partial<Record<ChannelNumber, boolean>> {
+  if (signalLost || aboutActive || resumeActive) {
+    return { 1: false, 2: false };
+  }
+  return {
+    1: activeIndex === 0,
+    2: activeIndex === 1,
+  };
+}
+
 export function SidebarNav({
   activeIndex,
   signalLost,
@@ -99,10 +114,9 @@ export function SidebarNav({
   const searchParams = useSearchParams();
   const [flickerKey, setFlickerKey] = useState(0);
   const [flickerOn, setFlickerOn] = useState(false);
-  const [openFolders, setOpenFolders] = useState<Partial<Record<ChannelNumber, boolean>>>({
-    1: true,
-    2: true,
-  });
+  const [openFolders, setOpenFolders] = useState<Partial<Record<ChannelNumber, boolean>>>(
+    () => rampFoldersOnLoad(activeIndex, signalLost, aboutActive, resumeActive),
+  );
   const skipFlicker = useRef(true);
   const channelLabel = aboutActive
     ? "About"
@@ -120,6 +134,18 @@ export function SidebarNav({
     const timer = window.setTimeout(() => setFlickerOn(false), 320);
     return () => window.clearTimeout(timer);
   }, [channelLabel]);
+
+  useEffect(() => {
+    if (signalLost || aboutActive || resumeActive) {
+      setOpenFolders({ 1: false, 2: false });
+      return;
+    }
+    const channel = (activeIndex + 1) as ChannelNumber;
+    setOpenFolders({
+      1: channel === 1,
+      2: channel === 2,
+    });
+  }, [activeIndex, aboutActive, resumeActive, signalLost]);
 
   const work = CHANNELS.filter((c) => c.group === "work");
   const side = CHANNELS.filter((c) => c.group === "side");
@@ -173,7 +199,7 @@ export function SidebarNav({
     const urlCh = live.get("ch");
     const urlChannelMatches =
       urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
-    const open = openFolders[channelNum] !== false;
+    const open = openFolders[channelNum] === true;
     const activeEpisodeIndex =
       channelOn &&
       urlChannelMatches &&
@@ -193,10 +219,16 @@ export function SidebarNav({
           aria-expanded={open}
           aria-current={folderActive ? "page" : undefined}
           onClick={() => {
-            setOpenFolders((current) => ({
-              ...current,
-              [channelNum]: current[channelNum] === false,
-            }));
+            setOpenFolders((current) => {
+              const nextOpen = !current[channelNum];
+              if (!nextOpen) {
+                return { ...current, [channelNum]: false };
+              }
+              return {
+                1: channelNum === 1,
+                2: channelNum === 2,
+              };
+            });
           }}
         >
           <span className="nav-tab-icon">
@@ -211,10 +243,6 @@ export function SidebarNav({
             ) : null}
           </span>
           <span className="nav-tab-name">{c.navLabel}</span>
-          <ChevronDown
-            className={`nav-tab-chevron${open ? "" : " is-closed"}`}
-            aria-hidden
-          />
         </button>
         {open ? (
           <div className="nav-folder-episodes">
@@ -262,6 +290,17 @@ export function SidebarNav({
       <div className="shell-sidebar-head">
         <div className="shell-sidebar-top">
           <div className="shell-sidebar-id">
+            <div className="shell-sidebar-avatar">
+              <Image
+                src={SITE_PROFILE_PHOTO}
+                alt=""
+                width={16}
+                height={16}
+                sizes="16px"
+                className="h-full w-full object-cover"
+                priority
+              />
+            </div>
             <div className="shell-sidebar-id-text">
               <div className="shell-sidebar-name">Tise Alatise</div>
             </div>
@@ -272,7 +311,6 @@ export function SidebarNav({
 
       <div className="nav-lists">
         <nav className="nav-work" aria-label="Work experience">
-          <div className="nav-section-label">Work experience</div>
           {work.map(channelBlock)}
         </nav>
 

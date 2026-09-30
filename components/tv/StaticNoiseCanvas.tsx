@@ -1,16 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useLayoutEffect, useRef } from "react";
 
-function drawFrame(
-  ctx: CanvasRenderingContext2D,
-  w: number,
-  h: number,
-  imageData: ImageData,
-  data: Uint8ClampedArray,
-) {
-  const len = w * h * 4;
-  for (let i = 0; i < len; i += 4) {
+const GRAIN = 3;
+
+function paintNoise(canvas: HTMLCanvasElement) {
+  const parent = canvas.parentElement;
+  const rect = parent?.getBoundingClientRect();
+  const cssW = rect?.width ?? window.innerWidth;
+  const cssH = rect?.height ?? window.innerHeight;
+  const w = Math.max(1, Math.floor(cssW / GRAIN));
+  const h = Math.max(1, Math.floor(cssH / GRAIN));
+  if (canvas.width !== w) canvas.width = w;
+  if (canvas.height !== h) canvas.height = h;
+
+  const ctx = canvas.getContext("2d", { alpha: false }) ?? canvas.getContext("2d");
+  if (!ctx) return;
+  const imageData = ctx.createImageData(w, h);
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
     const g = (Math.random() * 255) | 0;
     data[i] = g;
     data[i + 1] = g;
@@ -18,12 +26,6 @@ function drawFrame(
     data[i + 3] = 255;
   }
   ctx.putImageData(imageData, 0, 0);
-  ctx.save();
-  for (let y = 0; y < h; y += 3) {
-    ctx.fillStyle = "rgba(0,0,0,0.15)";
-    ctx.fillRect(0, y, w, 1);
-  }
-  ctx.restore();
 }
 
 type StaticNoiseCanvasProps = {
@@ -35,55 +37,29 @@ type StaticNoiseCanvasProps = {
 export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
-  const imageDataRef = useRef<ImageData | null>(null);
 
   const loop = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || !active) return;
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return;
-    const w = canvas.width;
-    const h = canvas.height;
-    if (w === 0 || h === 0) {
-      rafRef.current = requestAnimationFrame(loop);
-      return;
-    }
-    let imageData = imageDataRef.current;
-    if (!imageData || imageData.width !== w || imageData.height !== h) {
-      imageData = ctx.createImageData(w, h);
-      imageDataRef.current = imageData;
-    }
-    drawFrame(ctx, w, h, imageData, imageData.data);
+    paintNoise(canvas);
     rafRef.current = requestAnimationFrame(loop);
   }, [active]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!active) {
       cancelAnimationFrame(rafRef.current);
       return;
     }
+    const canvas = canvasRef.current;
+    if (canvas) paintNoise(canvas);
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
   }, [active, loop]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio ?? 1, 2);
-      const parent = canvas.parentElement;
-      const rect = parent?.getBoundingClientRect();
-      const w = rect?.width ?? window.innerWidth;
-      const h = rect?.height ?? window.innerHeight;
-      canvas.width = Math.max(1, Math.floor(w * dpr));
-      canvas.height = Math.max(1, Math.floor(h * dpr));
-      const ctx = canvas.getContext("2d");
-      if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    resize();
-    requestAnimationFrame(resize);
+    if (!canvas || !active) return;
+    const resize = () => paintNoise(canvas);
     const ro =
       typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(() => resize())
@@ -94,7 +70,7 @@ export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps)
       if (ro) ro.disconnect();
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [active]);
 
   if (!active) return null;
 
@@ -109,6 +85,7 @@ export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps)
         width: "100%",
         height: "100%",
         pointerEvents: "none",
+        imageRendering: "pixelated",
       }}
     />
   );

@@ -53,7 +53,10 @@ function isShellOverlayView(view: string) {
 }
 
 function useReducedMotion() {
-  const [rm, setRm] = useState(false);
+  const [rm, setRm] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const fn = () => setRm(mq.matches);
@@ -78,6 +81,8 @@ export function TvShell({ projects }: TvShellProps) {
 
   const timersRef = useRef<number[]>([]);
   const bootedThisMountRef = useRef(false);
+  /** True while the first-load static burst owns the screen. Blocks the URL rewrite that would otherwise run in the same turn and skip the burst. */
+  const bootHoldRef = useRef(false);
   const clearTimers = useCallback(() => {
     timersRef.current.forEach((id) => clearTimeout(id));
     timersRef.current = [];
@@ -149,13 +154,12 @@ export function TvShell({ projects }: TvShellProps) {
     return () => clearTimers();
   }, [clearTimers]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isMd) return;
     if (reducedMotion) return;
     if (signalLost) return;
     if (bootedThisMountRef.current) return;
 
-    const BOOT_STATIC_MS = 600;
     const key = "tvBooted";
     let alreadyBooted = false;
     try {
@@ -163,26 +167,42 @@ export function TvShell({ projects }: TvShellProps) {
     } catch {
       alreadyBooted = false;
     }
-    if (alreadyBooted) return;
-
-    bootedThisMountRef.current = true;
-    try {
-      window.sessionStorage.setItem(key, "1");
-    } catch {
-      // ignore
+    if (alreadyBooted) {
+      bootedThisMountRef.current = true;
+      return;
     }
 
-    clearTimers();
+    // Before paint, so the first frame is static — not the case study.
+    bootHoldRef.current = true;
     setScanOpacity(SCANLINE_PEAK);
+    setMainOpacity(0);
     setPhase("static");
+  }, [isMd, reducedMotion, signalLost]);
 
+  useEffect(() => {
+    if (!bootHoldRef.current) return;
+
+    const BOOT_STATIC_MS = 600;
+    const key = "tvBooted";
     const t1 = window.setTimeout(() => setPhase("fade"), BOOT_STATIC_MS);
     const t2 = window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem(key, "1");
+      } catch {
+        // ignore
+      }
+      bootHoldRef.current = false;
+      bootedThisMountRef.current = true;
       setPhase("idle");
       setScanOpacity(SCANLINE_REST);
     }, BOOT_STATIC_MS + FADE_IN_MS);
     timersRef.current.push(t1, t2);
-  }, [clearTimers, isMd, reducedMotion, signalLost]);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      timersRef.current = timersRef.current.filter((id) => id !== t1 && id !== t2);
+    };
+  }, [isMd, reducedMotion, signalLost]);
 
   useLayoutEffect(() => {
     if (phase === "dissolve") {
@@ -203,7 +223,7 @@ export function TvShell({ projects }: TvShellProps) {
   }, [phase]);
 
   useEffect(() => {
-    if (isTransitioning) return;
+    if (bootHoldRef.current || isTransitioning) return;
     const live = tvLiveSearchParams(searchParams);
     const p = parseChannelFromSearchParams(live);
     if (p.mode === "signalLost") {
@@ -223,7 +243,7 @@ export function TvShell({ projects }: TvShellProps) {
   }, [searchParams, isTransitioning]);
 
   useEffect(() => {
-    if (isTransitioning) return;
+    if (bootHoldRef.current || isTransitioning) return;
     const live = tvLiveSearchParams(searchParams);
     const parsed = parseChannelFromSearchParams(live);
     if (parsed.mode !== "channel") return;

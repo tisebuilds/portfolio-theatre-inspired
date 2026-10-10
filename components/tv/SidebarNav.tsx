@@ -197,8 +197,14 @@ export function SidebarNav({
     const epRaw = live.get("ep");
     const epParsed = epRaw !== null ? Number.parseInt(epRaw, 10) : 0;
     const urlCh = live.get("ch");
-    const urlChannelMatches =
-      urlCh !== null && Number.parseInt(urlCh, 10) === c.channel;
+    /**
+     * Bare `/` has no `ch`. That is channel 1 (`parseChannelFromSearchParams`),
+     * already showing episode 0. Requiring an explicit `ch` highlighted the
+     * folder row instead, and episode clicks then no-op'd as "already there".
+     */
+    const parsedUrlChannel =
+      urlCh === null || urlCh === "" ? 1 : Number.parseInt(urlCh, 10);
+    const urlChannelMatches = parsedUrlChannel === c.channel;
     const open = openFolders[channelNum] === true;
     const activeEpisodeIndex =
       channelOn &&

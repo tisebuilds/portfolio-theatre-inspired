@@ -259,8 +259,12 @@ export function TvShell({ projects }: TvShellProps) {
     next.set("ch", String(chNum));
     next.set("view", "episode");
     if (!next.has("ep")) next.set("ep", "0");
-    router.replace(`/?${next.toString()}`, { scroll: false });
-  }, [isTransitioning, router, searchParams]);
+    const href = `/?${next.toString()}`;
+    /** Write the location bar first so sidebar and click handlers don't keep reading `/`. */
+    syncTvHistoryBeforeRouter(href);
+    router.replace(href, { scroll: false });
+    syncShellToQuery();
+  }, [isTransitioning, router, searchParams, syncShellToQuery]);
 
   const pushUrl = useCallback(
     (

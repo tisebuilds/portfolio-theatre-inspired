@@ -1,6 +1,6 @@
 import { SITE_MEDIA } from "@/lib/site-media";
 
-/** Shared outbound links (keep in sync with NavBar). */
+/** Shared outbound links for the TV shell. */
 export const SITE_PROFILE_PHOTO = SITE_MEDIA.site.profilePhoto;
 
 export const SITE_LINKEDIN = "https://linkedin.com/in/tise-faith-alatise";

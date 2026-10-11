@@ -4,9 +4,19 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/work/:slug/case-study-coming-soon",
-        destination: "/work/:slug",
-        permanent: true,
+        source: "/work/ramp-spend",
+        destination: "/?ch=1&view=episode&ep=0",
+        permanent: false,
+      },
+      {
+        source: "/work/ramp-treasury",
+        destination: "/?ch=2&view=episode&ep=0",
+        permanent: false,
+      },
+      {
+        source: "/work/:path*",
+        destination: "/",
+        permanent: false,
       },
       {
         source: "/posters/figma-case-study-hero.png",

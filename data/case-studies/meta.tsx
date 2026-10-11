@@ -4,16 +4,8 @@ import {
 } from "@/components/StandardWorkCaseStudy";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
-import workData from "@/data/work.json";
-import type { WorkExperience } from "@/app/types";
 import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 import { CaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
-
-const experiences = workData as WorkExperience[];
-const metaExp = experiences.find((e) => e.slug === "meta");
-if (!metaExp?.poster) {
-  throw new Error("Meta work entry needs a poster image path.");
-}
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   [
@@ -112,8 +104,8 @@ const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
 
 export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
   idPrefix: "meta",
-  title: metaExp.title,
-  dateRange: metaExp.dateRange,
+  title: "Meta",
+  dateRange: "Summer 2022",
   meta: (
     <>
       <span>Product Design Intern, Flex Platform</span>

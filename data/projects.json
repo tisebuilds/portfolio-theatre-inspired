@@ -29,31 +29,5 @@
     "tagline": "A playful way to plan who sits where.",
     "dateRange": "2026",
     "video": "/media/projects/dinner-party-seating-chart-demo-1.mp4"
-  },
-  {
-    "slug": "flo-tinydesk-fan-tribute",
-    "title": "Flo Tiny Desk fan tribute",
-    "dateRange": "2026",
-    "videoSound": true,
-    "tvEmbedUrl": "https://flo-tinydesk-fan-tribute.vercel.app/",
-    "externalUrl": "https://flo-tinydesk-fan-tribute.vercel.app/",
-    "externalLinkLabel": "Visit fan page"
-  },
-  {
-    "slug": "format-mode",
-    "title": "Format Mode",
-    "tagline": "Editing on the Go",
-    "externalUrl": "https://medium.com/usabilitygeek/google-doc-concept-format-mode-86d2b8811cf1",
-    "externalLinkLabel": "Case Study",
-    "dateRange": "2020",
-    "video": "https://www.youtube.com/watch?v=X_ZJH-SCsFA"
-  },
-  {
-    "slug": "htr",
-    "title": "Handwriting Text Recognition (HTR)",
-    "externalUrl": "https://docs.google.com/document/d/1bymvK891woAEUb7ftTYT2m_uFJ85pARJfDI1s9oAWlQ/edit?tab=t.0",
-    "externalLinkLabel": "Final Report",
-    "dateRange": "2023",
-    "poster": "/media/projects/htr.png"
   }
 ]

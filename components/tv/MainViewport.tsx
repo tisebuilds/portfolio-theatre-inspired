@@ -167,17 +167,15 @@ function DemoChannel({ project }: { project: Project }) {
           </a>
         </div>
       ) : null}
-      {project.slug !== "flo-tinydesk-fan-tribute" ? (
-        <span
-          className={
-            project.slug === "ipod-concert-diary"
-              ? "absolute right-3 top-3 rounded bg-black/85 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white"
-              : "absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-tv-muted"
-          }
-        >
-          Applet
-        </span>
-      ) : null}
+      <span
+        className={
+          project.slug === "ipod-concert-diary"
+            ? "absolute right-3 top-3 rounded bg-black/85 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white"
+            : "absolute right-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-tv-muted"
+        }
+      >
+        Applet
+      </span>
     </div>
   );
 }

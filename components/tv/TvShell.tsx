@@ -486,14 +486,18 @@ export function TvShell({ projects }: TvShellProps) {
       /** About and Resume drop `ep`, so episode 1 looks like the current selection and the click no-ops. */
       const alreadyOnEpisode =
         fromIdx === toIdx && ep === currentEp && !overlayOpen;
-      if (alreadyOnEpisode) return;
+      /** URL can already say this episode while About is still on screen. Refresh instead of no-op. */
+      if (alreadyOnEpisode) {
+        syncShellToQuery();
+        return;
+      }
 
       runTransition(fromIdx, toIdx, {
         targetEpisodeIndex: ep,
         forceUrlSync: overlayOpen && fromIdx === toIdx && ep === currentEp,
       });
     },
-    [isTransitioning, primeAudioContext, runTransition, searchParams],
+    [isTransitioning, primeAudioContext, runTransition, searchParams, syncShellToQuery],
   );
 
   const selectChannel = useCallback(

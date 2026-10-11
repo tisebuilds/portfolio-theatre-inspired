@@ -17,6 +17,7 @@ const metaEpisode: RampEpisode = {
     aspect: "web",
     src: metaCaseStudyContent.hero.src,
     alt: metaCaseStudyContent.hero.alt,
+    enlarged: true,
   },
   outcomeRich: metaCaseStudyContent.overview,
   learningsRich: (

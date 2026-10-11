@@ -357,6 +357,7 @@
   color: var(--muted);
   padding: 0 10px;
   margin-bottom: 4px;
+  text-transform: uppercase;
 }
 
 .tv-sidebar-nav .nav-section-label.spaced {

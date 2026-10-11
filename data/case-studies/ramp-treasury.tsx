@@ -137,6 +137,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       src: "/media/ramp/treasury/move-money-drawer.mp4",
       alt: "Move money drawer hero",
       media: "video",
+      enlarged: true,
     },
     outcomeRich: (
       <>
@@ -151,13 +152,10 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       </>
     ),
     metrics: [
-      {
-        value: "$959,927.75",
-        label: "SUCCESSFUL CHECK DEPOSITS",
-      },
-      { value: "$63.9M", label: "COMPLETED PAYMENT VOLUME" },
-      { value: "1,106", label: "COMPLETED PAYMENTS" },
-      { value: "222", label: "BUSINESSES WITH PAYMENTS" },
+      { value: "$63.9M", label: "PAYMENT VOLUME" },
+      { value: "1,106", label: "PAYMENTS COMPLETED" },
+      { value: "222", label: "ACTIVE BUSINESSES" },
+      { value: "$960K", label: "CHECK DEPOSITS" },
     ],
     stuffBullets: [
       "Added arrival date input box to increase clarity on when transfers and deposits would settle in an RBA.",
@@ -166,13 +164,14 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       'Updated CTAs and drawer name from "Transfer funds" to "Move money" based on expanded capabilities.',
     ],
     screenGrid: {
-      layout: "mg4",
+      layout: "sideStage",
       cells: [
         {
           aspect: "r9-16",
           src: "/media/ramp/treasury/move-money-arrival-date.mp4",
           alt: "Arrival date — primary web view",
           placeholderLabel: "Primary web view",
+          caption: "Transfer",
           media: "video",
         },
         {
@@ -180,6 +179,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
           src: "/media/ramp/treasury/move-money-check-deposits.mp4",
           alt: "Check deposits",
           placeholderLabel: "Check deposits",
+          caption: "Deposit check",
           media: "video",
         },
         {
@@ -187,6 +187,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
           src: "/media/ramp/treasury/move-money-send-money-1.mp4",
           alt: "Send money — web",
           placeholderLabel: "Send money",
+          caption: "Send payment",
           media: "video",
         },
         {
@@ -194,6 +195,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
           src: "/media/ramp/treasury/move-money-send-money-2-mobile.mp4",
           alt: "Send money — mobile",
           placeholderLabel: "Send money — mobile",
+          caption: "Mobile view",
           media: "video",
         },
       ],
@@ -221,6 +223,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       aspect: "web",
       alt: "RBA cashback redemption — new vs existing customer",
       media: "video",
+      enlarged: true,
       videoVariants: [
         {
           label: "New customer",

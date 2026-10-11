@@ -7,6 +7,10 @@ import {
   playChannelFlipSound,
   primeAudioContext,
 } from "@/lib/playChannelFlipSound";
+import {
+  syncTvHistoryBeforeRouter,
+  tvLiveSearchParams,
+} from "@/lib/tv-live-search-params";
 import type { AboutPhilosophyNavItem } from "@/data/about-philosophy-nav";
 import { isOutcomePickCard } from "@/data/about-philosophy-nav";
 
@@ -24,9 +28,14 @@ function useReducedMotion() {
 
 type PhilosophyNavCardProps = {
   item: AboutPhilosophyNavItem;
+  /** TV shell re-reads the location bar. `router.replace` alone can leave About on screen. */
+  onAfterQueryReplace?: () => void;
 };
 
-export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
+export function PhilosophyNavCard({
+  item,
+  onAfterQueryReplace,
+}: PhilosophyNavCardProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const reducedMotion = useReducedMotion();
@@ -36,13 +45,16 @@ export function PhilosophyNavCard({ item }: PhilosophyNavCardProps) {
 
   const navigateTo = useCallback(
     (channel: ChannelNumber, episodeIndex: number) => {
-      const q = new URLSearchParams(searchParams.toString());
+      const q = tvLiveSearchParams(searchParams);
       q.set("ch", String(channel));
       q.set("view", "episode");
       q.set("ep", String(episodeIndex));
-      router.replace(`/?${q.toString()}`, { scroll: false });
+      const href = `/?${q.toString()}`;
+      syncTvHistoryBeforeRouter(href);
+      router.replace(href, { scroll: false });
+      onAfterQueryReplace?.();
     },
-    [router, searchParams],
+    [onAfterQueryReplace, router, searchParams],
   );
 
   const handleFlipOpen = useCallback(() => {

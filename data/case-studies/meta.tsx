@@ -164,21 +164,12 @@ export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
     </div>
   ),
   learnings: [
+    { title: "🎯 I learned to define before I design", content: null },
+    { title: "🧠 I grew in how to apply product thinking", content: null },
+    { title: "✨ I grew in adding craft and polish", content: null },
     {
-      title: "1.",
-      content: "I learned to define before I design",
-    },
-    {
-      title: "2.",
-      content: "I grew in how to apply product thinking",
-    },
-    {
-      title: "3.",
-      content: "I grew in adding craft and polish",
-    },
-    {
-      title: "4.",
-      content: "I got the chance to work cross-functionally across teams",
+      title: "🤝 I got the chance to work cross-functionally across teams",
+      content: null,
     },
   ],
   creditsIntro: "",

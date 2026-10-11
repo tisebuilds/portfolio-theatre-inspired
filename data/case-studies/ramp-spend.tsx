@@ -55,7 +55,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
       {
         value: "0",
         valuePill: "↓ from 0.032",
-        label: "SUPPORT TICKETS / USER IN FIRST 30 DAYS",
+        label: "SUPPORT TICKETS PER USER IN FIRST 30 DAYS",
       },
     ],
     stuffBullets: [
@@ -64,10 +64,13 @@ export const rampSpendEpisodes: RampEpisode[] = [
       "Changed order of screens to enhance user education of Ramp product and increase feature engagement.",
     ],
     screenGrid: {
-      layout: "mg2",
+      layout: "phases",
       cells: [
         {
           aspect: "r16-9",
+          step: "01",
+          caption: "Email invite",
+          span: 3,
           src: "/media/ramp/spend/cardholder-creation-invite-email-before.png",
           srcAfter: "/media/ramp/spend/cardholder-creation-invite-email-after.png",
           alt: "Gmail inbox showing the previous employee invite email from Ramp QA",
@@ -77,6 +80,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "02",
+          caption: "Create account",
+          span: 3,
           src: "/media/ramp/spend/cardholder-onboarding-before-02-create-account.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-02-create-account.png",
           alt: "Before: employee account creation with Google sign-in, testimonial card, and legal footer",
@@ -86,6 +92,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "03",
+          caption: "Card details",
+          span: 6,
           src: "/media/ramp/spend/cardholder-onboarding-before-03-welcome.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-03-spend-overview.png",
           alt: "Before: welcome step with numbered tips and lifestyle imagery",
@@ -95,6 +104,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "04",
+          caption: "Sign policy",
+          span: 3,
           src: "/media/ramp/spend/cardholder-onboarding-before-04-expense-policy.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-04-expense-policy.png",
           alt: "Before: read and sign company expense policy with document viewer",
@@ -104,6 +116,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "05",
+          caption: "Mail card",
+          span: 3,
           src: "/media/ramp/spend/cardholder-onboarding-before-05-mailing-address.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-05-mail-card.png",
           alt: "Before: add mailing address for physical card delivery",
@@ -113,6 +128,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "06",
+          caption: "Verify phone",
+          span: 2,
           src: "/media/ramp/spend/cardholder-onboarding-before-07-verify-phone.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-07-verify-phone.png",
           alt: "Before: verify phone with SMS option and phone mockup",
@@ -122,6 +140,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "07",
+          caption: "Authenticator",
+          span: 2,
           src: "/media/ramp/spend/cardholder-onboarding-before-08-authenticator.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-08-authenticator.png",
           alt: "Before: set up authenticator app step with phone mockup",
@@ -131,6 +152,9 @@ export const rampSpendEpisodes: RampEpisode[] = [
         },
         {
           aspect: "r16-9",
+          step: "08",
+          caption: "Add to wallet",
+          span: 2,
           src: "/media/ramp/spend/cardholder-onboarding-before-09-setup-guide.png",
           srcAfter: "/media/ramp/spend/cardholder-onboarding-after-09-mobile-wallet.png",
           alt: "Before: in-app setup guide checklist and search hint toast",
@@ -187,6 +211,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
       media: "video",
       src: "/media/ramp/spend/wallet-drawer-demo.mp4",
       alt: "Wallet Drawer demo: unified wallet drawer interaction",
+      enlarged: true,
     },
     outcomeRich: (
       <p>
@@ -202,7 +227,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
       "Decreased clicks for common actions (e.g., linking funds, termination)",
     ],
     screenGrid: {
-      layout: "stack",
+      layout: "sideStage",
       cells: [
         {
           aspect: "intrinsic",
@@ -213,6 +238,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           altAfter:
             "Unified Wallet drawer on the Funds tab (after): grouped limits, virtual cards, and reimbursement-only funds",
           placeholderLabel: "WEB — Primary view",
+          caption: "My funds",
         },
         {
           aspect: "intrinsic",
@@ -223,6 +249,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           altAfter:
             "My wallet Ramp Card tab (after): card actions, expanded Design tooling fund with progress, and transactions",
           placeholderLabel: "Web detail",
+          caption: "My Ramp Card",
         },
         {
           aspect: "intrinsic",
@@ -233,6 +260,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           altAfter:
             "Wallet drawer on mobile web (after): unified layout, Ramp Card, auto-matching, and empty transactions state",
           placeholderLabel: "Mobile web",
+          caption: "Auto-match funds",
         },
         {
           aspect: "intrinsic",
@@ -243,6 +271,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           altAfter:
             "My wallet Ramp Card: Auto-matching expanded with auto-match funds selected, manual fund options, and save changes",
           placeholderLabel: "Screen detail",
+          caption: "Switching funds",
         },
       ],
     },
@@ -321,13 +350,14 @@ export const rampSpendEpisodes: RampEpisode[] = [
       "Shipped inline editing so builders could make and preview text edits before opening a pull request on GitHub.",
     ],
     screenGrid: {
-      layout: "mg2",
+      layout: "stage",
       cells: [
         {
           aspect: "r16-9",
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-primary.mp4",
           alt: "Akuma tooling — primary web view",
+          caption: "Visual search",
           placeholderLabel: "WEB — Primary view",
         },
         {
@@ -335,6 +365,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-web-detail.mp4",
           alt: "Akuma tooling — web detail",
+          caption: "Preview",
           placeholderLabel: "Web detail",
         },
         {
@@ -342,6 +373,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-mobile.mp4",
           alt: "Akuma tooling — mobile web",
+          caption: "Analytics",
           placeholderLabel: "Mobile web",
         },
         {
@@ -349,6 +381,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           media: "video",
           src: "/media/ramp/spend/akuma-updates-video-screen-detail.mp4",
           alt: "Akuma tooling — screen detail",
+          caption: "In-line editing",
           placeholderLabel: "Screen detail",
         },
       ],

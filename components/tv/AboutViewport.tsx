@@ -17,7 +17,11 @@ const { favoriteFilms, awardRecognitionStickers, interestPinStickers } =
   aboutPageAssets;
 const letterboxdHref = "https://letterboxd.com/teeshay24/diary/";
 
-export function AboutViewport() {
+export function AboutViewport({
+  onAfterQueryReplace,
+}: {
+  onAfterQueryReplace?: () => void;
+}) {
   const mentorCollageViewportRef = useRef<HTMLDivElement | null>(null);
   const [mentorScale, setMentorScale] = useState(1);
   const [activePin, setActivePin] = useState<string>("");
@@ -308,7 +312,10 @@ export function AboutViewport() {
                       }
                       className="min-w-0 h-full"
                     >
-                      <PhilosophyNavCard item={item} />
+                      <PhilosophyNavCard
+                        item={item}
+                        onAfterQueryReplace={onAfterQueryReplace}
+                      />
                     </li>
                   ))}
                 </ul>

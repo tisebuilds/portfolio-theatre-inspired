@@ -17,6 +17,7 @@ const figmaEpisode: RampEpisode = {
     aspect: "web",
     src: figmaCaseStudyContent.hero.src,
     alt: figmaCaseStudyContent.hero.alt,
+    enlarged: true,
   },
   outcomeRich: figmaCaseStudyContent.overview,
   learningsRich: (

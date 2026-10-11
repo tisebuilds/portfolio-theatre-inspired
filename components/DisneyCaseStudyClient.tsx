@@ -17,6 +17,7 @@ const disneyEpisode: RampEpisode = {
     aspect: "web",
     src: disneyCaseStudyContent.hero.src,
     alt: disneyCaseStudyContent.hero.alt,
+    enlarged: true,
   },
   outcomeRich: disneyCaseStudyContent.overview,
   learningsRich: (

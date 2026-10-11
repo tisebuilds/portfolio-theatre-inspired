@@ -40,10 +40,22 @@ export type RampScreenCell = {
   placeholderLabel?: string;
   /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
   media?: "image" | "video";
+  /** Sequence number shown under a phased tile, e.g. "01". */
+  step?: string;
+  /** Short name shown under a phased tile, e.g. "Email invite". */
+  caption?: string;
+  /** Groups consecutive cells in a "phases" grid. Not shown as a heading. */
+  phase?: string;
+  /** Column span inside a 6-column "phases" grid. */
+  span?: 2 | 3 | 6;
 };
 
 export type RampScreenGrid = {
-  layout: "mg2" | "mg3" | "mg4" | "stack";
+  /**
+   * `stage`: one player with a duration strip. First clip is selected on load.
+   * `sideStage`: one cell fills the center stage; numbered rail on the right. First cell is selected on load.
+   */
+  layout: "mg2" | "mg3" | "mg4" | "stack" | "stage" | "sideStage" | "phases";
   cells: RampScreenCell[];
 };
 
@@ -78,9 +90,11 @@ export type RampEpisode = {
   journalLabel?: string;
   onePagerHref?: string;
   hero: {
-    aspect: "web" | "mobile";
+    aspect: "web" | "mobile" | "cinema";
     src?: string;
     alt?: string;
+    /** Frame is 20% larger than the text column. */
+    enlarged?: boolean;
     /** When `"video"`, `src` is rendered as an HTML5 video (defaults to image). */
     media?: "image" | "video";
     /**

@@ -1,8 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { caseStudySpacing } from "@/components/case-study-spacing";
-import { caseStudyType } from "@/components/case-study-typography";
+import styles from "@/components/ramp/ramp-cinema.module.css";
 
 export type StandardLearningItem = {
   title: ReactNode;
@@ -11,76 +10,29 @@ export type StandardLearningItem = {
 
 export function LearningsFromStandard({
   items,
-  learningsLayout = "split",
-  presentation = "definitionList",
-  bodyCopyTitleSeparator,
 }: {
   items: StandardLearningItem[];
   learningsLayout?: "split" | "stacked";
-  /** `bodyCopy` — uniform lesson paragraphs (e.g. title-only lines). */
+  /** Kept so existing callers compile. Cards always stack the lead above the body. */
   presentation?: "definitionList" | "bodyCopy";
-  /** Between title and body in `bodyCopy` mode when `content` is set. Default: one space. */
+  /** Kept so existing callers compile. Cards do not insert an inline separator. */
   bodyCopyTitleSeparator?: string;
 }) {
-  if (presentation === "bodyCopy") {
-    const join = bodyCopyTitleSeparator ?? " ";
-    /** Colon + space as a small DOM subtree so it always serializes in the DOM. */
-    const titleBodyGlue =
-      join === ": " ? (
-        <>
-          <span>:</span>{" "}
-        </>
-      ) : (
-        join
-      );
-    return (
-      <ul
-        className={`m-0 list-none p-0 ${caseStudySpacing.learningsBodyCopyList}`}
-      >
-        {items.map((item, index) => (
-          <li key={`learning-${index}`} className={caseStudyType.learningBodyCopy}>
-            {item.title}
-            {item.content != null ? (
-              <>
-                {titleBodyGlue}
-                {item.content}
-              </>
-            ) : null}
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  const layoutClass =
+    items.length === 4 ? styles.lessonCardsQuad : styles.lessonCardsStack;
 
   return (
-    <dl className={`m-0 mt-0 p-0 ${caseStudySpacing.learningsList}`}>
+    <div className={`${styles.lessonCards} ${layoutClass}`}>
       {items.map((item, index) => (
-        <div
-          key={`learning-${index}`}
-          className={
-            learningsLayout === "stacked"
-              ? "flex flex-col gap-2 sm:gap-2.5"
-              : "flex items-baseline gap-x-2 sm:gap-x-3"
-          }
-        >
+        <article key={`learning-${index}`} className={styles.lessonCard}>
           {item.title ? (
-            <dt
-              className={`m-0 ${caseStudyType.learningTitle}${
-                learningsLayout === "split" ? " shrink-0" : ""
-              }`}
-            >
-              {item.title}
-            </dt>
+            <div className={styles.lessonLead}>{item.title}</div>
           ) : null}
-          <dd
-            className={`m-0 ${caseStudyType.learningBody}${
-              learningsLayout === "split" ? " min-w-0 flex-1" : ""
-            }`}
-          >
-            {item.content}
-          </dd>
-        </div>
+          {item.content != null ? (
+            <div className={styles.lessonBody}>{item.content}</div>
+          ) : null}
+        </article>
       ))}
-    </dl>
+    </div>
   );
 }

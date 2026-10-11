@@ -40,7 +40,12 @@ function episodeFromStandard(content: {
     yearLabel: content.dateRange,
     metaRowRich: content.meta,
     logline: content.hero.caption,
-    hero: { aspect: "web", src: content.hero.src, alt: content.hero.alt },
+    hero: {
+      aspect: "web",
+      src: content.hero.src,
+      alt: content.hero.alt,
+      enlarged: true,
+    },
     outcomeRich: content.overview,
     learningsRich: (
       <LearningsFromStandard
@@ -233,7 +238,7 @@ export function MainViewport({
       return <ResumeViewport />;
     }
     if (view === "about") {
-      return <AboutViewport />;
+      return <AboutViewport onAfterQueryReplace={onAfterQueryReplace} />;
     }
     if (ch.kind === "side-project") {
       const proj = projectForChannel(ch, projects);

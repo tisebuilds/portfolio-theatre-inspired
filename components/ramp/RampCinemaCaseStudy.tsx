@@ -9,7 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
-  type KeyboardEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
@@ -641,7 +641,7 @@ function ScreenCell({
 
   useEffect(() => {
     if (!lightboxOpen) return;
-    const onKey = (e: KeyboardEvent) => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") closeLightbox();
     };
     document.addEventListener("keydown", onKey);
@@ -1015,7 +1015,7 @@ function VideoStage({
     [safeIndex],
   );
 
-  const onRailKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const onRailKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (clips.length === 0) return;
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     event.preventDefault();
@@ -1127,7 +1127,7 @@ function SideStage({
     [safeIndex],
   );
 
-  const onRailKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+  const onRailKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (cells.length === 0) return;
     const key = event.key;
     if (
@@ -1622,7 +1622,7 @@ function RampCinemaCaseStudyMulti({
       if (pillMenuRef.current?.contains(e.target as Node)) return;
       setPillMenuOpen(false);
     };
-    const onKey = (e: KeyboardEvent) => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") setPillMenuOpen(false);
     };
     document.addEventListener("mousedown", onDocDown);
@@ -1802,7 +1802,7 @@ function RampCinemaCaseStudyMulti({
   }, [showKbdHintUi]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement

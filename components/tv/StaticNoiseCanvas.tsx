@@ -2,9 +2,15 @@
 
 import { useCallback, useLayoutEffect, useRef } from "react";
 
-const GRAIN = 3;
+/** Canvas pixels per CSS pixel — 1 keeps grain fine like analog static. */
+const GRAIN = 1;
+/** Soft vertical interference bands (scan instability). */
+const BAND_FREQ = 0.045;
+const BAND_DEPTH = 0.22;
+/** How far R/G/B can drift from the shared luminance (chromatic flecks). */
+const CHROMA = 28;
 
-function paintNoise(canvas: HTMLCanvasElement) {
+function paintNoise(canvas: HTMLCanvasElement, bandPhase: number) {
   const parent = canvas.parentElement;
   const rect = parent?.getBoundingClientRect();
   const cssW = rect?.width ?? window.innerWidth;
@@ -18,12 +24,31 @@ function paintNoise(canvas: HTMLCanvasElement) {
   if (!ctx) return;
   const imageData = ctx.createImageData(w, h);
   const data = imageData.data;
-  for (let i = 0; i < data.length; i += 4) {
-    const g = (Math.random() * 255) | 0;
-    data[i] = g;
-    data[i + 1] = g;
-    data[i + 2] = g;
-    data[i + 3] = 255;
+
+  for (let y = 0; y < h; y++) {
+    // Broad horizontal luminosity waves + a touch of row jitter.
+    const band =
+      1 -
+      BAND_DEPTH *
+        (0.55 +
+          0.45 * Math.sin(y * BAND_FREQ + bandPhase) +
+          0.15 * Math.sin(y * BAND_FREQ * 2.7 + bandPhase * 1.3));
+    const rowJitter = 0.92 + Math.random() * 0.16;
+    const rowMul = band * rowJitter;
+    const rowOffset = y * w * 4;
+
+    for (let x = 0; x < w; x++) {
+      const i = rowOffset + x * 4;
+      // Charcoal-biased luminance (not full 0–255 snow).
+      const base = (28 + Math.random() * 150) * rowMul;
+      const r = Math.min(255, Math.max(0, base + (Math.random() - 0.5) * CHROMA));
+      const g = Math.min(255, Math.max(0, base + (Math.random() - 0.5) * CHROMA));
+      const b = Math.min(255, Math.max(0, base + (Math.random() - 0.5) * CHROMA));
+      data[i] = r | 0;
+      data[i + 1] = g | 0;
+      data[i + 2] = b | 0;
+      data[i + 3] = 255;
+    }
   }
   ctx.putImageData(imageData, 0, 0);
 }
@@ -37,11 +62,13 @@ type StaticNoiseCanvasProps = {
 export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
+  const bandPhaseRef = useRef(0);
 
   const loop = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas || !active) return;
-    paintNoise(canvas);
+    bandPhaseRef.current += 0.55;
+    paintNoise(canvas, bandPhaseRef.current);
     rafRef.current = requestAnimationFrame(loop);
   }, [active]);
 
@@ -51,7 +78,7 @@ export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps)
       return;
     }
     const canvas = canvasRef.current;
-    if (canvas) paintNoise(canvas);
+    if (canvas) paintNoise(canvas, bandPhaseRef.current);
     rafRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafRef.current);
   }, [active, loop]);
@@ -59,7 +86,7 @@ export function StaticNoiseCanvas({ active, className }: StaticNoiseCanvasProps)
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || !active) return;
-    const resize = () => paintNoise(canvas);
+    const resize = () => paintNoise(canvas, bandPhaseRef.current);
     const ro =
       typeof ResizeObserver !== "undefined"
         ? new ResizeObserver(() => resize())

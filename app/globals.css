@@ -557,13 +557,31 @@
   }
 }
 
-/* First HTML paint, before the TV shell hydrates. */
+/* First HTML paint, before the TV shell hydrates.
+   Dense dark grain + soft horizontal bands to match StaticNoiseCanvas. */
 .tv-boot-static {
-  background-color: #0a0a0a;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-repeat: repeat;
-  background-size: 140px 140px;
-  animation: crt-noise-shift 0.16s steps(2) infinite;
+  background-color: #121212;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0.18) 2px,
+      transparent 2px,
+      transparent 5px
+    ),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.35' numOctaves='3' stitchTiles='stitch'/><feComponentTransfer><feFuncR type='linear' slope='0.72' intercept='0.04'/><feFuncG type='linear' slope='0.68' intercept='0.03'/><feFuncB type='linear' slope='0.7' intercept='0.035'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-repeat: repeat, repeat;
+  background-size: auto, 96px 96px;
+  animation: tv-boot-noise-shift 0.16s steps(2) infinite;
+}
+
+@keyframes tv-boot-noise-shift {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 0, 96px -48px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

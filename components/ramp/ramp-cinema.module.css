@@ -459,7 +459,7 @@
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 4px;
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.28),
     0 12px 40px rgba(0, 0, 0, 0.45);
@@ -522,12 +522,16 @@
 .heroMock.heroMockVideoVariants {
   border: none;
   box-shadow: none;
+  background: transparent;
+  overflow: visible;
 }
 
 .heroVideoVariantInner {
   position: relative;
   width: 100%;
-  border-radius: inherit;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--bg);
   overflow: hidden;
 }
 
@@ -760,11 +764,23 @@
   gap: var(--cs-ch-bullet-item-inline-gap);
   align-items: flex-start;
   min-width: 0;
+  list-style: none;
   font-size: var(--type-body-size);
   font-weight: var(--type-body-weight);
   letter-spacing: var(--type-body-tracking);
   line-height: var(--type-body-leading);
   color: var(--text);
+}
+
+.lessonListItem::before,
+.lessonListItem::after {
+  content: none;
+  display: none;
+}
+
+/* Title + description learnings (e.g. RBA) — no marker column */
+.lessonListItemPlain {
+  gap: 0;
 }
 
 .lessonEmoji {
@@ -1606,8 +1622,9 @@ a.creditVal:focus-visible svg {
 /* Narrow tiles (span-2, and span-3 once the column is tight): shrink the pill. */
 @container (max-width: 240px) {
   .phaseItem .mc > .mcBaBar {
+    --mc-ba-radius: 6px;
+    --mc-ba-pad: 2px;
     gap: 1px;
-    padding: 2px;
     bottom: 6px;
     max-width: calc(100% - 12px);
   }
@@ -1654,7 +1671,7 @@ a.creditVal:focus-visible svg {
 .videoStageFrame {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: 14px;
+  border-radius: 4px;
   border: 1px solid #3a3a3e;
   background: #161616;
   overflow: hidden;
@@ -1729,6 +1746,67 @@ a.creditVal:focus-visible svg {
   width: 100%;
 }
 
+/* Screen-grid tabs: slash-separated mono nav with pink accent underline */
+.tabsSlashBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-self: flex-start;
+  gap: 0;
+  max-width: 100%;
+  row-gap: 8px;
+}
+
+.tabsSlashItem {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  gap: 0;
+}
+
+.tabsSlashSep {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: var(--type-caption-tracking);
+  line-height: var(--type-caption-leading);
+  color: var(--text-muted);
+  padding: 0 12px;
+  user-select: none;
+}
+
+.tabsSlashTab {
+  appearance: none;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: var(--type-caption-tracking);
+  line-height: var(--type-caption-leading);
+  text-transform: none;
+  color: var(--text-muted);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  transition: color 0.15s ease;
+}
+
+.tabsSlashTab:hover {
+  color: var(--text);
+}
+
+.tabsSlashTab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.tabsSlashTabActive {
+  color: #ffffff;
+}
+
+/* Hero New/Existing toggle — pill segmented control */
 .tabsBar {
   display: inline-flex;
   flex-wrap: wrap;
@@ -1741,6 +1819,10 @@ a.creditVal:focus-visible svg {
   border: 1px solid var(--line);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
   max-width: 100%;
+}
+
+.tabsBar.heroVariantBar {
+  box-shadow: none;
 }
 
 .tabsTab {
@@ -1836,7 +1918,7 @@ a.creditVal:focus-visible svg {
 .mc {
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 4px;
   box-shadow:
     0 1px 2px rgba(0, 0, 0, 0.28),
     0 12px 40px rgba(0, 0, 0, 0.45);
@@ -1958,14 +2040,17 @@ a.creditVal:focus-visible svg {
 }
 
 .mcBaBar {
+  --mc-ba-radius: 10px;
+  --mc-ba-pad: 4px;
+  --mc-ba-radius-inner: calc(var(--mc-ba-radius) - var(--mc-ba-pad));
   display: inline-flex;
   flex-direction: row;
   align-items: center;
   gap: 2px;
-  padding: 3px;
-  border-radius: 999px;
-  background: rgba(17, 17, 17, 0.92);
-  border: 1px solid var(--line);
+  padding: var(--mc-ba-pad);
+  border-radius: var(--mc-ba-radius);
+  background: #121212;
+  border: none;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
@@ -1997,7 +2082,7 @@ a.creditVal:focus-visible svg {
   height: auto;
   padding: 7px 10px;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--mc-ba-radius-inner);
   cursor: pointer;
   color: var(--text-muted);
   background: transparent;
@@ -2053,7 +2138,7 @@ a.creditVal:focus-visible svg {
   color: var(--text-muted);
   background: transparent;
   padding: 7px 16px;
-  border-radius: 999px;
+  border-radius: var(--mc-ba-radius-inner);
   transition:
     background 0.15s ease,
     color 0.15s ease;
@@ -2068,9 +2153,10 @@ a.creditVal:focus-visible svg {
   outline-offset: 2px;
 }
 
-.mcBaToggleBtnActive {
-  background: var(--pill-bg);
-  color: var(--text);
+.mcBaToggleBtnActive,
+.mcBaToggleBtnActive:hover {
+  background: #f0f0f0;
+  color: #111111;
 }
 
 .mcBaPlaceholder {

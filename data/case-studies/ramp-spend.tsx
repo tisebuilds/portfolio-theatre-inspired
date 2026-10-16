@@ -249,7 +249,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
           altAfter:
             "My wallet Ramp Card tab (after): card actions, expanded Design tooling fund with progress, and transactions",
           placeholderLabel: "Web detail",
-          caption: "My Ramp Card",
+          caption: "My Ramp card",
         },
         {
           aspect: "intrinsic",

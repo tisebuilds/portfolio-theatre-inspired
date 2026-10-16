@@ -184,7 +184,10 @@ function EpisodeLearningsSection({ episode }: { episode: RampEpisode }) {
                 );
               }
               return (
-                <li key={i} className={styles.lessonListItem}>
+                <li
+                  key={i}
+                  className={`${styles.lessonListItem} ${styles.lessonListItemPlain}`}
+                >
                   <div className={styles.lessonItemCopy}>
                     <p className={styles.lessonTitle}>{b.title}</p>
                     <p className={styles.lessonBody}>{b.description}</p>
@@ -1196,7 +1199,7 @@ function TabsStage({
   return (
     <div className={styles.tabsStage}>
       <div
-        className={styles.tabsBar}
+        className={styles.tabsSlashBar}
         role="tablist"
         aria-label="Screens"
         onKeyDown={onTabsKeyDown}
@@ -1209,24 +1212,30 @@ function TabsStage({
             cell.placeholderLabel?.trim() ||
             num;
           return (
-            <button
-              key={`${cell.src ?? "cell"}-${index}`}
-              ref={(node) => {
-                tabRefs.current[index] = node;
-              }}
-              type="button"
-              role="tab"
-              id={`${panelId}-tab-${index}`}
-              aria-controls={`${panelId}-panel`}
-              aria-selected={selected}
-              tabIndex={selected ? 0 : -1}
-              className={`${styles.tabsTab}${
-                selected ? ` ${styles.tabsTabActive}` : ""
-              }`}
-              onClick={() => select(index)}
-            >
-              {label}
-            </button>
+            <span key={`${cell.src ?? "cell"}-${index}`} className={styles.tabsSlashItem}>
+              {index > 0 ? (
+                <span className={styles.tabsSlashSep} aria-hidden="true">
+                  /
+                </span>
+              ) : null}
+              <button
+                ref={(node) => {
+                  tabRefs.current[index] = node;
+                }}
+                type="button"
+                role="tab"
+                id={`${panelId}-tab-${index}`}
+                aria-controls={`${panelId}-panel`}
+                aria-selected={selected}
+                tabIndex={selected ? 0 : -1}
+                className={`${styles.tabsSlashTab}${
+                  selected ? ` ${styles.tabsSlashTabActive}` : ""
+                }`}
+                onClick={() => select(index)}
+              >
+                {label}
+              </button>
+            </span>
           );
         })}
       </div>

@@ -8,7 +8,7 @@ export type RampCredit = {
 
 export type RampMetric = {
   value: string;
-  /** Optional pill beside the value (e.g. change indicator). */
+  /** Optional pill under the label (e.g. change indicator). */
   valuePill?: string;
   label: string;
 };
@@ -33,7 +33,7 @@ export type RampScreenCell = {
   alt?: string;
   /**
    * Second still for the same screen; when set with `src` (and not `media: "video"`),
-   * a Before / After pill toggle is shown at the bottom of the cell.
+   * a Before/After pill toggle (with expand) is shown in the cell.
    */
   srcAfter?: string;
   altAfter?: string;
@@ -53,9 +53,16 @@ export type RampScreenCell = {
 export type RampScreenGrid = {
   /**
    * `stage`: one player with a duration strip. First clip is selected on load.
-   * `sideStage`: one cell fills the center stage; numbered rail on the right. First cell is selected on load.
+   * `tabs`: one cell fills the stage; scene captions as a segmented control above. First cell is selected on load.
    */
-  layout: "mg2" | "mg3" | "mg4" | "stack" | "stage" | "sideStage" | "phases";
+  layout:
+    | "mg2"
+    | "mg3"
+    | "mg4"
+    | "stack"
+    | "stage"
+    | "tabs"
+    | "phases";
   cells: RampScreenCell[];
 };
 
@@ -109,7 +116,11 @@ export type RampEpisode = {
   hideStuffChapterHeader?: boolean;
   /** Omit the entire “STUFF I WORKED ON” chapter (bullets, grid, stuffRich, embedded learnings). */
   hideStuffChapter?: boolean;
-  /** When set, replaces the default “THINGS I LEARNED” chapter header (e.g. side projects). */
+  /** When set, replaces the default “OUTCOME” chapter header (e.g. OVERVIEW / CONTEXT). */
+  outcomeChapterHeading?: string;
+  /** When set, replaces the default “STUFF I WORKED ON” chapter header (e.g. Side projects). */
+  stuffChapterHeading?: string;
+  /** When set, replaces the default “THINGS I LEARNED” chapter header. */
   learningsChapterHeading?: string;
   /** Omit the “THINGS I LEARNED” chapter (learnings fields may stay in data). */
   hideLearnings?: boolean;

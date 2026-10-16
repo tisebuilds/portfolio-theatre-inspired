@@ -227,7 +227,7 @@ export const rampSpendEpisodes: RampEpisode[] = [
       "Decreased clicks for common actions (e.g., linking funds, termination)",
     ],
     screenGrid: {
-      layout: "sideStage",
+      layout: "tabs",
       cells: [
         {
           aspect: "intrinsic",
@@ -319,23 +319,42 @@ export const rampSpendEpisodes: RampEpisode[] = [
     ],
   },
   {
-    title: "Quality of life updates for Akuma",
+    title: "Akuma Improvements",
     pillSub: "2025 Ramp Hacks project",
     status: "past",
     yearLabel: "1 week",
     titleTimingBadge: "2025",
     employment: "Full-time",
-    metaYear: "1 week",
+    metaYear: "2025 • 1 week",
     tools,
     externalHref: "https://ramp.com",
     externalLabel: "ramp.com",
-    logline: "",
+    logline: "A lesson in you can just build things",
     onePagerHref: "/media/ramp/spend/akuma-updates-one-pager.pdf",
     hero: {
       aspect: "web",
-      src: "/media/ramp/spend/akuma-updates-hero.png",
       alt:
-        "Akuma tooling: email preview, template analytics, communication templates list, and visual search for similar templates",
+        "Akuma tooling: visual search, email preview, analytics, and in-line editing",
+      media: "video",
+      enlarged: true,
+      videoVariants: [
+        {
+          label: "Visual search",
+          src: "/media/ramp/spend/akuma-updates-video-primary.mp4",
+        },
+        {
+          label: "Preview",
+          src: "/media/ramp/spend/akuma-updates-video-web-detail.mp4",
+        },
+        {
+          label: "Analytics",
+          src: "/media/ramp/spend/akuma-updates-video-mobile.mp4",
+        },
+        {
+          label: "In-line editing",
+          src: "/media/ramp/spend/akuma-updates-video-screen-detail.mp4",
+        },
+      ],
     },
     outcomeRich: (
       <p>
@@ -349,43 +368,6 @@ export const rampSpendEpisodes: RampEpisode[] = [
       "Shipped Visual Search so builders can identify Akuma IDs for email screenshots from Slack threads.",
       "Shipped inline editing so builders could make and preview text edits before opening a pull request on GitHub.",
     ],
-    screenGrid: {
-      layout: "stage",
-      cells: [
-        {
-          aspect: "r16-9",
-          media: "video",
-          src: "/media/ramp/spend/akuma-updates-video-primary.mp4",
-          alt: "Akuma tooling — primary web view",
-          caption: "Visual search",
-          placeholderLabel: "WEB — Primary view",
-        },
-        {
-          aspect: "r16-9",
-          media: "video",
-          src: "/media/ramp/spend/akuma-updates-video-web-detail.mp4",
-          alt: "Akuma tooling — web detail",
-          caption: "Preview",
-          placeholderLabel: "Web detail",
-        },
-        {
-          aspect: "r16-9",
-          media: "video",
-          src: "/media/ramp/spend/akuma-updates-video-mobile.mp4",
-          alt: "Akuma tooling — mobile web",
-          caption: "Analytics",
-          placeholderLabel: "Mobile web",
-        },
-        {
-          aspect: "r16-9",
-          media: "video",
-          src: "/media/ramp/spend/akuma-updates-video-screen-detail.mp4",
-          alt: "Akuma tooling — screen detail",
-          caption: "In-line editing",
-          placeholderLabel: "Screen detail",
-        },
-      ],
-    },
     credits: [
       {
         role: "ENGINEER",

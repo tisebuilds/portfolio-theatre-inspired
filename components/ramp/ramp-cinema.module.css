@@ -1,12 +1,14 @@
 .root {
   --bg: #111111;
-  --accent: #e7f256;
+  --accent: #E299C0;
   --text: #f5f5f5;
-  --text-muted: #adadae;
+  --text-muted: #A0A0A0;
   --line: #2c2c2f;
   --nav-h: 48px;
   --pill-h: 94px;
   --pill-bottom: 20px;
+  --pill-text: var(--accent);
+  --pill-bg: #2a2a2e;
 
   /* Vertical rhythm — mirrors components/case-study-spacing.ts (8px grid) */
   --cs-chapter-y: 32px;
@@ -15,23 +17,26 @@
   --cs-ch-header-after: 24px;
   --cs-ch-body-paragraph-gap: 16px;
   --cs-ch-body-to-block: 24px;
-  --cs-ch-bullet-stack-gap: 14px;
+  --bullet-stack: 14px;
+  --cs-ch-bullet-stack-gap: var(--bullet-stack);
   --cs-ch-bullet-item-inline-gap: 12px;
+  --cs-label-col: 200px;
+  --cs-col-gap: 48px;
 
   /* Content type scale — exactly four styles */
-  --type-display-size: 40px;
+  --type-display-size: 36px;
   --type-display-weight: 600;
-  --type-display-tracking: -0.02em;
-  --type-display-leading: 1.1;
+  --type-display-tracking: -0.04em;
+  --type-display-leading: 1.05;
   --type-body-size: 17px;
   --type-body-weight: 400;
   --type-body-leading: 1.6;
   --type-body-tracking: -0.006em;
   --type-body-measure: 36em;
-  --type-label-size: 12px;
+  --type-label-size: 11px;
   --type-label-weight: 500;
   --type-label-tracking: 0.08em;
-  --type-label-leading: 1.3;
+  --type-label-leading: 1.35;
   --type-caption-size: 14px;
   --type-caption-weight: 400;
   --type-caption-leading: 1.45;
@@ -111,10 +116,6 @@
   padding-bottom: max(48px, env(safe-area-inset-bottom, 0px));
 }
 
-.stuffEmbeddedLearnings {
-  margin-top: var(--cs-chapter-y);
-}
-
 .stuffRich {
   max-width: 100%;
   margin-top: 0;
@@ -128,10 +129,10 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   row-gap: 4px;
   column-gap: 0;
-  width: 100%;
+  min-width: 0;
   font-size: var(--type-caption-size);
   font-weight: var(--type-caption-weight);
   letter-spacing: var(--type-caption-tracking);
@@ -164,13 +165,8 @@
   max-width: 860px;
   margin: 0 auto;
   padding: 0 var(--cs-hero-pad);
-}
-
-.textColumn {
-  width: 100%;
-  max-width: 680px;
-  margin-left: auto;
-  margin-right: auto;
+  container-type: inline-size;
+  container-name: cs-content;
 }
 
 .panel {
@@ -187,16 +183,42 @@
 }
 
 .heroCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--cs-col-gap);
+  align-items: start;
+  text-align: left;
   width: 100%;
   margin-bottom: 28px;
 }
 
-.heroYear {
-  margin: 0 0 14px;
+.heroLead {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.heroDef {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 12px;
+  row-gap: 16px;
+  align-items: baseline;
+  justify-content: end;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+/* dt/dd become grid cells so values share one vertical axis */
+.heroDefRow {
+  margin: 0;
+  display: contents;
+}
+
+.heroDefLabel {
+  margin: 0;
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
@@ -206,10 +228,46 @@
   color: var(--text-muted);
 }
 
+.heroDefValue {
+  margin: 0;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+  line-height: var(--type-body-leading);
+  color: var(--text);
+}
+
+.heroDefLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.heroDefLink:hover {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.heroDefLink:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 2px;
+}
+
+@container cs-content (max-width: 640px) {
+  .heroCard {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+  }
+}
+
 .heroActions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
   margin-top: 16px;
 }
@@ -238,7 +296,7 @@
   cursor: pointer;
   text-decoration: none;
   flex-shrink: 0;
-  align-self: center;
+  align-self: flex-start;
   margin-top: 0;
   transition:
     color 0.15s,
@@ -262,7 +320,7 @@
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
-  align-self: center;
+  align-self: flex-start;
   margin-top: 0;
   padding: 0 12px;
   height: 32px;
@@ -389,19 +447,22 @@
   letter-spacing: var(--type-body-tracking);
   line-height: var(--type-body-leading);
   font-style: normal;
-  color: var(--text);
+  color: var(--text-muted);
   max-width: var(--type-body-measure);
-  margin: 16px auto 0;
+  margin: 16px 0 0;
   padding: 0;
   border: none;
-  text-align: center;
+  text-align: left;
 }
 
 .heroMock {
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.28),
+    0 12px 40px rgba(0, 0, 0, 0.45);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -450,22 +511,30 @@
   height: auto;
 }
 
-/* Hero with two (or more) video variants + bottom toggle bar */
+/* Hero with two (or more) video variants + segmented toggle below */
 .heroMockVideoVariants {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.heroMock.heroMockVideoVariants {
+  border: none;
+  box-shadow: none;
 }
 
 .heroVideoVariantInner {
   position: relative;
   width: 100%;
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 .heroVariantBar {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
+  position: static;
+  flex-shrink: 0;
+  max-width: 100%;
 }
 
 .heroMock img {
@@ -519,8 +588,22 @@
   height: 0;
 }
 
-.chapter {
+.chapter,
+.credits {
+  display: grid;
+  grid-template-columns: var(--cs-label-col) minmax(0, 1fr);
+  column-gap: var(--cs-col-gap);
+  align-items: start;
+  border-top: 1px solid var(--line);
   padding: var(--cs-chapter-y) 0;
+}
+
+.chapterOutcome {
+  border-top: none;
+}
+
+.credits {
+  padding-bottom: 80px;
 }
 
 .chapterStuffTightTop {
@@ -528,28 +611,38 @@
 }
 
 .chHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--cs-ch-header-inline-gap);
-  margin-bottom: var(--cs-ch-header-after);
+  min-width: 0;
+  width: 100%;
 }
 
 .chName {
+  display: block;
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
   line-height: var(--type-label-leading);
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   color: var(--text-muted);
-  flex-shrink: 0;
 }
 
-.chLine {
-  flex: 1;
-  height: 1px;
-  background: var(--line);
+.chContent {
+  min-width: 0;
+  width: 100%;
+}
+
+/* Header omitted (e.g. hideStuffChapterHeader): content spans the full row */
+.chapter > .chContent:only-child {
+  grid-column: 1 / -1;
+}
+
+@container cs-content (max-width: 640px) {
+  .chapter,
+  .credits {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--cs-ch-header-after);
+  }
 }
 
 .chBody {
@@ -588,9 +681,7 @@
 }
 
 .chBodyOutcome {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+  text-align: left;
 }
 
 .chBody strong {
@@ -646,81 +737,60 @@
   width: auto;
 }
 
-/* Learnings chapter only — match case-study lesson type scale */
-.chBulletsLessons li {
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-leading);
-}
-
-/* No middot; keep vertical stack gap from .chBullets */
-.chBulletsLessons li::before {
-  content: none;
-  display: none;
-}
-
-.chLessonDl {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2em;
-  min-width: 0;
-}
-
-.chLessonDl dt,
-.chLessonDl dd {
+/* Learnings — single-column list; leading emoji optional, no bullet markers */
+.lessonList {
+  list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.chLessonTitle {
-  font-weight: 500;
-  color: var(--text);
-  line-height: var(--type-body-leading);
-}
-
-.chLessonDescription {
-  color: var(--text-muted);
-  font-weight: var(--type-body-weight);
-  line-height: var(--type-body-leading);
-}
-
-.lessonCards {
-  display: grid;
-  row-gap: 36px;
-  column-gap: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bullet-stack);
   width: 100%;
 }
 
-.lessonCardsQuad {
+.lessonListTwoCol {
+  display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: var(--cs-col-gap);
+  row-gap: var(--bullet-stack);
 }
 
-.lessonCardsStack {
-  grid-template-columns: 1fr;
-}
-
-.lessonCard {
+.lessonListItem {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: var(--cs-ch-bullet-item-inline-gap);
+  align-items: flex-start;
   min-width: 0;
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-}
-
-.lessonLead,
-.lessonBody {
-  margin: 0;
   font-size: var(--type-body-size);
   font-weight: var(--type-body-weight);
   letter-spacing: var(--type-body-tracking);
   line-height: var(--type-body-leading);
+  color: var(--text);
+}
+
+.lessonEmoji {
+  flex-shrink: 0;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+}
+
+.lessonItemCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  min-width: 0;
   max-width: var(--type-body-measure);
 }
 
-.lessonLead {
+.lessonTitle,
+.lessonBody {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.lessonTitle {
   color: var(--text);
 }
 
@@ -728,42 +798,46 @@
   color: var(--text-muted);
 }
 
-.lessonLead strong,
+.lessonTitle strong,
 .lessonBody strong {
   color: var(--text);
   font-weight: 600;
 }
 
+/* Gallery / content-only stacks (e.g. Dinner Party) — no markers */
+.lessonContentStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bullet-stack);
+  width: 100%;
+}
+
 .metrics {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  column-gap: var(--cs-col-gap);
+  row-gap: 24px;
   width: 100%;
   margin-top: var(--cs-ch-body-to-block);
+  justify-items: start;
 }
 
 .metric {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   gap: 8px;
   min-width: 0;
-  padding: 0 16px;
   background: transparent;
-  border-left: 1px solid var(--line);
-}
-
-.metrics > .metric:first-child {
-  border-left: none;
 }
 
 .metricVal {
-  font-size: clamp(17px, 5vw, 40px);
+  font-size: clamp(17px, 5vw, var(--type-display-size));
   font-weight: var(--type-display-weight);
   letter-spacing: var(--type-display-tracking);
   color: var(--text);
-  line-height: var(--type-display-leading);
+  line-height: 1;
   white-space: nowrap;
 }
 
@@ -790,6 +864,17 @@
   vertical-align: 0.42em;
 }
 
+.metricLbl {
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--text-muted);
+}
+
 .metricValPill {
   display: inline-block;
   max-width: 100%;
@@ -798,55 +883,36 @@
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
   line-height: var(--type-label-leading);
-  color: #e299c0;
-  background: #2a2a2e;
+  color: var(--pill-text);
+  background: var(--pill-bg);
   border: none;
   border-radius: 999px;
   white-space: nowrap;
   padding: 4px 10px 5px;
-  margin-top: 4px;
-}
-
-.metricLbl {
-  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-  font-size: var(--type-label-size);
-  font-weight: var(--type-label-weight);
-  letter-spacing: var(--type-label-tracking);
-  line-height: var(--type-label-leading);
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--text-muted);
 }
 
 .creditsIntro {
   margin-bottom: 32px;
   max-width: var(--type-body-measure);
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.credits {
-  padding: 36px 0 80px;
+  text-align: left;
 }
 
 .creditsRoll {
-  /* Equal columns put the role/name gap on the column center, so the pairs
-     read as centered even when a role is much longer than its name. */
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  column-gap: 20px;
-  row-gap: 26px;
-  /* Role is 12px uppercase; name is 17px. A shared baseline keeps each
-     pair on one line, the way a film billing block does. */
-  align-items: baseline;
+  --cs-credit-role-col: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
   width: 100%;
   margin: 0;
   padding-top: 4px;
 }
 
 .creditsRollPair {
-  display: contents;
+  display: grid;
+  grid-template-columns: var(--cs-credit-role-col) minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: start;
+  width: 100%;
 }
 
 .creditNames {
@@ -858,19 +924,30 @@
   text-align: left;
 }
 
+/* 4+ people under one role — fill columns without stretching the role col */
+.creditNamesMulti {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  column-gap: 20px;
+  row-gap: 14px;
+  align-items: start;
+}
+
 .creditRole {
+  box-sizing: border-box;
+  width: var(--cs-credit-role-col);
+  max-width: var(--cs-credit-role-col);
+  min-width: 0;
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
-  line-height: 1;
+  line-height: var(--type-label-leading);
   text-transform: uppercase;
-  text-align: right;
+  text-align: left;
   color: var(--text-muted);
-  min-width: 0;
   overflow-wrap: break-word;
-  /* Trailing tracking would shove the last glyph off the center gap. */
-  margin-inline-end: calc(var(--type-label-tracking) * -1);
+  word-break: break-word;
 }
 
 .creditVal {
@@ -879,7 +956,7 @@
   font-weight: var(--type-body-weight);
   letter-spacing: var(--type-body-tracking);
   color: var(--text);
-  line-height: 1;
+  line-height: var(--type-body-leading);
   min-width: 0;
 }
 
@@ -989,7 +1066,7 @@ a.creditVal:focus-visible svg {
 }
 
 .chSegActive {
-  background: rgba(212, 255, 74, 0.04);
+  background: rgba(226, 153, 192, 0.04);
 }
 
 .segFill {
@@ -1452,7 +1529,7 @@ a.creditVal:focus-visible svg {
 
 .mg + .chBody,
 .videoStage + .chBody,
-.sideStage + .chBody,
+.tabsStage + .chBody,
 .phases + .chBody {
   margin-top: var(--cs-ch-body-to-block);
 }
@@ -1515,7 +1592,7 @@ a.creditVal:focus-visible svg {
 }
 
 .phaseStep {
-  color: #e299c0;
+  color: var(--accent);
 }
 
 .phaseCaption {
@@ -1644,19 +1721,63 @@ a.creditVal:focus-visible svg {
   outline-offset: 2px;
 }
 
-/* One blown-up screen, compact numbered toggle pinned to the top right. */
-.sideStage {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 84px;
+/* Captions as a segmented control above the stage. */
+.tabsStage {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  align-items: start;
+  width: 100%;
 }
 
-.sideStageLabeled {
-  grid-template-columns: minmax(0, 1fr) 120px;
+.tabsBar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-self: flex-start;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.92);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  max-width: 100%;
 }
 
-.sideStageFrame {
+.tabsTab {
+  appearance: none;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  line-height: var(--type-label-leading);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  padding: 7px 16px;
+  border-radius: 999px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.tabsTab:hover {
+  color: var(--text);
+}
+
+.tabsTab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tabsTabActive {
+  background: var(--pill-bg);
+  color: var(--text);
+}
+
+.tabsFrame {
   position: relative;
   min-width: 0;
   border-radius: 16px;
@@ -1665,7 +1786,7 @@ a.creditVal:focus-visible svg {
   overflow: hidden;
 }
 
-.sideStageFrame .mc {
+.tabsFrame .mc {
   width: 100%;
   height: auto;
   border: none;
@@ -1674,8 +1795,8 @@ a.creditVal:focus-visible svg {
   aspect-ratio: auto;
 }
 
-.sideStageFrame .mc > video,
-.sideStageFrame .mc.mcHug > video {
+.tabsFrame .mc > video,
+.tabsFrame .mc.mcHug > video {
   position: static;
   inset: auto;
   width: 100%;
@@ -1687,13 +1808,13 @@ a.creditVal:focus-visible svg {
 }
 
 /* Visible before/after still sets the stage size so the frame isn't letterboxed to the hidden shot. */
-.sideStageFrame .mc.mcHug .mcBaStack {
+.tabsFrame .mc.mcHug .mcBaStack {
   display: grid;
   position: relative;
   width: 100%;
 }
 
-.sideStageFrame .mc.mcHug .mcBaStack img:not(.mcBaHidden) {
+.tabsFrame .mc.mcHug .mcBaStack img:not(.mcBaHidden) {
   position: relative;
   grid-area: 1 / 1;
   width: 100%;
@@ -1702,7 +1823,7 @@ a.creditVal:focus-visible svg {
   object-fit: contain;
 }
 
-.sideStageFrame .mc.mcHug .mcBaStack img.mcBaHidden {
+.tabsFrame .mc.mcHug .mcBaStack img.mcBaHidden {
   position: absolute;
   inset: 0;
   grid-area: 1 / 1;
@@ -1712,76 +1833,13 @@ a.creditVal:focus-visible svg {
   object-fit: contain;
 }
 
-.sideStageRail {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-self: start;
-  position: sticky;
-  top: 12px;
-  z-index: 1;
-  width: 100%;
-  min-height: 0;
-}
-
-.sideStageChip {
-  appearance: none;
-  margin: 0;
-  flex: 0 0 auto;
-  width: 100%;
-  aspect-ratio: 1;
-  padding: 8px;
-  border-radius: 16px;
-  border: 1px solid #3a3a3e;
-  background: #161616;
-  color: #f5f5f5;
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sideStageChipLabel {
-  aspect-ratio: auto;
-  min-height: 0;
-  padding: 10px 8px;
-  color: var(--text-muted);
-  font-size: var(--type-caption-size);
-  font-weight: var(--type-caption-weight);
-  font-variant-numeric: normal;
-  letter-spacing: var(--type-caption-tracking);
-  line-height: var(--type-caption-leading);
-  text-align: center;
-  text-wrap: balance;
-}
-
-.sideStageChipLabel.sideStageChipActive {
-  color: var(--text);
-}
-
-.sideStageChip:hover {
-  border-color: #5c5c62;
-}
-
-.sideStageChipActive {
-  border-color: #f5f5f5;
-}
-
-.sideStageChip:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
 .mc {
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.28),
+    0 12px 40px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1864,9 +1922,9 @@ a.creditVal:focus-visible svg {
   object-fit: contain;
 }
 
-/* Side stage: the visible still stays in flow. A later absolute rule was collapsing the frame to 0 height. */
-.sideStageFrame .mc.mcHug .mcBaStack img:first-of-type:not(.mcBaHidden),
-.sideStageFrame .mc.mcHug .mcBaStack img:last-of-type:not(.mcBaHidden) {
+/* Tabs stage: the visible still stays in flow. */
+.tabsFrame .mc.mcHug .mcBaStack img:first-of-type:not(.mcBaHidden),
+.tabsFrame .mc.mcHug .mcBaStack img:last-of-type:not(.mcBaHidden) {
   position: relative;
   inset: auto;
   top: auto;
@@ -1976,7 +2034,7 @@ a.creditVal:focus-visible svg {
     pointer-events: auto;
   }
 
-  .sideStageFrame .mc > .mcBaBar {
+  .tabsFrame .mc > .mcBaBar {
     opacity: 1;
     pointer-events: auto;
   }
@@ -1990,13 +2048,12 @@ a.creditVal:focus-visible svg {
   font-size: var(--type-label-size);
   font-weight: var(--type-label-weight);
   letter-spacing: var(--type-label-tracking);
-  line-height: var(--type-label-leading);
+  line-height: 1;
   text-transform: uppercase;
   color: var(--text-muted);
   background: transparent;
   padding: 7px 16px;
   border-radius: 999px;
-  line-height: 1;
   transition:
     background 0.15s ease,
     color 0.15s ease;
@@ -2012,7 +2069,7 @@ a.creditVal:focus-visible svg {
 }
 
 .mcBaToggleBtnActive {
-  background: var(--bg);
+  background: var(--pill-bg);
   color: var(--text);
 }
 
@@ -2076,7 +2133,7 @@ a.creditVal:focus-visible svg {
 
 @media (max-width: 640px) {
   .root {
-    --type-display-size: 36px;
+    --type-display-size: 28px;
   }
 
   .chSegName {
@@ -2092,7 +2149,7 @@ a.creditVal:focus-visible svg {
     padding: 0 var(--cs-hero-pad);
   }
 
-  .lessonCardsQuad {
+  .lessonListTwoCol {
     grid-template-columns: 1fr;
   }
 
@@ -2108,28 +2165,6 @@ a.creditVal:focus-visible svg {
   .videoStageChip {
     min-height: 56px;
   }
-
-  .sideStage {
-    grid-template-columns: minmax(0, 1fr) 64px;
-    gap: 8px;
-  }
-
-  .sideStageLabeled {
-    grid-template-columns: minmax(0, 1fr) 96px;
-  }
-
-  .sideStageRail {
-    gap: 8px;
-  }
-
-  .sideStageChip {
-    font-size: 16px;
-    border-radius: 12px;
-  }
-
-  .sideStageChip.sideStageChipLabel {
-    font-size: var(--type-caption-size);
-  }
 }
 
 /* Before/after lightbox (portaled to document.body — tokens duplicated from .root) */
@@ -2138,11 +2173,11 @@ a.creditVal:focus-visible svg {
   --text: #f5f5f5;
   --text-muted: #adadae;
   --line: #2c2c2f;
-  --accent: #e7f256;
-  --type-label-size: 12px;
+  --accent: #e299c0;
+  --type-label-size: 11px;
   --type-label-weight: 500;
   --type-label-tracking: 0.08em;
-  --type-label-leading: 1.3;
+  --type-label-leading: 1.35;
 
   position: fixed;
   inset: 0;
@@ -2199,10 +2234,10 @@ a.creditVal:focus-visible svg {
 .mcLightboxTitle {
   margin: 0;
   font-family: var(--font-jetbrains-mono), ui-monospace, monospace;
-  font-size: var(--type-label-size, 12px);
+  font-size: var(--type-label-size, 11px);
   font-weight: var(--type-label-weight, 500);
   letter-spacing: var(--type-label-tracking, 0.08em);
-  line-height: var(--type-label-leading, 1.3);
+  line-height: var(--type-label-leading, 1.35);
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -2286,3 +2321,4 @@ a.creditVal:focus-visible svg {
   border-top: 1px solid var(--line);
   flex-shrink: 0;
 }
+

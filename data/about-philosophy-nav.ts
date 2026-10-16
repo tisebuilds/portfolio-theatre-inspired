@@ -57,7 +57,7 @@ export const ABOUT_PHILOSOPHY_NAV: AboutPhilosophyNavItem[] = [
   },
   {
     philosophyTitle: "Bias to action",
-    episodeLabel: "Quality of life updates for Akuma",
+    episodeLabel: "Akuma Improvements",
     body: "Sometimes I move before every requirement is perfectly defined, but when I believe something should exist, I build it.",
     channel: 1,
     episodeIndex: 2,

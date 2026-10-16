@@ -24,21 +24,35 @@ import { DinnerPartyVideoLanding } from "./DinnerPartyVideoLanding";
 function episodeFromStandard(content: {
   title: string;
   dateRange: string;
-  meta: RampEpisode["metaRowRich"];
+  meta?: RampEpisode["metaRowRich"];
   hero: { src: string; alt: string; caption: string };
+  overviewHeading?: string;
+  productLabel?: string;
+  productHref?: string;
   overview: RampEpisode["outcomeRich"];
+  sideProjects?: RampEpisode["stuffRich"];
+  sideProjectsHeading?: string;
   learnings: Parameters<typeof LearningsFromStandard>[0]["items"];
-  learningsLayout?: Parameters<typeof LearningsFromStandard>[0]["learningsLayout"];
-  learningsBodyCopyTitleSeparator?: string;
   creditsIntro: string;
   creditsColumns: Parameters<typeof standardCreditsColumnsToRampCredits>[0];
 }): RampEpisode {
+  const useTimelineProduct = Boolean(
+    content.productLabel && content.productHref,
+  );
   return {
     title: content.title,
     pillSub: "",
     status: "past",
     yearLabel: content.dateRange,
-    metaRowRich: content.meta,
+    ...(useTimelineProduct
+      ? {
+          metaYear: content.dateRange,
+          externalHref: content.productHref,
+          externalLabel: content.productLabel,
+        }
+      : content.meta != null
+        ? { metaRowRich: content.meta }
+        : {}),
     logline: content.hero.caption,
     hero: {
       aspect: "web",
@@ -46,15 +60,16 @@ function episodeFromStandard(content: {
       alt: content.hero.alt,
       enlarged: true,
     },
+    outcomeChapterHeading: content.overviewHeading ?? "OUTCOME",
     outcomeRich: content.overview,
-    learningsRich: (
-      <LearningsFromStandard
-        items={content.learnings}
-        learningsLayout={content.learningsLayout}
-        presentation="bodyCopy"
-        bodyCopyTitleSeparator={content.learningsBodyCopyTitleSeparator}
-      />
-    ),
+    ...(content.sideProjects != null
+      ? {
+          stuffRich: content.sideProjects,
+          stuffChapterHeading:
+            content.sideProjectsHeading ?? "SIDE PROJECTS",
+        }
+      : {}),
+    learningsRich: <LearningsFromStandard items={content.learnings} />,
     creditsIntro: content.creditsIntro,
     credits: standardCreditsColumnsToRampCredits(content.creditsColumns),
   };

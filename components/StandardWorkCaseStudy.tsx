@@ -16,22 +16,26 @@ export type StandardWorkCaseStudyProps = {
   idPrefix: string;
   title: string;
   dateRange: string;
-  meta: ReactNode;
+  /** Legacy rich meta row; prefer productLabel / productHref for TV cinema. */
+  meta?: ReactNode;
   hero: {
     src: string;
     alt: string;
+    /** Role logline under the title (TV cinema hero). */
     caption: string;
     sizes?: string;
     priority?: boolean;
   };
+  /** Replaces default OUTCOME chapter label (e.g. OVERVIEW / CONTEXT). */
+  overviewHeading?: string;
+  /** Product row label + link in the TIMELINE / PRODUCT meta stack. */
+  productLabel?: string;
+  productHref?: string;
   overview: ReactNode;
-  /** `split` = title and body on one row; `stacked` = title above body (single column). */
-  learningsLayout?: "split" | "stacked";
-  /**
-   * When learnings are shown as `presentation="bodyCopy"` (e.g. TV shell), inserted between
-   * title and body when `content` is set. Defaults to a single space.
-   */
-  learningsBodyCopyTitleSeparator?: string;
+  /** Optional body for a chapter between outcome and learnings (e.g. Side projects). */
+  sideProjects?: ReactNode;
+  /** Replaces default STUFF I WORKED ON when sideProjects is set (e.g. SIDE PROJECTS). */
+  sideProjectsHeading?: string;
   learnings: StandardWorkCaseStudyLearning[];
   creditsIntro: string;
   creditsColumns: StandardWorkCaseStudyCredit[][];

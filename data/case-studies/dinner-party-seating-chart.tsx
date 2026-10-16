@@ -84,7 +84,6 @@ export const dinnerPartySeatingCaseStudyContent: StandardWorkCaseStudyProps = {
     alt: "Photo from the ColorStack alumni dinner setup.",
     caption: "I don't wait for solutions; I build them.",
   },
-  learningsLayout: "stacked",
   overview: (
     <>
       <p>

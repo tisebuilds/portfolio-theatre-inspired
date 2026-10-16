@@ -12,8 +12,8 @@ const config: Config = {
         black: "#111111",
         accent: "#E299C0",
         "tv-bg": "#0a0a0a",
-        "tv-text": "#f0f0f0",
-        "tv-muted": "#888888",
+        "tv-text": "#F5F5F5",
+        "tv-muted": "#A0A0A0",
         "tv-pink": "#E299C0",
       },
       fontFamily: {

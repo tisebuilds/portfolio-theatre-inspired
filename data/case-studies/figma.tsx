@@ -4,8 +4,6 @@ import {
 } from "@/components/StandardWorkCaseStudy";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
-import { FigmaCaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
-import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   [
@@ -86,29 +84,14 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
   idPrefix: "figma",
   title: "Figma",
   dateRange: "Summer 2023",
-  meta: (
-    <>
-      <span>Product Design Intern, Growth-Monetization</span>
-      <MetaDot />
-      <span>Web</span>
-      <MetaDot />
-      <FigmaCaseStudyToolLogoStrip />
-      <MetaDot />
-      <a
-        href="https://www.figma.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-inherit transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-      >
-        Figma
-        <ExternalLinkIcon className="opacity-70" />
-      </a>
-    </>
-  ),
+  overviewHeading: "CONTEXT",
+  sideProjectsHeading: "SIDE PROJECTS",
+  productLabel: "Growth—Monetization",
+  productHref: "https://www.figma.com",
   hero: {
     src: SITE_MEDIA.caseStudyHeroes.figmaCaseStudy,
     alt: "Isometric illustration of layered Figma-style editor windows on a mint background.",
-    caption: "Growth design intern driving upgrades for Figma products",
+    caption: "Growth design intern driving upgrades",
     priority: true,
   },
   overview: (
@@ -120,10 +103,6 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
         products on the Growth Team. The Growth team exposed me to onboarding
         patterns, how to encourage upgrades within the UI and practices for
         minimizing churn.
-      </p>
-      <p>
-        For my side projects, I re-designed materials for the Early Career team.
-        I also built a critique asset library to improve crit culture.
       </p>
       <p>
         My experiences taught me how to manage expectations, incorporate
@@ -138,6 +117,12 @@ export const figmaCaseStudyContent: StandardWorkCaseStudyProps = {
         </a>
       </p>
     </div>
+  ),
+  sideProjects: (
+    <p>
+      I re-designed materials for the Early Career team. I also built a critique
+      asset library to improve crit culture.
+    </p>
   ),
   learnings: [
     { title: "😈 The Devil is in the Details", content: null },

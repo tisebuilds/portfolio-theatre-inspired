@@ -1,6 +1,6 @@
 "use client";
 
-import { ACCENT_WORK } from "@/lib/channels";
+import { ACCENT_WORK, TV_MUTED } from "@/lib/channels";
 
 type ChannelOsdProps = {
   lines: string[];
@@ -18,7 +18,7 @@ export function ChannelOsd({
   persistent = false,
 }: ChannelOsdProps) {
   const color =
-    variant === "work" || variant === "side" ? ACCENT_WORK : "#888888";
+    variant === "work" || variant === "side" ? ACCENT_WORK : TV_MUTED;
   if (!visible || lines.length === 0) return null;
 
   return (

@@ -40,8 +40,8 @@ export const ACCENT_WORK = "#E299C0";
 /** Same as work — single pink accent across the TV UI. */
 export const ACCENT_SIDE = ACCENT_WORK;
 export const TV_BG = "#0a0a0a";
-export const TV_TEXT = "#f0f0f0";
-export const TV_MUTED = "#888888";
+export const TV_TEXT = "#F5F5F5";
+export const TV_MUTED = "#A0A0A0";
 
 /**
  * URL `?signal=lost` shows NO SIGNAL (Easter egg). Invalid `?ch=` also routes there.
@@ -63,7 +63,7 @@ export const CHANNELS: TvChannel[] = [
     mobileResume: {
       title: "Ramp Spend Management",
       roleLine: "Full-time",
-      tags: ["Employee onboarding", "Wallet drawer", "QoL for Akuma"],
+      tags: ["Employee onboarding", "Wallet drawer", "Akuma Improvements"],
     },
   },
   {

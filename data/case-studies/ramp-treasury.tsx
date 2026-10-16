@@ -123,9 +123,9 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
     title: "Move money drawer",
     pillSub: "Enabling businesses to move money in and out of their bank accounts",
     status: "now",
-    yearLabel: "2025-2026",
+    yearLabel: "2025-26",
     employment: "Full-time",
-    metaYear: "2025-2026",
+    metaYear: "2025-26",
     tools,
     externalHref: "https://ramp.com/treasury",
     externalLabel: "ramp.com",
@@ -164,7 +164,7 @@ export const rampTreasuryEpisodes: RampEpisode[] = [
       'Updated CTAs and drawer name from "Transfer funds" to "Move money" based on expanded capabilities.',
     ],
     screenGrid: {
-      layout: "sideStage",
+      layout: "tabs",
       cells: [
         {
           aspect: "r9-16",

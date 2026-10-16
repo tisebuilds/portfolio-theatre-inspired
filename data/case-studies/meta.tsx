@@ -4,8 +4,6 @@ import {
 } from "@/components/StandardWorkCaseStudy";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
-import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
-import { CaseStudyToolLogoStrip } from "@/components/case-study-tool-logos";
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   [
@@ -102,58 +100,45 @@ const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   ],
 ];
 
+const META_ADS_MANAGER_HREF =
+  "https://www.facebook.com/business/tools/ads-manager?content_id=fi8QbwKUHA4M85r&ref=sem_smb&utm_term=meta%20ads%20manager&gclid=CjwKCAjwhe3OBhABEiwA6392zJUmY1gdPqGAt9UTFzkVEMscUHDervvuFgVTkJnl4_PnLTa0kRwqXBoCrgEQAvD_BwE&gad_source=1&gad_campaignid=21440510836&gbraid=0AAAAACr-yC89V710_PsOee_AmVxRz-h6-";
+
 export const metaCaseStudyContent: StandardWorkCaseStudyProps = {
   idPrefix: "meta",
   title: "Meta",
   dateRange: "Summer 2022",
-  meta: (
-    <>
-      <span>Product Design Intern, Flex Platform</span>
-      <MetaDot />
-      <span>Web</span>
-      <MetaDot />
-      <CaseStudyToolLogoStrip />
-      <MetaDot />
-      <a
-        href="https://www.facebook.com/business/tools/ads-manager?content_id=fi8QbwKUHA4M85r&ref=sem_smb&utm_term=meta%20ads%20manager&gclid=CjwKCAjwhe3OBhABEiwA6392zJUmY1gdPqGAt9UTFzkVEMscUHDervvuFgVTkJnl4_PnLTa0kRwqXBoCrgEQAvD_BwE&gad_source=1&gad_campaignid=21440510836&gbraid=0AAAAACr-yC89V710_PsOee_AmVxRz-h6-"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-inherit transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-      >
-        Meta Ads Manager
-        <ExternalLinkIcon className="opacity-70" />
-      </a>
-    </>
-  ),
+  overviewHeading: "OVERVIEW",
+  sideProjectsHeading: "SIDE PROJECTS",
+  productLabel: "Meta Ads Manager",
+  productHref: META_ADS_MANAGER_HREF,
   hero: {
     src: SITE_MEDIA.caseStudyHeroes.metaInternship,
     alt: "Meta internship — hero visual from work poster.",
-    caption:
-      "Product design intern streamlining workflows for Ads Manager",
+    caption: "Product design intern streamlining workflows",
     priority: true,
   },
   overview: (
-    <div className="flex flex-col gap-6">
-      <p>
-        At Meta, I learned how to rapidly prototype for a large established
-        product and design. I enabled Ads Manager users to better monitor
-        campaign performance by updating existing features on the FLEX Team.
-      </p>
-      <p>
-        For side projects, I also built Critique and Low-Fidelity Templates for
-        the AXP Design Team. I submitted logos for the AXP context and organized
-        weekly intern lunches for my office. My team won Design After School:
-        Intern Edition for strong craft and polish.{" "}
-        <a
-          href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
-            "Request for Meta internship case study",
-          )}`}
-          className={`font-semibold ${secondaryLinkClass}`}
-        >
-          Please contact me for case study.
-        </a>
-      </p>
-    </div>
+    <p>
+      At Meta, I learned how to rapidly prototype for a large established product
+      and design. I enabled Ads Manager users to better monitor campaign
+      performance by updating existing features on the FLEX Team.{" "}
+      <a
+        href={`mailto:${SITE_EMAIL}?subject=${encodeURIComponent(
+          "Request for Meta internship case study",
+        )}`}
+        className={`font-semibold ${secondaryLinkClass}`}
+      >
+        Please contact me for case study.
+      </a>
+    </p>
+  ),
+  sideProjects: (
+    <p>
+      I also built Critique and Low-Fidelity Templates for the AXP Design Team. I
+      submitted logos for the AXP context and organized weekly intern lunches for
+      my office. My team won Design After School: Intern Edition for strong craft
+      and polish.
+    </p>
   ),
   learnings: [
     { title: "🎯 I learned to define before I design", content: null },

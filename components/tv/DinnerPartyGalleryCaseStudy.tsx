@@ -35,10 +35,7 @@ const dinnerPartyEpisode: RampEpisode = {
   },
   outcomeRich: dinnerPartySeatingCaseStudyContent.overview,
   learningsRich: (
-    <LearningsFromStandard
-      items={dinnerPartySeatingCaseStudyContent.learnings}
-      learningsLayout={dinnerPartySeatingCaseStudyContent.learningsLayout}
-    />
+    <LearningsFromStandard items={dinnerPartySeatingCaseStudyContent.learnings} />
   ),
   creditsIntro: dinnerPartySeatingCaseStudyContent.creditsIntro,
   credits: [],

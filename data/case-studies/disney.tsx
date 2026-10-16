@@ -1,11 +1,9 @@
-import Image from "next/image";
 import {
   secondaryLinkClass,
   type StandardWorkCaseStudyProps,
 } from "@/components/StandardWorkCaseStudy";
 import { SITE_MEDIA } from "@/lib/site-media";
 import { SITE_EMAIL } from "@/lib/site";
-import { ExternalLinkIcon, MetaDot } from "@/components/case-study-icons";
 
 const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   [
@@ -98,83 +96,21 @@ const creditsColumns: StandardWorkCaseStudyProps["creditsColumns"] = [
   ],
 ];
 
+const DISNEY_PRODUCT_HREF = "https://jobs.disneycareers.com/our-work";
+
 export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
   idPrefix: "disney",
   title: "Disney Media and Entertainment Distribution Technology",
   dateRange: "Summer 2021",
-  meta: (
-    <>
-      <span>Undergrad UX Intern, Streaming fleet</span>
-      <MetaDot />
-      <span>OTT &amp; mobile</span>
-      <MetaDot />
-      <span
-        className="inline-flex items-center gap-[5px]"
-        role="img"
-        aria-label="Figma, FigJam, Notion, Slack, Keynote"
-      >
-        <Image
-          src={SITE_MEDIA.toolIcons.figma}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 w-5 shrink-0 object-contain"
-          sizes="20px"
-        />
-        <Image
-          src={SITE_MEDIA.toolIcons.figjam}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 w-5 shrink-0 object-contain"
-          sizes="20px"
-        />
-        <Image
-          src={SITE_MEDIA.toolIcons.notion}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 w-5 shrink-0 object-contain"
-          sizes="20px"
-        />
-        <Image
-          src={SITE_MEDIA.toolIcons.slack}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 w-5 shrink-0 object-contain"
-          sizes="20px"
-        />
-        <Image
-          src={SITE_MEDIA.toolIcons.keynote}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 w-5 shrink-0 object-contain"
-          sizes="20px"
-        />
-      </span>
-      <MetaDot />
-      <a
-        href="https://jobs.disneycareers.com/our-work"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-inherit transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-      >
-        Disney Media Distribution
-        <ExternalLinkIcon className="opacity-70" />
-      </a>
-    </>
-  ),
+  overviewHeading: "CONTEXT",
+  productLabel: "Streaming",
+  productHref: DISNEY_PRODUCT_HREF,
   hero: {
     src: SITE_MEDIA.caseStudyHeroes.disneyStreamingCrossPlatform,
     alt: "Living room scene with a wall-mounted TV showing a streaming home screen and a smartphone in the foreground open to a companion Greenroom tab with participants and chat actions.",
-    caption:
-      "UX design intern bringing people together through Disney streaming",
+    caption: "UX design intern bringing people together",
     priority: true,
   },
-  learningsLayout: "stacked",
-  learningsBodyCopyTitleSeparator: ": ",
   overview: (
     <p>
       I designed a paired OTT and mobile user experience to enhance virtual
@@ -210,33 +146,8 @@ export const disneyCaseStudyContent: StandardWorkCaseStudyProps = {
       title: (
         <strong className="font-semibold">Coffee Chats {">>>"}</strong>
       ),
-      content: (
-        <>
-          Week 1, I set a goal for 100 coffee chats. It&apos;s Week 12 and I
-          only finished 58 unique coffee chats. But, I&apos;m happy I
-          didn&apos;t meet my goal because I coffee chatted some amazing people
-          multiple times. I&apos;m especially grateful for recurring chats
-          with my design manager,{" "}
-          <a
-            href="https://www.linkedin.com/in/chris-rinker/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={secondaryLinkClass}
-          >
-            Chris Rinker
-          </a>
-          , and my design mentor,{" "}
-          <a
-            href="https://www.linkedin.com/in/samantha-chang-15965174/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={secondaryLinkClass}
-          >
-            Samantha Chang
-          </a>
-          .
-        </>
-      ),
+      content:
+        "Week 1, I set a goal for 100 coffee chats. It's Week 12 and I only finished 58 unique coffee chats. But, I'm happy I didn't meet my goal because I coffee chatted some amazing people multiple times.",
     },
   ],
   creditsIntro: "",
